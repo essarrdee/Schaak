@@ -3,3 +3,13 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 install_manifest.txt
+*.dll
+*.vcxproj*
+*.ipch
+*.pdb
+*.log
+*.tlog
+*.exe
+*.obj
+*.manifest
+*.lastbuildstate
