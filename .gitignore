@@ -13,3 +13,9 @@ install_manifest.txt
 *.obj
 *.manifest
 *.lastbuildstate
+*.ilk
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.idb
