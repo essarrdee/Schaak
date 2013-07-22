@@ -47,13 +47,19 @@ void Interface::run()
 
 					// Minimum size
 					if(size.x < (float)WINDOW_MIN_WIDTH)
+					{
+						LWARN("Window width too small, reverting to minimum");
 						size.x = WINDOW_MIN_WIDTH;
+					}
 					if(size.y < (float)WINDOW_MIN_HEIGHT)
+					{
 						size.y = WINDOW_MIN_HEIGHT;
+						LWARN("Window height too small, reverting to minimum");
+					}
 
 					win.setSize(static_cast<sf::Vector2u>(size));
 					win.setView(sf::View(sf::FloatRect(0.f, 0.f, size.x, size.y)));
-					windowSize = win.getSize();
+					windowSize = win.getSize(); //update 
 					break;
 				}
 			case sf::Event::KeyPressed:
@@ -69,7 +75,8 @@ void Interface::run()
 		win.clear();
 		//win.draw(*menu);
 		win.display();
-		sf::sleep(sf::milliseconds(5)); // in case vsync isn't supported
+		sf::sleep(sf::milliseconds(5)); // in case vsync isn't supported, to avoid 100% CPU usage;
+		                                //this may need to be removed if the game is expensive to run
 	}
 	LINFO("Interface loop done");
 }

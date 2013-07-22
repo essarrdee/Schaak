@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iostream>
 
-// logs messages for debugging
+// Singleton, logs messages for debugging
 class Logger
 {
 public:
