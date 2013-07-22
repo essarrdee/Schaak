@@ -1,4 +1,5 @@
 * Display board
+* CMake
 * Display pieces
   * as dots
   * as sprites
@@ -23,6 +24,10 @@
     * Rate dependent on presence of royal pieces? Rooks?
 * Economic command
   * Setting auto orders inherited by pawns produced and pieces promoted
+* Strategic AI
+  * Setting economic orders
+  * Ordering groups to move, attack, expand
+  * http://pastebin.com/mtqD53WF
 ~ Optional
 ~ Sacrificing pawns to get spells?
 ~ Upgrades to cooldown times, % chance of attack nullification?
