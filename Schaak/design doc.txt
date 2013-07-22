@@ -1,0 +1,119 @@
+7DRTS:
+
+aim for innovation
+
+innovative RTSs:
+
+TA: scale, freedom/scalability of command
+supcom: seamless tactical/strategic view transition
+starcraft: balance of disparate factions and special abilities
+liquid war: restriction of command
+total war: segregating production and combat, importance of flanking
+warcraft 3: rpg elements
+
+other innovative strategy games:
+
+age of wonders: interactions between abilities guaranteeing certain outcomes
+
+idea:
+
+chessRTS
+grid. pieces available in arbitrary numbers through economic subgame.
+pieces move with upgradeable cooldowns, always towards enemy, or towards objective location. pieces have 1 HP, capturing functions as normal
+objective to protect king.
+
+two map levels: region map and combat maps
+all combat maps simulated at once?
+regions produce pawns at constant rate.
+each region promotes pawns to pieces at rate determined by royal pieces present. each region only promotes pawns to specific piece
+pawn regions duplicate pawns rather than promoting them
+on region map, can set unit flows (randomised to allow flexibility in production ratios)
+8x8 region map. 32 start location generate default piece, others generated randomly and less effective (centre more effective?)
+combat maps 100x75, making 800x600 combat map and allowing display in 1024x768 window with hud. (smaller?)
+zoomable combat map - why not zoomable everything map?
+production slows as army grows to avert CPU/memory overload
+
+cooldown types:
+pre-move. make a decision and stick with it while the cooldown happens. Gives the AI more things to worry about than it should.
+post-move. after a certain amount of time, any move can be made instantly. Gives a big advantage to defenders.
+both: wait for post-move cooldown, then make a decision and stick with it while pre-move cooldown happens. Gives AI more things to worry about... if a move can be cancelled. No cancel, short pre-move cooldown? 9:1 ratio?
+
+unit AI:
+with a certain objective, follow trajectory with closest tangent to desired trajectory
+or randomise between most optimal ones
+
+behaviours:
+1. survive - don't go to squares under attack. capture free pieces.
+2. evade - don't go to squares under attack except to capture a piece as an exchange.
+3. advance - don't go to squares under attack except to capture a piece, or if protected.
+4. kamikaze - ignore cover considerations when moving.
+5. protect - don't go to unprotected squares under attack. don't go to squares under attack except to capture a piece. Prefer squares that cover squares guarded by enemy
+
+survive - avoid capture no matter what (but capture free pieces)
+evade - survive, but accept fair exchanges
+advance - evade, but go to a square under attack if it's protected
+kamikaze - screw everything, just attack
+and protect - evade, but try to cover squares that are guarded by an enemy
+
+if no escape is possible, prefer guarded squares or capture squares (depending on behaviour)
+
+==================
+
+game system:
+
+800x600 grid divided into 8x8 regions of 100x75 squares each.
+two players, each with a king.
+each region produces pawns at a certain variable rate (subject to 
+each region promotes present pawns to pieces at a variable rate, or duplicates pawns.
+pawns produced and pieces promoted in a region can be sent automatically to any destination, TA order style.
+each piece type can be assigned a tactic from survive, evade, advance, kamikaze, protect. all pieces of a given type follow the same tactic.
+pieces can have orders to move to a point, move to an area, attack a unit, or attack an area. groups automatically translate point moves to area moves. (formation option?)
+objective to mate enemy king. king is always in survive mode.
+
+optional:
+upgrades to cooldown times, "armour" giving small chance to negate capture, z-levels affecting cooldown lengths, spending pawns to buy one-use spells. All done by positioning/sacrificing units, not by building things.
+
+=====================
+
+interface:
+
+supcom style zoomable map. Lowest resolution 1 px per unit - size of map is size of map viewport.
+map scales up to 32x32 tiles, via 2,3,4,6,8,12,16,24 square.
+pieces displayed as pixels at 1px, dots of varying sizes (corresponding to piece majority) up to 4x4 or 6x6, pieces at 8x8 and above.
+cooldowns represented per piece at 16x16 and above?
+
+left-click: select/deselect piece.
+left-click drag. select pieces in area/deselect.
+right-click: move to location/area or attack piece.
+right-click drag: move to area.
+control-left click: remove piece from selection.
+control-left click drag: remove pieces in area from selection.
+control-right-click: right click.
+control-right-click drag: attack enemies in area (feasible?)
+shift-left-click: add piece to selection.
+shift-left-click drag: add pieces to selection.
+shift-right-click: add attack/move to command queue.
+shift-right-click drag: add move area to command queue.
+control-number: assign group.
+number: select group.
+shift: view commands
+double-click: select all of clicked type on screen.
+hotkeys PRNBQK: restrict selection to piece type.
+hotkeys control-PRNBQK: remove piece type from selection.
+
+HUD:
+selection descriptor (counts of piece types, bounding box, action, winning/losing)
+buttons to set tactics for piece types
+region map/combat map toggle.
+
+on region map, select and command regions.
+left-click-drag: direct pawns from region to region.
+right-click drag: direct pieces from region to region.
+
+===========================
+
+system implementation:
+
+vector or list of pieces.
+array of map tiles.
+given a piece, need to know its location, orders, behaviour, cooldown timer, and any modifications from bonuses.
