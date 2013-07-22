@@ -1,11 +1,13 @@
 * Display board
-* CMake
+* COMMENT!
+* CMake (Chris)
 * Display pieces
   * as dots
   * as sprites
 * Zoomable board
   * Piece sprite sizes - 1,2,3,4,6,8,12,16,24,32 square
   * Change in board texture when zooming?
+  * Scroll on arrow keys and presence of mouse in window edge
 * Commands
   * Select/deselect pieces
     * Group pieces
@@ -28,7 +30,11 @@
   * Setting economic orders
   * Ordering groups to move, attack, expand
   * http://pastebin.com/mtqD53WF
-~ Optional
-~ Sacrificing pawns to get spells?
-~ Upgrades to cooldown times, % chance of attack nullification?
-~ Heightmap with extra move costs uphill?
+~ Optional:
+  ~ Option to set custom value system for pieces to guide them in deciding which exchanges are "fair"?
+  ~ Sacrificing pawns to get spells?
+  ~ Upgrades to cooldown times, % chance of attack nullification?
+  ~ Heightmap with extra move costs uphill?
+  ~ Interface polish:
+    ~ Allow fullscreen switching?
+    ~ Allow starting fullscreen to avoid problems on 1024x768 screens
