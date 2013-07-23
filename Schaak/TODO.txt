@@ -5,7 +5,7 @@
   * as dots
   * as sprites
 * Zoomable board
-  * Piece sprite sizes - 1,2,3,4,6,8,12,16,24,32 square
+  * Piece sprite sizes - (not 1,)2,3,4,6,8,12,16,24,32 square
   * Change in board texture when zooming?
   * Scroll on arrow keys and presence of mouse in window edge
 * Commands
