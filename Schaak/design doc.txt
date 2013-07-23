@@ -117,3 +117,38 @@ system implementation:
 vector or list of pieces.
 array of map tiles.
 given a piece, need to know its location, orders, behaviour, cooldown timer, and any modifications from bonuses.
+...
+
+=========================
+
+drawing the map:
+chessboard pattern at one of 10 scales from 1x1 squares to 32x32 squares, centred at an arbitrary location.
+coloured according to cover calculations
+overlaid with piece sprites from the corresponding sprite set. Different pieces are identical at different scales.
+pieces at large scales (16,24,32) animated to show cooldown times.
+selected pieces highlighted.
+command queue shown when holding shift.
+
+map arrays:
+occupants - point to occupant objects
+occupant - piece type, owner, cooldown remaining, point to command
+cover counters - one per player. one per player per piece type should not be necessary
+
+
+=============================
+
+drawing cooldown on a piece:
+draw tile (texture or uniform colour).
+overlay piece sprite (with 100% alpha background).
+multiply cooldown representation (with 100% alpha background) by white mask of sprite (with alpha background).
+multiply by alpha fraction and overlay.
+
+============================
+
+drawing the map:
+
+routines that alter cover array alter map pixel array.
+scale up map pixel array and draw at correct offset.
+for each piece in view, draw sprite.
+for each piece in view, if selected indicate.
+if scale is large enough, for each piece in view draw cooldown anim.
