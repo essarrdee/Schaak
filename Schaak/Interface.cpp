@@ -72,6 +72,7 @@ void Interface::run()
 				break;
 			}
 		}
+		menu->simulate();
 		win.clear();
 		win.draw(*menu);
 		win.display();

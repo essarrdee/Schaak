@@ -18,6 +18,7 @@ public:
 	~MenuSystem(void);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void processEvent(sf::Event e);
+	void simulate();
 private:
 	void startGame();
 	MenuState state;

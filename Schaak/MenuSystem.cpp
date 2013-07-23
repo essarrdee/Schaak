@@ -77,3 +77,8 @@ void MenuSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		break;
 	}
 }
+
+void MenuSystem::simulate()
+{
+	schaak->simulate();
+}

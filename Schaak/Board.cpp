@@ -50,7 +50,7 @@ void Board::updateBoardColour(unsigned int x, unsigned int y)
 	// TODO colour according to cover.
 	// How to do this in a colourblind-friendly way?
 	// Green+magenta are reasonably distinct, but combine to white
-	bool squareParity = (x+y)%2;
+	bool squareParity = (x+y)%2 == 1;
 	if(squareParity)
 	{
 		boardColours[4 * (BOARD_SIZE_X*y + x)] = WHITE_SQUARE_COLOR.r;
@@ -65,12 +65,20 @@ void Board::updateBoardColour(unsigned int x, unsigned int y)
 		boardColours[4 * (BOARD_SIZE_X*y + x) + 2] = BLACK_SQUARE_COLOR.b;
 		boardColours[4 * (BOARD_SIZE_X*y + x) + 3] = BLACK_SQUARE_COLOR.a;
 	}
+	if(playerCoverCount[x][y] && !enemyCoverCount[x][y])
+	{
+		boardColours[4 * (BOARD_SIZE_X*y + x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*y + x) + 1] + 255)/2;
+	}
+	else if(!playerCoverCount[x][y] && enemyCoverCount[x][y])
+	{
+		boardColours[4 * (BOARD_SIZE_X*y + x)] = ((int)boardColours[4 * (BOARD_SIZE_X*y + x) + 1] + 255)/2;
+	}
 }
 
 void Board::updateBoardImage()
 {
-	boardSprite.setPosition(5.f,5.f);
-	boardSprite.setScale(8.f,8.f);
+	//boardSprite.setPosition(5.f,5.f);
+	boardSprite.setScale(2.f,2.f);
 	boardImage.create(BOARD_SIZE_X,BOARD_SIZE_Y,boardColours);
 	boardTexture.loadFromImage(boardImage);
 }

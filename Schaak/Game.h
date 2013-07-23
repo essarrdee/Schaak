@@ -11,6 +11,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void processEvent(sf::Event e);
 	int gameState();
+	void simulate();
 private:
 	Board* board;
 };

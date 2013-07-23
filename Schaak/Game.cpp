@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <random>
 
 
 
@@ -25,4 +26,11 @@ int Game::gameState()
 
 {
     return 0;
+}
+
+void Game::simulate()
+{
+	board->alterPlayerCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
+	board->alterEnemyCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
+	board->updateBoardImage();
 }

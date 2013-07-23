@@ -18,8 +18,8 @@ static const int GAME_DEFEAT = 2;
 static const unsigned int BOARD_REGIONS_X = 8;
 static const unsigned int BOARD_REGIONS_Y = 8;
 static const sf::Vector2u BOARD_REGIONS = sf::Vector2u(BOARD_REGIONS_X,BOARD_REGIONS_Y);
-static const unsigned int REGION_SIZE_X = 100;
-static const unsigned int REGION_SIZE_Y = 75;
+static const unsigned int REGION_SIZE_X = 50; // 800x600 map is very expensive to update every tick; use 400x280 instead.
+static const unsigned int REGION_SIZE_Y = 35; // may be possible to do 800x600 if map regions are given separate images, updated only when necessary.
 static const sf::Vector2u REGION_SIZE = sf::Vector2u(REGION_SIZE_X,REGION_SIZE_Y);
 
 static const unsigned int BOARD_SIZE_X = BOARD_REGIONS_X*REGION_SIZE_X; 
