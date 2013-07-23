@@ -1,8 +1,7 @@
+#pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "MenuSystem.h"
-
-#pragma once
 
 // Class to create an SFML window and handle the game loop.
 // Does not render any specific things - delegates this to the MenuSystem class

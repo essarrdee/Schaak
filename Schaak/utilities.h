@@ -15,6 +15,10 @@ public:
 	//{
 	//	initialise(sf::IntRect(0,0,MAP_WIDTH,MAP_HEIGHT));
 	//}
+	MapIterator(sf::Vector2i range)
+	{
+		initialise(sf::IntRect(sf::Vector2i(0,0),range));
+	}
 	MapIterator(sf::IntRect range)
 	{
 		initialise(range);

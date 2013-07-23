@@ -22,7 +22,7 @@ void Interface::init()
 	sf::VideoMode Mode(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);
 	win.create(Mode,GAME_NAME);
 	windowSize = win.getSize();
-	//menu = new MenuSystem();
+	menu = new MenuSystem();
 	//Drawables::loadSprites();
 }
 
@@ -73,7 +73,7 @@ void Interface::run()
 			}
 		}
 		win.clear();
-		//win.draw(*menu);
+		win.draw(*menu);
 		win.display();
 		sf::sleep(sf::milliseconds(5)); // in case vsync isn't supported, to avoid 100% CPU usage;
 		                                //this may need to be removed if the game is expensive to run

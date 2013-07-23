@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-//#include "Game.h"
+#include "Game.h"
 
 // Renders all menus, interface objects, HUD, and delegates map viewport rendering
 
@@ -21,6 +21,6 @@ public:
 private:
 	void startGame();
 	MenuState state;
-	//Game* schaak; // holds all game state and renders map.
+	Game* schaak; // holds all game state and renders map.
 };
 

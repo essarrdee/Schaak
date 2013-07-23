@@ -1,11 +1,12 @@
 #include "MenuSystem.h"
 #include "Interface.h"
+#include "common.h"
 
 
 MenuSystem::MenuSystem(void)
 {
 	state = game;
-	//schaak = nullptr;
+	schaak = new Game();
 }
 
 
@@ -19,17 +20,17 @@ void MenuSystem::processEvent(sf::Event e)
 	{
 	case game:
 		{
-			//schaak->processEvent(e);
-			//int gs = schaak->gameState();
-			//if(gs != GAME_CONTINUE)
-			//{
-			//	delete schaak;
-			//	schaak = nullptr;
-			//}
+			schaak->processEvent(e);
+			int gs = schaak->gameState();
+			if(gs != GAME_CONTINUE)
+			{
+				delete schaak;
+				schaak = nullptr;
+			}
 		}
 		break;
 	case splash:
-		//schaak = new Game();
+		schaak = new Game();
 		state = game;
 		break;
 	}
@@ -44,7 +45,8 @@ void MenuSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			//Drawables::tDisplay.clear();
 			//Drawables::tDisplay.draw(*schaak);
 			//Drawables::tDisplay.display();
-			
+			target.draw(*schaak);
+
 			// determine the offset at which to draw the map.
 			//sf::Vector2f drawCentre = schaak->getDrawCentre();
 			/*sf::Vector2f targetArea(Interface::windowSize);
