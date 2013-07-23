@@ -38,3 +38,9 @@
   ~ Interface polish:
     ~ Allow fullscreen switching?
     ~ Allow starting fullscreen to avoid problems on 1024x768 screens
+
+
+Minor:
+* TODO check for position out-of-bounds, in void PieceType::alterCover(Piece* p, Board* b, int difference)
+* TODO colour according to cover in a colourblind-friendly way, in void Board::updateBoardColour(unsigned int x, unsigned int y)
+* TODO make windowSize a public get, only Interface needs to write to it, in Interface
