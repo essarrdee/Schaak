@@ -164,7 +164,7 @@ zoomable board:
 scale is an integer in (2,3,4,6,8,12,16,24,32); store these in an array.
 position is an integer pair.
 position, scale may not be such that map viewport contains off-board locations.
-(alternatively: map viewport must contain at least one on-board location).
+(alternatively: at least a quarter of viewport must be board).
 when scrolling, move position in the correct direction subject to above restriction.
 when zooming, change scale and position such that mouse is over the same square in both cases.
 preferably, at the same float position relative to board origin.
@@ -184,3 +184,32 @@ unknown: new board position       bxx,byy
 					 (mvx,mvy - bx,by)*zz/z = mvx,mvy - bxx,byy
 					                bxx,byy = mvx,mvy - (mvx,mvy - bx,by)*zz/z
 
+restricting board position such that no off-board locations are in viewport:
+get viewport top, left, bottom, right. get board top, left, bottom, right.
+ 
+if btop > vtop:
+  shift to make them equal
+  error if bbottom < vbottom
+else if bbottom < vbottom:
+  shift to make them equal
+  error if btop > vtop
+
+if bleft > vleft:
+  shift to make them equal
+  error if bright < vright
+else if bright < vright:
+  shift to make them equal
+  error if bleft > vleft
+
+restricting board position such that at least a quarter of viewport is board:
+get viewport vmid,hmid. get board top, left, bottom, right.
+
+if btop > vmid:
+  shift to btop = vmid
+else if bbottom < vmid:
+  shift to bbottom = vmid
+
+if bleft > vmid:
+  shift to bleft = vmid
+else if bright < vmid:
+  shift to bright = vmid
