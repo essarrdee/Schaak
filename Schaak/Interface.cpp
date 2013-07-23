@@ -70,6 +70,10 @@ void Interface::run()
 				LINFO("Clicked window");
 				//menu->processEvent(e);
 				break;
+			case sf::Event::MouseWheelMoved:
+				LINFO("Moved mouse wheel");
+				menu->processEvent(e);
+				break;
 			}
 		}
 		menu->simulate();

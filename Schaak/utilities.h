@@ -1,11 +1,24 @@
 #pragma once
 #include <SFML/Graphics/Rect.hpp>
+#include <stdlib.h>
 
 template <typename T>
 inline sf::Vector2<T> operator *(const sf::Vector2<T>& left, const sf::Vector2<T>& right)
 {
     return sf::Vector2<T>(left.x * right.x, left.y * right.y);
 };
+
+template <typename T>
+inline sf::Vector2<T> operator /(const sf::Vector2<T>& left, const sf::Vector2<T>& right)
+{
+    return sf::Vector2<T>(left.x / right.x, left.y / right.y);
+};
+
+template <typename T>
+inline T bound(T x, T minimum, T maximum)
+{
+	return std::max(std::min(x,maximum),minimum);
+}
 
 // iterate over a rectangular area
 class MapIterator

@@ -20,7 +20,12 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Game::processEvent(sf::Event e)
 {
+	switch(e.type)
+	{
+	case sf::Event::MouseWheelMoved:
+		board->zoom(e.mouseWheel);
 
+	}
 }
 int Game::gameState()
 

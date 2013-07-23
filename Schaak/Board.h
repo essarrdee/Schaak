@@ -12,6 +12,10 @@ public:
 	void alterPlayerCover(unsigned int x, unsigned int y, int difference); // add or subtract to a square's player cover count
 	void alterEnemyCover(unsigned int x, unsigned int y, int difference); // add or subtract to a square's enemy cover count
 	void updateBoardImage(); // call this before rendering board
+	void zoom(sf::Event::MouseWheelEvent e);
+	static const int magnificationLevelCount;
+	static const int magnificationLevels[9];
+
 private:
 	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
 	unsigned int enemyCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
@@ -19,10 +23,12 @@ private:
 	void updateCoverDifference(unsigned int x, unsigned int y);  // call this after altering player or enemy cover counts
 	sf::Uint8 boardColours[4*BOARD_SIZE_X*BOARD_SIZE_Y]; // RGBA pixels describing board image
 	void updateBoardColour(unsigned int x, unsigned int y); // call this after altering player or enemy cover counts
-	
+	int magnificationLevel();
 
+	int magnificationCode;
 	sf::Image boardImage;
 	sf::Texture boardTexture;
 	sf::Sprite boardSprite;
 };
+
 

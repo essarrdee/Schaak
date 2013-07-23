@@ -1,5 +1,7 @@
 #include "Board.h"
 
+const int Board::magnificationLevelCount = 9;
+const int Board::magnificationLevels[9] = {2,3,4,6,8,12,16,24,32};
 
 Board::Board(void)
 {
@@ -14,6 +16,7 @@ Board::Board(void)
 	}
 	updateBoardImage();
 	boardSprite.setTexture(boardTexture);
+	magnificationCode = 0;
 }
 
 
@@ -78,7 +81,25 @@ void Board::updateBoardColour(unsigned int x, unsigned int y)
 void Board::updateBoardImage()
 {
 	//boardSprite.setPosition(5.f,5.f);
-	boardSprite.setScale(2.f,2.f);
+	boardSprite.setScale((float)magnificationLevel(),(float)magnificationLevel());
 	boardImage.create(BOARD_SIZE_X,BOARD_SIZE_Y,boardColours);
 	boardTexture.loadFromImage(boardImage);
+}
+
+void Board::zoom(sf::Event::MouseWheelEvent e)
+{
+	sf::Vector2f mouseWindowPosition((float)e.x,(float)e.y);
+	int newMagnificationCode = magnificationCode + e.delta;
+	newMagnificationCode = bound(newMagnificationCode,0,magnificationLevelCount-1);
+	sf::Vector2f boardTopLeft = boardSprite.getPosition();
+	float magnificationRatio = magnificationLevels[newMagnificationCode]/(float)magnificationLevels[magnificationCode];
+	sf::Vector2f newBoardTopLeft = mouseWindowPosition - (mouseWindowPosition - boardTopLeft)*magnificationRatio;
+	boardSprite.setPosition(newBoardTopLeft);
+	magnificationCode = newMagnificationCode;
+	boardSprite.setScale((float)magnificationLevel(),(float)magnificationLevel());
+}
+
+int Board::magnificationLevel()
+{
+	return magnificationLevels[magnificationCode];
 }
