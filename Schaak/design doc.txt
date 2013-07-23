@@ -57,6 +57,11 @@ and protect - evade, but try to cover squares that are guarded by an enemy
 
 if no escape is possible, prefer guarded squares or capture squares (depending on behaviour)
 
+pawn movement - need to be able to change direction.
+not very faithful to original role if they can change direction arbitrarily.
+time limits on turning?
+one turn per region entered?
+
 ==================
 
 game system:
