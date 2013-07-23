@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include "utilities.h"
@@ -14,7 +15,13 @@ static const int GAME_CONTINUE = 0;
 static const int GAME_VICTORY = 1;
 static const int GAME_DEFEAT = 2;
 
-static const sf::Vector2u BOARD_REGIONS = sf::Vector2u(8,8);
-static const sf::Vector2u REGION_SIZE = sf::Vector2u(100,75);
+static const unsigned int BOARD_REGIONS_X = 8;
+static const unsigned int BOARD_REGIONS_Y = 8;
+static const sf::Vector2u BOARD_REGIONS = sf::Vector2u(BOARD_REGIONS_X,BOARD_REGIONS_Y);
+static const unsigned int REGION_SIZE_X = 100;
+static const unsigned int REGION_SIZE_Y = 75;
+static const sf::Vector2u REGION_SIZE = sf::Vector2u(REGION_SIZE_X,REGION_SIZE_Y);
 
+static const unsigned int BOARD_SIZE_X = BOARD_REGIONS_X*REGION_SIZE_X; 
+static const unsigned int BOARD_SIZE_Y = BOARD_REGIONS_Y*REGION_SIZE_Y;
 static const sf::Vector2u BOARD_SIZE = BOARD_REGIONS*BOARD_SIZE;
