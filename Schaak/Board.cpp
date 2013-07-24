@@ -97,9 +97,34 @@ void Board::zoom(sf::Event::MouseWheelEvent e)
 	boardSprite.setPosition(newBoardTopLeft);
 	magnificationCode = newMagnificationCode;
 	boardSprite.setScale((float)magnificationLevel(),(float)magnificationLevel());
+	boundPosition();
 }
 
 int Board::magnificationLevel()
 {
 	return magnificationLevels[magnificationCode];
+}
+
+void Board::boundPosition()
+{
+	sf::FloatRect bounds = boardSprite.getGlobalBounds();
+	sf::Vector2f newPosition = boardSprite.getPosition();
+	if(bounds.left > 0.0)
+	{
+		newPosition.x = 0.0;
+	}
+	else if(bounds.left+bounds.width < VIEWPORT.left+VIEWPORT.width)
+	{
+		newPosition.x = VIEWPORT.left + VIEWPORT.width - bounds.width;
+	}
+	
+	if(bounds.top > 0.0)
+	{
+		newPosition.y = 0.0;
+	}
+	else if(bounds.top+bounds.height < VIEWPORT.top+VIEWPORT.height)
+	{
+		newPosition.y = VIEWPORT.top + VIEWPORT.height - bounds.height;
+	}
+	boardSprite.setPosition(newPosition);
 }

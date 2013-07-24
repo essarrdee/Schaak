@@ -24,6 +24,7 @@ private:
 	sf::Uint8 boardColours[4*BOARD_SIZE_X*BOARD_SIZE_Y]; // RGBA pixels describing board image
 	void updateBoardColour(unsigned int x, unsigned int y); // call this after altering player or enemy cover counts
 	int magnificationLevel();
+	void boundPosition();
 
 	int magnificationCode;
 	sf::Image boardImage;

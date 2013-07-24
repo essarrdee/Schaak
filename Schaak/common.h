@@ -25,3 +25,5 @@ static const sf::Vector2u REGION_SIZE = sf::Vector2u(REGION_SIZE_X,REGION_SIZE_Y
 static const unsigned int BOARD_SIZE_X = BOARD_REGIONS_X*REGION_SIZE_X; 
 static const unsigned int BOARD_SIZE_Y = BOARD_REGIONS_Y*REGION_SIZE_Y;
 static const sf::Vector2u BOARD_SIZE = BOARD_REGIONS*REGION_SIZE;
+
+static const sf::IntRect VIEWPORT = sf::IntRect(0,0,2*BOARD_SIZE_X,2*BOARD_SIZE_Y);
