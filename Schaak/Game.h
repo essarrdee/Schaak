@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include "Board.h"
 #include "ChessSet.h"
+#include "PieceType.h"
+#include "Piece.h"
 
 class Game : public sf::Drawable
 {
@@ -16,4 +18,5 @@ public:
 private:
 	Board* board;
 	ChessSet* chessSet;
+	Piece* doomedWanderer; // for testing; delete when unnecessary
 };

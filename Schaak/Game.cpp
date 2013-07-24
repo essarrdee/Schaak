@@ -7,6 +7,9 @@ Game::Game(void)
 {
 	chessSet = new ChessSet();
 	board = new Board();
+	doomedWanderer = new Piece();
+	doomedWanderer->myType = chessSet->pieceTypes[1];
+	doomedWanderer->myType->alterCover(doomedWanderer,board,1);
 }
 
 
@@ -36,7 +39,8 @@ int Game::gameState()
 
 void Game::simulate()
 {
-	board->alterPlayerCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
-	board->alterEnemyCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
+	//board->alterPlayerCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
+	doomedWanderer->myType->randomMove(doomedWanderer,board);
+	//board->alterEnemyCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
 	board->updateBoardImage();
 }

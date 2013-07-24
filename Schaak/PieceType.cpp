@@ -2,7 +2,7 @@
 #include "Logger.h"
 #include <iostream>
 #include <fstream>
-
+#include "utilities.h"
 
 PieceType::PieceType(std::string filename)
 {
@@ -43,19 +43,43 @@ void PieceType::alterCover(Piece* p, Board* b, int difference)
 	for(auto it = attackOffsets.begin(); it != attackOffsets.end(); ++it)
 	{
 		sf::Vector2i position = p->position + *it;
-		// TODO check for position out-of-bounds
-		if(p->playerOwned)
-			b->alterPlayerCover(position.x,position.y,difference);
-		else
-			b->alterEnemyCover(position.x,position.y,difference);
+		if(onMap(position))
+		{
+			if(p->playerOwned)
+				b->alterPlayerCover(position.x,position.y,difference);
+			else
+				b->alterEnemyCover(position.x,position.y,difference);
+		}
 	}
-	for(auto it = moveAttackOffsets.begin(); it != attackOffsets.end(); ++it)
+	for(auto it = moveAttackOffsets.begin(); it != moveAttackOffsets.end(); ++it)
 	{
 		sf::Vector2i position = p->position + *it;
-		// TODO check for position out-of-bounds
-		if(p->playerOwned)
-			b->alterPlayerCover(position.x,position.y,difference);
-		else
-			b->alterEnemyCover(position.x,position.y,difference);
+		if(onMap(position))
+		{
+			if(p->playerOwned)
+				b->alterPlayerCover(position.x,position.y,difference);
+			else
+				b->alterEnemyCover(position.x,position.y,difference);
+		}
 	}
+}
+
+void PieceType::randomMove(Piece* p, Board* b)
+{
+	alterCover(p,b,-1);
+	std::vector<sf::Vector2i> movePossibilities;
+	for(auto it = moveAttackOffsets.begin(); it != moveAttackOffsets.end(); ++it)
+	{
+		sf::Vector2i position = p->position + *it;
+		if(onMap(position))
+			movePossibilities.push_back(position);
+	}
+	for(auto it = moveOffsets.begin(); it != moveOffsets.end(); ++it)
+	{
+		sf::Vector2i position = p->position + *it;
+		if(onMap(position))
+			movePossibilities.push_back(position);
+	}
+	p->position = vectorRandomChoice(movePossibilities,p->position);
+	alterCover(p,b,1);
 }

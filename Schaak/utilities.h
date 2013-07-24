@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics/Rect.hpp>
 #include <stdlib.h>
+#include "common.h"
 
 template <typename T>
 inline sf::Vector2<T> operator *(const sf::Vector2<T>& left, const sf::Vector2<T>& right)

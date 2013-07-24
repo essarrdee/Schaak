@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "utilities.h"
 
 const int Board::magnificationLevelCount = 9;
 const int Board::magnificationLevels[9] = {2,3,4,6,8,12,16,24,32};
@@ -14,9 +15,9 @@ Board::Board(void)
 		updateCoverDifference(x,y);
 
 	}
+	magnificationCode = 0;
 	updateBoardImage();
 	boardSprite.setTexture(boardTexture);
-	magnificationCode = 0;
 }
 
 
