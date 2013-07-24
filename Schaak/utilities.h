@@ -20,6 +20,18 @@ inline T bound(T x, T minimum, T maximum)
 	return std::max(std::min(x,maximum),minimum);
 }
 
+static inline bool onMap(int x, int y)
+{
+	if (x<0 || y<0) return false;
+	if(x >= BOARD_SIZE_X || y >= BOARD_SIZE_Y) return false;
+	return true;
+}
+
+static inline bool onMap(sf::Vector2i xy)
+{
+	return onMap(xy.x,xy.y);
+}
+
 // iterate over a rectangular area
 class MapIterator
 {
