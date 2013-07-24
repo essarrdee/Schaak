@@ -21,9 +21,11 @@ void Interface::init()
 	done = false;
 	sf::VideoMode Mode(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);
 	win.create(Mode,GAME_NAME);
+	win.setVerticalSyncEnabled(true);
 	windowSize = win.getSize();
 	menu = new MenuSystem();
 	//Drawables::loadSprites();
+	framesThisSecond = 0;
 }
 
 void Interface::run()
@@ -32,6 +34,7 @@ void Interface::run()
 	sf::Event e;
 	while(!done)
 	{
+		calculateFPS();
 		while(win.pollEvent(e))
 		{
 			switch(e.type)
@@ -84,4 +87,20 @@ void Interface::run()
 		                                //this may need to be removed if the game is expensive to run
 	}
 	LINFO("Interface loop done");
+}
+
+void Interface::calculateFPS(void)
+{
+	float currentTime = fpsClock.getElapsedTime().asSeconds();
+	if(currentTime > 0.5f)
+	{
+		// write FPS to window title
+		framesPerSecond = framesThisSecond / currentTime;
+		std::stringstream ss;
+		ss << "FPS: " << framesPerSecond << ". " << GAME_NAME;
+		win.setTitle(ss.str());
+		framesThisSecond = 0;
+		fpsClock.restart();
+	}
+	framesThisSecond++;
 }

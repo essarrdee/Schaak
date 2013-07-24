@@ -19,5 +19,9 @@ private:
 	sf::RenderWindow win;
 	MenuSystem* menu;
 	bool done; // false until user exits
+	sf::Clock fpsClock;
+	int framesThisSecond;
+	float framesPerSecond;
+	void calculateFPS();
 };
 
