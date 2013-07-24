@@ -5,6 +5,7 @@
 
 Game::Game(void)
 {
+	chessSet = new ChessSet();
 	board = new Board();
 }
 

@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Board.h"
+#include "ChessSet.h"
 
 class Game : public sf::Drawable
 {
@@ -14,4 +15,5 @@ public:
 	void simulate();
 private:
 	Board* board;
+	ChessSet* chessSet;
 };

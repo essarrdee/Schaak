@@ -27,3 +27,7 @@ static const unsigned int BOARD_SIZE_Y = BOARD_REGIONS_Y*REGION_SIZE_Y;
 static const sf::Vector2u BOARD_SIZE = BOARD_REGIONS*REGION_SIZE;
 
 static const sf::IntRect VIEWPORT = sf::IntRect(0,0,2*BOARD_SIZE_X,2*BOARD_SIZE_Y);
+
+static const std::string RESOURCE_PATH = "Resources/";
+static const std::string IMAGE_PATH = RESOURCE_PATH + "Images/";
+static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
