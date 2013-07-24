@@ -39,8 +39,11 @@ int Game::gameState()
 
 void Game::simulate()
 {
-	//board->alterPlayerCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
-	doomedWanderer->myType->randomMove(doomedWanderer,board);
-	//board->alterEnemyCover(rand()%BOARD_SIZE_X,rand()%BOARD_SIZE_Y,rand()%3 - 1);
-	board->updateBoardImage();
+	doomedWanderer->myType->cooldown(doomedWanderer);
+	if(doomedWanderer->energy > ENERGY_THRESHOLD)
+	{
+		doomedWanderer->energy -= ENERGY_THRESHOLD;
+		doomedWanderer->myType->randomMove(doomedWanderer,board);
+		board->updateBoardImage();
+	}
 }

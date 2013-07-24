@@ -45,3 +45,4 @@
 Minor:
 * TODO colour according to cover in a colourblind-friendly way, in void Board::updateBoardColour(unsigned int x, unsigned int y)
 * TODO make windowSize a public get, only Interface needs to write to it, in Interface
+* TODO bug in board drawing, some offsets produce unequal row/column sizes. Fix by restricting board sprite position to integers?
