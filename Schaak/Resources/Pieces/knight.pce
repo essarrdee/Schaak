@@ -1,0 +1,10 @@
+Knight
+50
+ma 1 2
+ma 2 1
+ma -1 2
+ma -2 1
+ma 1 -2
+ma 2 -1
+ma -1 -2
+ma -2 -1

@@ -217,10 +217,9 @@ else if bright < vmid:
 ======================
 
 piece data:
-one file listing piece filenames
+one file listing piece filenames and roles (king, queen affect production/promotion rates, pawns produced in regions)
 in each piece filename:
 piece name
 data describing sprite (filename or offset in spritesheet)
 base cooldown for the piece
-roles fulfilled by the piece (king, queen affect production/promotion rates, pawns produced in regions)
 movement/attack offsets, one per line until end of file
