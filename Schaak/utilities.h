@@ -32,6 +32,17 @@ static inline bool onMap(sf::Vector2i xy)
 	return onMap(xy.x,xy.y);
 }
 
+
+template<typename T>
+inline T& vectorRandomChoice(std::vector<T>& v, T& defaultValue)
+{
+	if(v.size() != 0)
+	{
+		return v[rand()%v.size()];
+	}
+	return defaultValue;
+}
+
 // iterate over a rectangular area
 class MapIterator
 {
