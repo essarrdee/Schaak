@@ -223,3 +223,13 @@ piece name
 data describing sprite (filename or offset in spritesheet)
 base cooldown for the piece
 movement/attack offsets, one per line until end of file
+
+========================
+
+piece containment:
+
+Pieces contained in one vector.
+deque of dead slots.
+On dying, dead slot freed for assignment. add index to deque.
+On spawning, choose first dead slot from deque.
+Assign new unique long int id to avoid mistaken identity.
