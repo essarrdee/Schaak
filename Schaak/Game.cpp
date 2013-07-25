@@ -9,10 +9,6 @@ Game::Game(void)
 	board = new Board();
 	pieces = new PieceManager();
 	ticks = 0;
-
-	doomedWanderer = new Piece();
-	doomedWanderer->myType = chessSet->pieceTypes[1];
-	doomedWanderer->myType->alterCover(doomedWanderer,board,1);
 }
 
 
@@ -66,13 +62,5 @@ void Game::simulate()
 				p->myType->randomMove(p,board);
 			}
 		}
-	}
-
-	doomedWanderer->myType->cooldown(doomedWanderer);
-	if(doomedWanderer->energy > ENERGY_THRESHOLD)
-	{
-		doomedWanderer->energy -= ENERGY_THRESHOLD;
-		doomedWanderer->myType->randomMove(doomedWanderer,board);
-		board->updateBoardImage();
 	}
 }

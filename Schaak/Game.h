@@ -20,6 +20,5 @@ private:
 	Board* board;
 	ChessSet* chessSet;
 	PieceManager* pieces;
-	Piece* doomedWanderer; // for testing; delete when unnecessary
 	long int ticks;
 };
