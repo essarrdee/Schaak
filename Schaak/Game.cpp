@@ -39,6 +39,7 @@ int Game::gameState()
 void Game::simulate()
 {
 	ticks++;
+
 	if(ticks % 20 == 0)
 	{
 		Piece p;
@@ -50,6 +51,7 @@ void Game::simulate()
 		p.myType->alterCover(&p,board,1);
 		pieces->addPiece(&p);
 	}
+
 	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
 	{
 		Piece* p = &*it;
@@ -63,5 +65,8 @@ void Game::simulate()
 			}
 		}
 	}
-	board->updateBoardImage();
+	if(ticks%5 == 0)
+	{
+		board->updateBoardImage();
+	}
 }
