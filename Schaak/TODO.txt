@@ -15,9 +15,9 @@
     * Group pieces
   * Issue commands
 * Piece behaviour
-  * Cooldowns to move
+  # Cooldowns to move
   * Capturing
-  * Track cover counts on the board
+  # Track cover counts on the board
   * Make decisions based on cover counts
   * Checkmate
   * Options to select between 5 behaviours
