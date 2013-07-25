@@ -7,6 +7,7 @@ Piece::Piece(void)
 	myType = nullptr;
 	playerOwned = true;
 	position = sf::Vector2i(0,0);
+	dead = true;
 }
 
 

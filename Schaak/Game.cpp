@@ -7,6 +7,9 @@ Game::Game(void)
 {
 	chessSet = new ChessSet();
 	board = new Board();
+	pieces = new PieceManager();
+	ticks = 0;
+
 	doomedWanderer = new Piece();
 	doomedWanderer->myType = chessSet->pieceTypes[1];
 	doomedWanderer->myType->alterCover(doomedWanderer,board,1);
@@ -39,6 +42,32 @@ int Game::gameState()
 
 void Game::simulate()
 {
+	ticks++;
+	if(ticks % 20 == 0)
+	{
+		Piece p;
+		p.dead = false;
+		p.myType = chessSet->pieceTypes[(ticks/60)%6];
+		p.playerOwned = ((ticks/60)%2)==0;
+		p.position.x = ((ticks/60) * 1033) % BOARD_SIZE_X;
+		p.position.y = ((ticks/60) * 43) % BOARD_SIZE_Y;
+		p.myType->alterCover(&p,board,1);
+		pieces->addPiece(&p);
+	}
+	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+	{
+		Piece* p = &*it;
+		if(!p->dead)
+		{
+			p->myType->cooldown(p);
+			if(p->energy > ENERGY_THRESHOLD)
+			{
+				p->energy -= ENERGY_THRESHOLD;
+				p->myType->randomMove(p,board);
+			}
+		}
+	}
+
 	doomedWanderer->myType->cooldown(doomedWanderer);
 	if(doomedWanderer->energy > ENERGY_THRESHOLD)
 	{

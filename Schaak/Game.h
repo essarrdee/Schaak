@@ -5,6 +5,7 @@
 #include "ChessSet.h"
 #include "PieceType.h"
 #include "Piece.h"
+#include "PieceManager.h"
 
 class Game : public sf::Drawable
 {
@@ -18,5 +19,7 @@ public:
 private:
 	Board* board;
 	ChessSet* chessSet;
+	PieceManager* pieces;
 	Piece* doomedWanderer; // for testing; delete when unnecessary
+	long int ticks;
 };

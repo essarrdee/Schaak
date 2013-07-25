@@ -4,6 +4,9 @@
 
 class PieceType;
 
+typedef long int UniquePieceID;
+typedef unsigned int PieceID;
+
 class Piece
 {
 public:
@@ -13,5 +16,8 @@ public:
 	PieceType* myType;
 	bool playerOwned;
 	sf::Vector2i position;
+	UniquePieceID uniqueID;
+	PieceID id;
+	bool dead;
 };
 
