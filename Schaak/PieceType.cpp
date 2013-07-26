@@ -11,6 +11,8 @@ PieceType::PieceType(std::string filename)
 	LINFO("Piece name: "); LAPPEND(name);
 	f >> energyPerTurn;
 	LINFO("Energy per turn: "); LAPPEND(energyPerTurn);
+	f >> spritePosition;
+	LINFO("Sprite position: "); LAPPEND(spritePosition);
 	std::string offsetType;
 	sf::Vector2i offset;
 	int offsetCount = 0;
@@ -46,9 +48,9 @@ void PieceType::alterCover(Piece* p, Board* b, int difference)
 		if(onMap(position))
 		{
 			if(p->playerOwned)
-				b->alterPlayerCover(position.x,position.y,difference);
+				b->alterPlayerCover(position,difference);
 			else
-				b->alterEnemyCover(position.x,position.y,difference);
+				b->alterEnemyCover(position,difference);
 		}
 	}
 	for(auto it = moveAttackOffsets.begin(); it != moveAttackOffsets.end(); ++it)
@@ -57,9 +59,9 @@ void PieceType::alterCover(Piece* p, Board* b, int difference)
 		if(onMap(position))
 		{
 			if(p->playerOwned)
-				b->alterPlayerCover(position.x,position.y,difference);
+				b->alterPlayerCover(position,difference);
 			else
-				b->alterEnemyCover(position.x,position.y,difference);
+				b->alterEnemyCover(position,difference);
 		}
 	}
 }
@@ -82,4 +84,11 @@ void PieceType::randomMove(Piece* p, Board* b)
 	}
 	p->position = vectorRandomChoice(movePossibilities,p->position);
 	alterCover(p,b,1);
+}
+
+sf::IntRect PieceType::spriteLocation(int magnificationCode, bool black)
+{
+	int magnificationLevel = Board::magnificationLevels[magnificationCode];
+	sf::Vector2i size(magnificationLevel,magnificationLevel);
+	sf::Vector2i offset(magnificationLevel*spritePosition,black ? BLACK_OFFSETS[magnificationCode] : WHITE_OFFSETS[magnificationCode]);
 }
