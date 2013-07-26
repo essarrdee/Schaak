@@ -1,11 +1,16 @@
 #pragma once
 #include <SFML/System/Vector2.hpp>
 #include "PieceType.h"
+#include "common.h"
 
 class PieceType;
 
-typedef long int UniquePieceID;
-typedef unsigned int PieceID;
+
+static inline bool nullPiece(PieceID ID)
+{
+	return ID < 0;
+}
+static const int NULL_PIECE = -1;
 
 class Piece
 {

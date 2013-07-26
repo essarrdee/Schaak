@@ -33,3 +33,26 @@ static const std::string IMAGE_PATH = RESOURCE_PATH + "Images/";
 static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
 
 static const int ENERGY_THRESHOLD = 500;
+
+
+typedef long int UniquePieceID;
+typedef int PieceID;
+
+static const int BLACK_OFFSETS[9] = {0,
+	                                 4,
+									 4+6,
+									 4+6+8,
+									 4+6+8+12,
+								     4+6+8+12+16,
+									 4+6+8+12+16+24,
+									 4+6+8+12+16+24+32,
+									 4+6+8+12+16+24+32+48};
+static const int WHITE_OFFSETS[9] = {0 + 2,
+	                                 4 + 3,
+									 4+6 + 4,
+									 4+6+8 + 6,
+									 4+6+8+12 + 8,
+									 4+6+8+12+16 + 12,
+									 4+6+8+12+16+24 + 16,
+									 4+6+8+12+16+24+32 + 24,
+									 4+6+8+12+16+24+32+48 + 32};

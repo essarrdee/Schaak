@@ -12,7 +12,8 @@ Board::Board(void)
 		int y = (*it).y;
 		playerCoverCount[x][y] = 0;
 		enemyCoverCount[x][y] = 0;
-		updateCoverDifference(x,y);
+		occupants[x][y] = NULL_PIECE;
+		updateCoverDifference(*it);
 
 	}
 	magnificationCode = 0;
@@ -32,50 +33,50 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(boardSprite);
 }
 
-void Board::alterPlayerCover(unsigned int x, unsigned int y, int difference)
+void Board::alterPlayerCover(sf::Vector2i xy, int difference)
 {
-	playerCoverCount[x][y] += difference;
-	updateCoverDifference(x,y);
+	playerCoverCount[xy.x][xy.y] += difference;
+	updateCoverDifference(xy);
 }
-void Board::alterEnemyCover(unsigned int x, unsigned int y, int difference)
+void Board::alterEnemyCover(sf::Vector2i xy, int difference)
 {
-	enemyCoverCount[x][y] += difference;
-	updateCoverDifference(x,y);
-}
-
-void Board::updateCoverDifference(unsigned int x, unsigned int y)
-{
-	coverDifference[x][y] = playerCoverCount[x][y] - enemyCoverCount[x][y];
-	updateBoardColour(x,y);
+	enemyCoverCount[xy.x][xy.y] += difference;
+	updateCoverDifference(xy);
 }
 
-void Board::updateBoardColour(unsigned int x, unsigned int y)
+void Board::updateCoverDifference(sf::Vector2i xy)
+{
+	coverDifference[xy.x][xy.y] = playerCoverCount[xy.x][xy.y] - enemyCoverCount[xy.x][xy.y];
+	updateBoardColour(xy);
+}
+
+void Board::updateBoardColour(sf::Vector2i xy)
 {
 	// TODO colour according to cover.
 	// How to do this in a colourblind-friendly way?
 	// Green+magenta are reasonably distinct, but combine to white
-	bool squareParity = (x+y)%2 == 1;
+	bool squareParity = (xy.x+xy.y)%2 == 1;
 	if(squareParity)
 	{
-		boardColours[4 * (BOARD_SIZE_X*y + x)] = WHITE_SQUARE_COLOR.r;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 1] = WHITE_SQUARE_COLOR.g;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 2] = WHITE_SQUARE_COLOR.b;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 3] = WHITE_SQUARE_COLOR.a;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = WHITE_SQUARE_COLOR.r;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] = WHITE_SQUARE_COLOR.g;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = WHITE_SQUARE_COLOR.b;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 3] = WHITE_SQUARE_COLOR.a;
 	}
 	else
 	{
-		boardColours[4 * (BOARD_SIZE_X*y + x)] = BLACK_SQUARE_COLOR.r;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 1] = BLACK_SQUARE_COLOR.g;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 2] = BLACK_SQUARE_COLOR.b;
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 3] = BLACK_SQUARE_COLOR.a;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = BLACK_SQUARE_COLOR.r;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] = BLACK_SQUARE_COLOR.g;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = BLACK_SQUARE_COLOR.b;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 3] = BLACK_SQUARE_COLOR.a;
 	}
-	if(playerCoverCount[x][y] && !enemyCoverCount[x][y])
+	if(playerCoverCount[xy.x][xy.y] && !enemyCoverCount[xy.x][xy.y])
 	{
-		boardColours[4 * (BOARD_SIZE_X*y + x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*y + x) + 1] + 255)/2;
+		boardColours[4 *(BOARD_SIZE_X*xy.y + xy.x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
 	}
-	else if(!playerCoverCount[x][y] && enemyCoverCount[x][y])
+	else if(!playerCoverCount[xy.x][xy.y] && enemyCoverCount[xy.x][xy.y])
 	{
-		boardColours[4 * (BOARD_SIZE_X*y + x)] = ((int)boardColours[4 * (BOARD_SIZE_X*y + x) + 1] + 255)/2;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
 	}
 }
 
@@ -129,3 +130,4 @@ void Board::boundPosition()
 	}
 	boardSprite.setPosition(newPosition);
 }
+
