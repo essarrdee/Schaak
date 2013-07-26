@@ -67,7 +67,7 @@ void Interface::run()
 				}
 			case sf::Event::KeyPressed:
 				LINFO("Presssed key");
-				//menu->processEvent(e);
+				menu->processEvent(e);
 				break;
 			case sf::Event::MouseButtonPressed:
 				LINFO("Clicked window");

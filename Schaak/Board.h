@@ -17,6 +17,7 @@ public:
 	void zoom(sf::Event::MouseWheelEvent e);
 	static const int magnificationLevelCount;
 	static const int magnificationLevels[9];
+	int magnificationLevel();
 
 private:
 	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
@@ -26,7 +27,6 @@ private:
 	void updateCoverDifference(sf::Vector2i xy);  // call this after altering player or enemy cover counts
 	sf::Uint8 boardColours[4*BOARD_SIZE_X*BOARD_SIZE_Y]; // RGBA pixels describing board image
 	void updateBoardColour(sf::Vector2i xy); // call this after altering player or enemy cover counts
-	int magnificationLevel();
 	void boundPosition();
 
 	int magnificationCode;

@@ -13,6 +13,7 @@ public:
 	Game(void);
 	~Game(void);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void drawPieces(sf::RenderTarget& target, sf::RenderStates states) const;
 	void processEvent(sf::Event e);
 	int gameState();
 	void simulate();
@@ -21,4 +22,5 @@ private:
 	ChessSet* chessSet;
 	PieceManager* pieces;
 	long int ticks;
+	bool paused;
 };

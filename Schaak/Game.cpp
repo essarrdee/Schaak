@@ -9,6 +9,7 @@ Game::Game(void)
 	board = new Board();
 	pieces = new PieceManager();
 	ticks = 0;
+	paused = false;
 }
 
 
@@ -20,6 +21,31 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(*board);
 }
+void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	for(auto ptit = chessSet->pieceTypes.begin(); ptit != chessSet->pieceTypes.end(); ++ptit)
+	{
+		// TODO get correct sprite 
+		PieceType* pt = *ptit;
+		for (auto pit = pieces->pieces.begin(); pit != pieces->pieces.end(); ++pit)
+		{
+			Piece* p = &(*pit);
+			if(!p->dead)
+			{
+				if(p->myType == pt)
+				{
+					sf::IntRect r(p->position,sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
+					// TODO find visible rectangle of map
+					if(r.intersects(r)) // does r intersect the visible rect of the board?
+					{
+						// draw sprite
+					}
+
+				}
+			}
+		}
+	}
+}
 
 void Game::processEvent(sf::Event e)
 {
@@ -27,7 +53,11 @@ void Game::processEvent(sf::Event e)
 	{
 	case sf::Event::MouseWheelMoved:
 		board->zoom(e.mouseWheel);
-
+		break;
+	case sf::Event::KeyPressed:
+		if(e.key.code = sf::Keyboard::Space)
+			paused = !paused;
+		break;
 	}
 }
 int Game::gameState()
@@ -38,6 +68,7 @@ int Game::gameState()
 
 void Game::simulate()
 {
+	if(paused) return;
 	ticks++;
 
 	if(ticks % 20 == 0)
