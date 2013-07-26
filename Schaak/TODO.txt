@@ -1,14 +1,16 @@
 # Display board
 * COMMENT!
-* CMake (Chris)
+* Linux/macos compilation (likely not Chris)
 * Display pieces
   * as dots
   * as sprites
 * Zoomable board
   # Zoom on mouse wheel
   # Bound map positions
-  * Piece sprite sizes - (not 1,)2,3,4,6,8,12,16,24,32 square
+  # Piece sprite sizes - (not 1,)2,3,4,6,8,12,16,24,32 square
+  * Make knight look less stupid
   * Change in board texture when zooming?
+  * Display region's piece promotion type when zoomed out far enough?
   * Scroll on arrow keys and presence of mouse in window edge
 * Commands
   * Select/deselect pieces
@@ -16,14 +18,16 @@
   * Issue commands
 * Piece behaviour
   # Cooldowns to move
+  * Track unit positions in Board::occupants[][] array
   * Capturing
   # Track cover counts on the board
   * Make decisions based on cover counts
-  * Checkmate
   * Options to select between 5 behaviours
+  * Steering according to orders
+  * Checkmate
 * Economy
   * Regular pawn production
-    * Rate dependent on presence of royal pieces
+    * Rate dependent on presence of royal pieces in region
   * Regular pawn promotion
     * Rate dependent on presence of royal pieces? Rooks?
 * Economic command
