@@ -1,8 +1,5 @@
-CMakeCache.txt
-CMakeFiles
-Makefile
-cmake_install.cmake
-install_manifest.txt
+obj/
+Schaak
 *.dll
 *.vcxproj*
 *.ipch
