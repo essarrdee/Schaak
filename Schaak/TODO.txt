@@ -11,7 +11,8 @@
   * Make knight look less stupid
   * Change in board texture when zooming?
   * Display region's piece promotion type when zoomed out far enough?
-  * Scroll on arrow keys and presence of mouse in window edge
+  # Scroll on arrow keys and presence of mouse in window edge
+  * Do something to make scrolling less painful to the eye
 * Commands
   * Select/deselect pieces
     * Group pieces
