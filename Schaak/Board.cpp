@@ -140,3 +140,8 @@ void Board::boundPosition()
 	boardSprite.setPosition(newPosition);
 }
 
+void Board::scroll(sf::Vector2f offset)
+{
+	boardSprite.setPosition(boardSprite.getPosition()+offset*sf::Vector2f(magnificationLevel(),magnificationLevel()));
+	boundPosition();
+}

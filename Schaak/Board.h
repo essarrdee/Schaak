@@ -21,6 +21,7 @@ public:
 	int magnificationLevel();
 	sf::FloatRect visibleArea();
 	sf::Sprite boardSprite; // TODO make just a function to get board position public
+	void scroll(sf::Vector2f offset);
 private:
 	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
 	unsigned int enemyCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
