@@ -33,7 +33,7 @@ static const std::string IMAGE_PATH = RESOURCE_PATH + "Images/";
 static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
 static const std::string PIECE_SPRITE_PATH = IMAGE_PATH + "piece_sprites.png";
 
-static const int ENERGY_THRESHOLD = 500;
+static const int ENERGY_THRESHOLD = 1000;
 
 
 typedef long int UniquePieceID;
