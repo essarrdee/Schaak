@@ -1,9 +1,9 @@
 # Display board
 * COMMENT!
 * Linux/macos compilation (likely not Chris)
-* Display pieces
-  * as dots
-  * as sprites
+# Display pieces
+  # as dots
+  # as sprites
 * Zoomable board
   # Zoom on mouse wheel
   # Bound map positions
@@ -36,6 +36,8 @@
   * Setting economic orders
   * Ordering groups to move, attack, expand
   * http://pastebin.com/mtqD53WF
+* Alternatively: local multiplayer
+  * Keys to switch control between players
 ~ Optional:
   ~ Option to set custom value system for pieces to guide them in deciding which exchanges are "fair"?
   ~ Sacrificing pawns to get spells?
