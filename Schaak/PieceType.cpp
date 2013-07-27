@@ -91,4 +91,5 @@ sf::IntRect PieceType::spriteLocation(int magnificationCode, bool black)
 	int magnificationLevel = Board::magnificationLevels[magnificationCode];
 	sf::Vector2i size(magnificationLevel,magnificationLevel);
 	sf::Vector2i offset(magnificationLevel*spritePosition,black ? BLACK_OFFSETS[magnificationCode] : WHITE_OFFSETS[magnificationCode]);
+	return sf::IntRect(offset,size);
 }

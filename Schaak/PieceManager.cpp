@@ -9,6 +9,8 @@ PieceManager::PieceManager(void)
 	{
 		freeSlots.push_back(i);
 	}
+	piecesTexture.loadFromFile(PIECE_SPRITE_PATH);
+	piecesSprite.setTexture(piecesTexture);
 }
 
 

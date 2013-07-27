@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "utilities.h"
 #include <random>
 
 
@@ -20,27 +21,33 @@ Game::~Game(void)
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(*board);
+	drawPieces(target,states);
 }
 void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	sf::FloatRect viewRect = board->visibleArea();
 	for(auto ptit = chessSet->pieceTypes.begin(); ptit != chessSet->pieceTypes.end(); ++ptit)
 	{
-		// TODO get correct sprite 
-		PieceType* pt = *ptit;
-		for (auto pit = pieces->pieces.begin(); pit != pieces->pieces.end(); ++pit)
+		for(int i = 0; i < 2; i++)
 		{
-			Piece* p = &(*pit);
-			if(!p->dead)
+			bool blackPieces = (i == 0);
+			PieceType* pt = *ptit;
+			pieces->piecesSprite.setTextureRect(pt->spriteLocation(board->magnificationCode,blackPieces));
+			for (auto pit = pieces->pieces.begin(); pit != pieces->pieces.end(); ++pit)
 			{
-				if(p->myType == pt)
+				Piece* p = &(*pit);
+				if(!p->dead)
 				{
-					sf::IntRect r(p->position,sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
-					// TODO find visible rectangle of map
-					if(r.intersects(r)) // does r intersect the visible rect of the board?
+					if(p->myType == pt && p->playerOwned == blackPieces)
 					{
-						// draw sprite
-					}
+						sf::FloatRect r((sf::Vector2f)p->position,(sf::Vector2f)sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
+						if(r.intersects(viewRect)) // does r intersect the visible rect of the board?
+						{
+							pieces->piecesSprite.setPosition((sf::Vector2f)(p->position*sf::Vector2i(board->magnificationLevel(),board->magnificationLevel())) + board->boardSprite.getPosition());
+							target.draw(pieces->piecesSprite);
+						}
 
+					}
 				}
 			}
 		}

@@ -102,6 +102,14 @@ void Board::zoom(sf::Event::MouseWheelEvent e)
 	boundPosition();
 }
 
+
+sf::FloatRect Board::visibleArea()
+{
+	sf::Vector2f topLeft = -boardSprite.getPosition()/sf::Vector2f(magnificationLevel(),magnificationLevel());
+	sf::Vector2f size = (sf::Vector2f)VIEWPORT_SIZE/sf::Vector2f(magnificationLevel(),magnificationLevel());
+	return sf::FloatRect(topLeft,size);
+}
+
 int Board::magnificationLevel()
 {
 	return magnificationLevels[magnificationCode];

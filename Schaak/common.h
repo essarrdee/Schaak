@@ -25,12 +25,13 @@ static const sf::Vector2u REGION_SIZE = sf::Vector2u(REGION_SIZE_X,REGION_SIZE_Y
 static const unsigned int BOARD_SIZE_X = BOARD_REGIONS_X*REGION_SIZE_X; 
 static const unsigned int BOARD_SIZE_Y = BOARD_REGIONS_Y*REGION_SIZE_Y;
 static const sf::Vector2u BOARD_SIZE = sf::Vector2u(BOARD_SIZE_X,BOARD_SIZE_Y);
-
+static const sf::Vector2u VIEWPORT_SIZE = sf::Vector2u(2*BOARD_SIZE_X,2*BOARD_SIZE_Y);
 static const sf::IntRect VIEWPORT = sf::IntRect(0,0,2*BOARD_SIZE_X,2*BOARD_SIZE_Y);
 
 static const std::string RESOURCE_PATH = "Resources/";
 static const std::string IMAGE_PATH = RESOURCE_PATH + "Images/";
 static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
+static const std::string PIECE_SPRITE_PATH = IMAGE_PATH + "piece_sprites.png";
 
 static const int ENERGY_THRESHOLD = 500;
 

@@ -15,10 +15,12 @@ public:
 	void movePiece(unsigned int );
 	void updateBoardImage(); // call this before rendering board
 	void zoom(sf::Event::MouseWheelEvent e);
+	int magnificationCode; // TODO make this a public get
 	static const int magnificationLevelCount;
 	static const int magnificationLevels[9];
 	int magnificationLevel();
-
+	sf::FloatRect visibleArea();
+	sf::Sprite boardSprite; // TODO make just a function to get board position public
 private:
 	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
 	unsigned int enemyCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
@@ -29,10 +31,8 @@ private:
 	void updateBoardColour(sf::Vector2i xy); // call this after altering player or enemy cover counts
 	void boundPosition();
 
-	int magnificationCode;
 	sf::Image boardImage;
 	sf::Texture boardTexture;
-	sf::Sprite boardSprite;
 };
 
 
