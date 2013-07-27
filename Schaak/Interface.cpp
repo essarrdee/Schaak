@@ -20,7 +20,7 @@ void Interface::init()
 	LINFO("Initiating interface");
 	done = false;
 	sf::VideoMode Mode(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);
-	win.create(Mode,GAME_NAME);
+	win.create(Mode,GAME_NAME, sf::Style::Titlebar | sf::Style::Close);
 	win.setVerticalSyncEnabled(true);
 	windowSize = win.getSize();
 	menu = new MenuSystem();
