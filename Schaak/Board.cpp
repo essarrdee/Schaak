@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "utilities.h"
+#include "Interface.h"
 
 const int Board::magnificationLevelCount = 9;
 const int Board::magnificationLevels[9] = {2,3,4,6,8,12,16,24,32};
@@ -106,7 +107,7 @@ void Board::zoom(sf::Event::MouseWheelEvent e)
 sf::FloatRect Board::visibleArea()
 {
 	sf::Vector2f topLeft = -boardSprite.getPosition()/sf::Vector2f(magnificationLevel(),magnificationLevel());
-	sf::Vector2f size = (sf::Vector2f)VIEWPORT_SIZE/sf::Vector2f(magnificationLevel(),magnificationLevel());
+	sf::Vector2f size = (sf::Vector2f)Interface::windowSize/sf::Vector2f(magnificationLevel(),magnificationLevel());
 	return sf::FloatRect(topLeft,size);
 }
 
