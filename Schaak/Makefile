@@ -44,7 +44,7 @@ LIBRARY_FILES   :=  -lsfml-graphics -lsfml-system -lsfml-window
  
 # - ------------------------------------------------------------------------ - #
 # Compiler Flags ### e.g. --std=gnu++0x -fno-rtti -fno-strict-aliasing
-FLAGS           :=	-std=c++11 -I. -W4
+FLAGS           :=	-std=c++11 -I. -Wall
 C_FLAGS         :=  $(FLAGS)
 CPP_FLAGS       :=  $(FLAGS)
 # - ------------------------------------------------------------------------ - #
