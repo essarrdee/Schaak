@@ -77,6 +77,9 @@ void Interface::run()
 				LINFO("Moved mouse wheel");
 				menu->processEvent(e);
 				break;
+			case sf::Event::MouseMoved:
+				menu->processEvent(e);
+				break;
 			}
 		}
 		menu->simulate();

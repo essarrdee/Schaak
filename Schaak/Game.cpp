@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "utilities.h"
 #include <random>
+#include "Interface.h"
 
 
 
@@ -12,6 +13,8 @@ Game::Game(void)
 	ticks = 0;
 	paused = false;
 	pauseStateChanged = true;
+	mouseInWindow = true;
+	lastMousePosition = sf::Vector2i(400,400); // TODO magic number, get it from some sensible variable
 }
 
 
@@ -63,11 +66,23 @@ void Game::processEvent(sf::Event e)
 		board->zoom(e.mouseWheel);
 		break;
 	case sf::Event::KeyPressed:
-		if(e.key.code = sf::Keyboard::Space)
+		switch(e.key.code)
 		{
+		case sf::Keyboard::Space:
 			paused = !paused;
 			pauseStateChanged = true;
+			break;
 		}
+		break;
+	case sf::Event::MouseMoved:
+		lastMousePosition.x = e.mouseMove.x;
+		lastMousePosition.y = e.mouseMove.y;
+		break;
+	case sf::Event::MouseLeft:
+		mouseInWindow = false;
+		break;
+	case sf::Event::MouseEntered:
+		mouseInWindow = true;
 		break;
 	}
 }
@@ -79,6 +94,34 @@ int Game::gameState()
 
 void Game::simulate()
 {
+	// TODO Magic numbers, put them in common.h
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		board->scroll(sf::Vector2f(0.f,1.8f));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		board->scroll(sf::Vector2f(0.f,-1.8f));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		board->scroll(sf::Vector2f(1.8f,0.f));
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		board->scroll(sf::Vector2f(-1.8f,0.f));
+	if(mouseInWindow)
+	{
+		if(lastMousePosition.x < 40)
+		{
+			board->scroll(sf::Vector2f(1.8f,0.f));
+		}
+		else if(lastMousePosition.x > (signed)Interface::windowSize.x - 40)
+		{
+			board->scroll(sf::Vector2f(-1.8f,0.f));
+		}
+		if(lastMousePosition.y < 40)
+		{
+			board->scroll(sf::Vector2f(0.f,1.8f));
+		}
+		else if(lastMousePosition.y > (signed)Interface::windowSize.y - 40)
+		{
+			board->scroll(sf::Vector2f(0.f,-1.8f));
+		}
+	}
 	if(paused)
 	{
 		if(pauseStateChanged)

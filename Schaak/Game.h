@@ -24,4 +24,6 @@ private:
 	long int ticks;
 	bool paused;
 	bool pauseStateChanged;
+	sf::Vector2i lastMousePosition;
+	bool mouseInWindow;
 };
