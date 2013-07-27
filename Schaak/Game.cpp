@@ -82,7 +82,10 @@ void Game::simulate()
 	if(paused)
 	{
 		if(pauseStateChanged)
+		{
 			board->updateBoardImage();
+			pauseStateChanged = false;
+		}
 		return;
 	}
 	ticks++;
