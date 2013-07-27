@@ -11,6 +11,7 @@ Game::Game(void)
 	pieces = new PieceManager();
 	ticks = 0;
 	paused = false;
+	pauseStateChanged = true;
 }
 
 
@@ -63,7 +64,10 @@ void Game::processEvent(sf::Event e)
 		break;
 	case sf::Event::KeyPressed:
 		if(e.key.code = sf::Keyboard::Space)
+		{
 			paused = !paused;
+			pauseStateChanged = true;
+		}
 		break;
 	}
 }
@@ -75,7 +79,12 @@ int Game::gameState()
 
 void Game::simulate()
 {
-	if(paused) return;
+	if(paused)
+	{
+		if(pauseStateChanged)
+			board->updateBoardImage();
+		return;
+	}
 	ticks++;
 
 	if(ticks % 20 == 0)

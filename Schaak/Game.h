@@ -23,4 +23,5 @@ private:
 	PieceManager* pieces;
 	long int ticks;
 	bool paused;
+	bool pauseStateChanged;
 };
