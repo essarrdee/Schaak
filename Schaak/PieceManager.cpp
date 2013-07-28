@@ -118,7 +118,11 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 		sf::Vector2i newPosition = pieces[p].position + *it;
 		if(onMap(newPosition))
 		{
-			int value = valuePosition(newPosition,p,b,bh,!nullPiece(b->occupants[newPosition.x][newPosition.y]));
+			PieceID pp = b->occupants[newPosition.x][newPosition.y];
+			if(!nullPiece(pp))
+				if(pieces[pp].playerOwned == pieces[p].playerOwned)
+					continue;
+			int value = valuePosition(newPosition,p,b,bh,!nullPiece(pp));
 			movePossibilities.push_back(std::make_pair(value,newPosition));
 		}
 
