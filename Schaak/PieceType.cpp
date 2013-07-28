@@ -11,6 +11,8 @@ PieceType::PieceType(std::string filename)
 	LINFO("Piece name: "); LAPPEND(name);
 	f >> energyPerTurn;
 	LINFO("Energy per turn: "); LAPPEND(energyPerTurn);
+	f >> value;
+	LINFO("Material value: "); LAPPEND(value);
 	f >> spritePosition;
 	LINFO("Sprite position: "); LAPPEND(spritePosition);
 	std::string offsetType;

@@ -22,6 +22,7 @@ public:
 	std::list<sf::Vector2i> moveAttackOffsets;
 	int spritePosition;
 	std::string name;
+	int value;
 private:
 };
 
