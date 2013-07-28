@@ -76,3 +76,93 @@ void PieceManager::randomMove(PieceID p, Board* b)
 	killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	pieces[p].place(b,chosenPosition);
 }
+
+int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh)
+{
+	int value = 0;
+	for(auto bit = bh->values.begin(); bit != bh->values.end(); ++bit)
+	{
+		int valueCode = (*bit).first;
+		int coefficient = (*bit).second;
+		switch(valueCode)
+		{
+		case ENEMY_COVER:
+			value += coefficient * (pieces[p].playerOwned ? 
+				b->enemyCoverCount[xy.x][xy.y] :
+			    b->playerCoverCount[xy.x][xy.y]);
+			break;
+		case FRIEND_COVER:
+			value += coefficient * (pieces[p].playerOwned ? 
+				b->playerCoverCount[xy.x][xy.y] :
+			    b->enemyCoverCount[xy.x][xy.y]);
+			break;
+		case OWN_VALUE:
+			value += coefficient * pieces[p].myType->value;
+			break;
+		case ENEMY_VALUE :
+			value += coefficient * pieces[b->occupants[xy.x][xy.y]].myType->value;
+		}
+	}
+	return value;
+}
+
+void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
+{
+	pieces[p].displace(b);
+	std::vector<std::pair<int,sf::Vector2i> > movePossibilities;
+	for(auto it = pieces[p].myType->moveAttackOffsets.begin(); it != pieces[p].myType->moveAttackOffsets.end(); ++it)
+	{
+		sf::Vector2i newPosition = pieces[p].position + *it;
+		if(onMap(newPosition))
+		{
+			int value = valuePosition(newPosition,p,b,bh);
+			movePossibilities.push_back(std::make_pair(value,newPosition));
+		}
+
+	}
+	for(auto it = pieces[p].myType->moveOffsets.begin(); it != pieces[p].myType->moveOffsets.end(); ++it)
+	{
+		sf::Vector2i newPosition = pieces[p].position + *it;
+		if(onMap(newPosition))
+		{
+			if(nullPiece (b->occupants[newPosition.x][newPosition.y]))
+			{
+				int value = valuePosition(newPosition,p,b,bh);
+
+				movePossibilities.push_back(std::make_pair(value,newPosition));
+			}
+		}
+	}
+	for(auto it = pieces[p].myType->attackOffsets.begin(); it != pieces[p].myType->attackOffsets.end(); ++it)
+	{
+		sf::Vector2i newPosition = pieces[p].position + *it;
+		if(onMap(newPosition))
+		{
+			PieceID pp = b->occupants[newPosition.x][newPosition.y];
+			if(!nullPiece(pp))
+			{
+				if(pieces[pp].playerOwned != pieces[p].playerOwned)
+				{
+					int value = valuePosition(newPosition,p,b,bh);
+					movePossibilities.push_back(std::make_pair(value,newPosition));
+				}
+			}
+		}
+	}
+	std::sort(movePossibilities.begin(),movePossibilities.end(),
+		[]
+	(const std::pair<int,sf::Vector2i>& left, const std::pair<int,sf::Vector2i>& right) -> bool
+	{
+		if(left.first != right.first)
+			return left.first < right.first;
+		return left.second < right.second;
+	}
+		);
+	sf::Vector2i chosenPosition = pieces[p].position;
+	if(movePossibilities.size() > 0)
+	{
+		chosenPosition = movePossibilities[0].second;
+		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
+	}
+	pieces[p].place(b,chosenPosition);
+}
