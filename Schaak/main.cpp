@@ -11,5 +11,4 @@ int main(int argc, char** argv)
 	LINFO("RNG seeded");
 	Interface* Schaak = new Interface();
 	return 0;
-
 }

@@ -19,8 +19,8 @@
   * Issue commands
 * Piece behaviour
   # Cooldowns to move
-  * Track unit positions in Board::occupants[][] array
-  * Capturing
+  # Track unit positions in Board::occupants[][] array
+  #  Capturing
   # Track cover counts on the board
   * Make decisions based on cover counts
   * Options to select between 5 behaviours
