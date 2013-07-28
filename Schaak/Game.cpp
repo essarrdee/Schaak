@@ -7,8 +7,8 @@
 
 Game::Game(void)
 {
-	chessSet = new ChessSet();
 	behaviours = new BehaviourManager();
+	chessSet = new ChessSet(behaviours);
 	board = new Board();
 	pieces = new PieceManager();
 	ticks = 0;
@@ -43,7 +43,7 @@ void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 				Piece* p = &(*pit);
 				if(!p->dead)
 				{
-					if(p->myType == pt && p->playerOwned == blackPieces)
+					if(p->myType == pt && p->isBlack == blackPieces)
 					{
 						sf::FloatRect r((sf::Vector2f)p->position,(sf::Vector2f)sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
 						if(r.intersects(viewRect)) // does r intersect the visible rect of the board?
@@ -137,13 +137,24 @@ void Game::simulate()
 	if(ticks % 10 == 0)
 	{
 		Piece p;
-		p.dead = false;
-		p.myType = chessSet->pieceTypes[rand()%6];
-		p.playerOwned = (rand()%2)==0;
+
 		p.position.x = rand() % BOARD_SIZE_X;
 		p.position.y = rand() % BOARD_SIZE_Y;
-		p.alterCover(board,1);
-		pieces->addPiece(&p);
+		int c=0;
+		while(!nullPiece(board->occupants[p.position.x][p.position.y]) && c < 10)
+		{
+			c++;
+			p.position.x = rand() % BOARD_SIZE_X;
+			p.position.y = rand() % BOARD_SIZE_Y;
+		}
+		if(c < 10)
+		{
+			p.myType = chessSet->pieceTypes[rand()%6];
+			p.isBlack = (rand()%2)==0;
+			p.alterCover(board,1);
+			pieces->addPiece(&p);
+			p.dead = false;
+		}
 	}
 
 	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
@@ -155,7 +166,7 @@ void Game::simulate()
 			if(p->energy > ENERGY_THRESHOLD)
 			{
 				p->energy -= ENERGY_THRESHOLD;
-				pieces->AIMove(p->id,board,behaviours->behaviours[0]);
+				pieces->AIMove(p->id,board);
 			}
 		}
 	}

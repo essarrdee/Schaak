@@ -88,12 +88,12 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 		switch(valueCode)
 		{
 		case ENEMY_COVER:
-			value += coefficient * (pieces[p].playerOwned ? 
+			value += coefficient * (pieces[p].isBlack ? 
 				b->enemyCoverCount[xy.x][xy.y] :
 			    b->playerCoverCount[xy.x][xy.y]);
 			break;
 		case FRIEND_COVER:
-			value += coefficient * (pieces[p].playerOwned ? 
+			value += coefficient * (pieces[p].isBlack ? 
 				b->playerCoverCount[xy.x][xy.y] :
 			    b->enemyCoverCount[xy.x][xy.y]);
 			break;
@@ -109,8 +109,9 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 	return value;
 }
 
-void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
+void PieceManager::AIMove(PieceID p, Board* b)
 {
+	Behaviour* bh = pieces[p].isBlack ? pieces[p].myType->behaviourBlack : pieces[p].myType->behaviourWhite;
 	pieces[p].displace(b);
 	movePossibilities.clear();
 	//std::vector<std::tuple<int,int,sf::Vector2i> > movePossibilities;
@@ -121,7 +122,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 		{
 			PieceID pp = b->occupants[newPosition.x][newPosition.y];
 			if(!nullPiece(pp))
-				if(pieces[pp].playerOwned == pieces[p].playerOwned)
+				if(pieces[pp].isBlack == pieces[p].isBlack)
 					continue;
 			int value = valuePosition(newPosition,p,b,bh,!nullPiece(pp));
 			movePossibilities.push_back(std::make_tuple(value,rand(),newPosition));
@@ -149,7 +150,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 			PieceID pp = b->occupants[newPosition.x][newPosition.y];
 			if(!nullPiece(pp))
 			{
-				if(pieces[pp].playerOwned != pieces[p].playerOwned)
+				if(pieces[pp].isBlack != pieces[p].isBlack)
 				{
 					int value = valuePosition(newPosition,p,b,bh,true);
 					movePossibilities.push_back(std::make_tuple(value,rand(),newPosition));

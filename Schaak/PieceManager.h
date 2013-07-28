@@ -19,7 +19,7 @@ public:
 	void freeSlot(PieceID slot);
 	sf::Sprite piecesSprite;
 	void randomMove(PieceID p, Board* b);
-	void AIMove(PieceID p, Board* b, Behaviour* bh);
+	void AIMove(PieceID p, Board* b);
 	int valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh, bool capture);
 private:
 	UniquePieceID nextUniqueID;

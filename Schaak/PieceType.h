@@ -3,6 +3,7 @@
 #include <string>
 #include "Piece.h"
 #include "Board.h"
+#include "Behaviour.h"
 
 class Piece;
 
@@ -23,6 +24,9 @@ public:
 	int spritePosition;
 	std::string name;
 	int value;
+	Behaviour* behaviourBlack;
+	Behaviour* behaviourWhite;
+
 private:
 };
 

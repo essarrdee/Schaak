@@ -27,7 +27,7 @@ public:
 
 	int energy;
 	PieceType* myType;
-	bool playerOwned;
+	bool isBlack;
 	sf::Vector2i position;
 	UniquePieceID uniqueID;
 	PieceID id;

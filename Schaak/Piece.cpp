@@ -6,7 +6,7 @@ Piece::Piece(void)
 {
 	energy = 0;
 	myType = nullptr;
-	playerOwned = true;
+	isBlack = true;
 	position = sf::Vector2i(0,0);
 	dead = true;
 }
@@ -27,7 +27,7 @@ void Piece::alterCover(Board* b, int difference)
 		sf::Vector2i newPosition = position + *it;
 		if(onMap(newPosition))
 		{
-			if(playerOwned)
+			if(isBlack)
 				b->alterPlayerCover(newPosition,difference);
 			else
 				b->alterEnemyCover(newPosition,difference);
@@ -38,7 +38,7 @@ void Piece::alterCover(Board* b, int difference)
 		sf::Vector2i newPosition = position + *it;
 		if(onMap(newPosition))
 		{
-			if(playerOwned)
+			if(isBlack)
 				b->alterPlayerCover(newPosition,difference);
 			else
 				b->alterEnemyCover(newPosition,difference);

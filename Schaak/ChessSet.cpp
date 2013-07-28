@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-ChessSet::ChessSet(void)
+ChessSet::ChessSet(BehaviourManager* bm)
 {
 	LINFO("Loading chess set");
 	std::ifstream f(CHESS_SET_PIECES_PATH);
@@ -16,6 +16,8 @@ ChessSet::ChessSet(void)
 		LINFO("Loading piece: ");
 		LAPPEND(piece_filename);
 		PieceType* newPiece = new PieceType(piece_filename);
+		newPiece->behaviourBlack = bm->behaviours[0];
+		newPiece->behaviourWhite = bm->behaviours[1];
 		pieceTypes.push_back(newPiece);
 	}
 }

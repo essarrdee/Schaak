@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
 	Logger::init("Schaak.log");
 	LINFO("Main started");
-	srand(time(0));
+	srand((unsigned)time(0));
 	LINFO("RNG seeded");
 	Interface* Schaak = new Interface();
 	return 0;
