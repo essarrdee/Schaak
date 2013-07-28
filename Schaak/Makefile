@@ -23,7 +23,8 @@ SRC_FILES       :=	main.cpp \
 					Piece.cpp \
 					PieceManager.cpp \
 					PieceType.cpp \
-					Behaviour.cpp
+					Behaviour.cpp \
+					BehaviourManager.cpp \
 # - ------------------------------------------------------------------------ - #
 # Folders to search for source files ### e.g. zlib zlib/extras squirrel
 SRC_FOLDERS     :=  
