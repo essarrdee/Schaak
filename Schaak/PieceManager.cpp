@@ -1,5 +1,6 @@
 #include "PieceManager.h"
 #include "utilities.h"
+#include "Logger.h"
 
 
 PieceManager::PieceManager(void)
@@ -164,6 +165,19 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 	if(movePossibilities.size() > 0)
 	{
 		chosenPosition = movePossibilities[0].second;
+
+		// delete this
+		PieceID pp = b->occupants[chosenPosition.x][chosenPosition.y];
+		if(!nullPiece(pp))
+		{
+			LINFO("Capture: ");
+			LAPPEND(pieces[p].playerOwned ? "white " : "black ");
+			LAPPEND(pieces[p].myType->name);
+			LAPPEND(" takes ");
+			LAPPEND(pieces[pp].playerOwned ? "white " : "black ");
+			LAPPEND(pieces[pp].myType->name);
+		}
+
 		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	}
 	pieces[p].place(b,chosenPosition);
