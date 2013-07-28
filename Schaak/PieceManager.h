@@ -19,7 +19,7 @@ public:
 	sf::Sprite piecesSprite;
 	void randomMove(PieceID p, Board* b);
 	void AIMove(PieceID p, Board* b, Behaviour* bh);
-	int valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh);
+	int valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh, bool capture);
 private:
 	UniquePieceID nextUniqueID;
 	static const int initialSlots = 4000;

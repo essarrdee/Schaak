@@ -77,7 +77,7 @@ void PieceManager::randomMove(PieceID p, Board* b)
 	pieces[p].place(b,chosenPosition);
 }
 
-int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh)
+int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh, bool capture)
 {
 	int value = 0;
 	for(auto bit = bh->values.begin(); bit != bh->values.end(); ++bit)
@@ -100,7 +100,9 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 			value += coefficient * pieces[p].myType->value;
 			break;
 		case ENEMY_VALUE :
-			value += coefficient * pieces[b->occupants[xy.x][xy.y]].myType->value;
+			if(capture)
+				value += coefficient * pieces[b->occupants[xy.x][xy.y]].myType->value;
+			break;
 		}
 	}
 	return value;
@@ -115,7 +117,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 		sf::Vector2i newPosition = pieces[p].position + *it;
 		if(onMap(newPosition))
 		{
-			int value = valuePosition(newPosition,p,b,bh);
+			int value = valuePosition(newPosition,p,b,bh,!nullPiece(b->occupants[newPosition.x][newPosition.y]));
 			movePossibilities.push_back(std::make_pair(value,newPosition));
 		}
 
@@ -127,7 +129,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 		{
 			if(nullPiece (b->occupants[newPosition.x][newPosition.y]))
 			{
-				int value = valuePosition(newPosition,p,b,bh);
+				int value = valuePosition(newPosition,p,b,bh,false);
 
 				movePossibilities.push_back(std::make_pair(value,newPosition));
 			}
@@ -143,7 +145,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 			{
 				if(pieces[pp].playerOwned != pieces[p].playerOwned)
 				{
-					int value = valuePosition(newPosition,p,b,bh);
+					int value = valuePosition(newPosition,p,b,bh,true);
 					movePossibilities.push_back(std::make_pair(value,newPosition));
 				}
 			}

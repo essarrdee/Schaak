@@ -134,7 +134,7 @@ void Game::simulate()
 	}
 	ticks++;
 
-	if(ticks % 20 == 0)
+	if(ticks % 60 == 0)
 	{
 		Piece p;
 		p.dead = false;
@@ -155,7 +155,7 @@ void Game::simulate()
 			if(p->energy > ENERGY_THRESHOLD)
 			{
 				p->energy -= ENERGY_THRESHOLD;
-				pieces->randomMove(p->id,board);
+				pieces->AIMove(p->id,board,behaviours->behaviours[0]);
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 #include "PieceType.h"
 #include "Board.h"
 #include "common.h"
+#include "Behaviour.h"
 
 class PieceType;
 
@@ -31,5 +32,6 @@ public:
 	UniquePieceID uniqueID;
 	PieceID id;
 	bool dead;
+	Behaviour* behaviour;
 };
 
