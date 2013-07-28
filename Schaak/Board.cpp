@@ -77,7 +77,8 @@ void Board::updateBoardColour(sf::Vector2i xy)
 	}
 	else if(!playerCoverCount[xy.x][xy.y] && enemyCoverCount[xy.x][xy.y])
 	{
-		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] + 255)/2;
+		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] + 255)/2;
 	}
 }
 
