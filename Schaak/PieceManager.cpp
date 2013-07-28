@@ -164,20 +164,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 	sf::Vector2i chosenPosition = pieces[p].position;
 	if(movePossibilities.size() > 0)
 	{
-		chosenPosition = movePossibilities[0].second;
-
-		// delete this
-		PieceID pp = b->occupants[chosenPosition.x][chosenPosition.y];
-		if(!nullPiece(pp))
-		{
-			LINFO("Capture: ");
-			LAPPEND(pieces[p].playerOwned ? "white " : "black ");
-			LAPPEND(pieces[p].myType->name);
-			LAPPEND(" takes ");
-			LAPPEND(pieces[pp].playerOwned ? "white " : "black ");
-			LAPPEND(pieces[pp].myType->name);
-		}
-
+		chosenPosition = movePossibilities.back().second;
 		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	}
 	pieces[p].place(b,chosenPosition);
