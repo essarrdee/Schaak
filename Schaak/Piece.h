@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/System/Vector2.hpp>
 #include "PieceType.h"
+#include "Board.h"
 #include "common.h"
 
 class PieceType;
@@ -17,6 +18,13 @@ class Piece
 public:
 	Piece(void);
 	~Piece(void);
+	
+	void cooldown();
+	void alterCover(Board* b, int difference);
+	void displace(Board* b);
+	void place(Board* b, sf::Vector2i xy);
+	void randomMove(Board* b);
+
 	int energy;
 	PieceType* myType;
 	bool playerOwned;

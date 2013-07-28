@@ -141,7 +141,7 @@ void Game::simulate()
 		p.playerOwned = ((ticks/60)%2)==0;
 		p.position.x = ((ticks/60) * 1033) % BOARD_SIZE_X;
 		p.position.y = ((ticks/60) * 43) % BOARD_SIZE_Y;
-		p.myType->alterCover(&p,board,1);
+		p.alterCover(board,1);
 		pieces->addPiece(&p);
 	}
 
@@ -150,11 +150,11 @@ void Game::simulate()
 		Piece* p = &*it;
 		if(!p->dead)
 		{
-			p->myType->cooldown(p);
+			p->cooldown();
 			if(p->energy > ENERGY_THRESHOLD)
 			{
 				p->energy -= ENERGY_THRESHOLD;
-				p->myType->randomMove(p,board);
+				p->randomMove(board);
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 #include <deque>
 #include <SFML/Graphics.hpp>
 #include "Piece.h"
+class Piece;
 class PieceManager
 {
 public:
@@ -11,6 +12,7 @@ public:
 	std::vector<Piece> pieces;
 	std::deque<unsigned int> freeSlots;
 	PieceID addPiece(Piece* p);
+	void killPiece(PieceID p,Board* b);
 	void freeSlot(PieceID slot);
 	sf::Sprite piecesSprite;
 private:

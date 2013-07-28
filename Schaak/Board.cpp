@@ -106,8 +106,8 @@ void Board::zoom(sf::Event::MouseWheelEvent e)
 
 sf::FloatRect Board::visibleArea()
 {
-	sf::Vector2f topLeft = -boardSprite.getPosition()/sf::Vector2f(magnificationLevel(),magnificationLevel());
-	sf::Vector2f size = (sf::Vector2f)Interface::windowSize/sf::Vector2f(magnificationLevel(),magnificationLevel());
+	sf::Vector2f topLeft = -boardSprite.getPosition()/(sf::Vector2f)sf::Vector2i(magnificationLevel(),magnificationLevel());
+	sf::Vector2f size = (sf::Vector2f)Interface::windowSize/(sf::Vector2f)sf::Vector2i(magnificationLevel(),magnificationLevel());
 	return sf::FloatRect(topLeft,size);
 }
 
@@ -142,6 +142,6 @@ void Board::boundPosition()
 
 void Board::scroll(sf::Vector2f offset)
 {
-	boardSprite.setPosition(boardSprite.getPosition()+offset*sf::Vector2f(magnificationLevel(),magnificationLevel()));
+	boardSprite.setPosition(boardSprite.getPosition()+offset*(sf::Vector2f)sf::Vector2i(magnificationLevel(),magnificationLevel()));
 	boundPosition();
 }

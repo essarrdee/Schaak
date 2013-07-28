@@ -23,17 +23,18 @@ PieceID PieceManager::addPiece(Piece* p)
 	PieceID slot;
 	if(freeSlots.size() > 0)
 	{
-		PieceID slot = freeSlots.front();
+		slot = freeSlots.front();
 		freeSlots.pop_front();
 		pieces[slot] = *p;
 	}
 	else
 	{
-		PieceID slot = pieces.size();
+		slot = pieces.size();
 		pieces.push_back(*p);
 	}
 	pieces[slot].id = slot;
 	pieces[slot].uniqueID = nextUniqueID;
+	pieces[slot].energy = rand()%pieces[slot].myType->energyPerTurn;
 	nextUniqueID++;
 	return slot;
 }
@@ -41,4 +42,12 @@ PieceID PieceManager::addPiece(Piece* p)
 void PieceManager::freeSlot(PieceID slot)
 {
 	freeSlots.push_back(slot);
+}
+
+void PieceManager::killPiece(PieceID p,Board* b)
+{
+	Piece* pp = &pieces[p];
+	pp->alterCover(b,-1);
+	b->occupants[pp->position.x][pp->position.y] = NULL_PIECE;
+	freeSlots.push_back(p);
 }

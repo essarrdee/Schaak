@@ -35,56 +35,7 @@ PieceType::~PieceType(void)
 {
 }
 
-void PieceType::cooldown(Piece* p)
-{
-	p->energy += energyPerTurn;
-}
-void PieceType::alterCover(Piece* p, Board* b, int difference)
-{
-	// C++0x required
-	for(auto it = attackOffsets.begin(); it != attackOffsets.end(); ++it)
-	{
-		sf::Vector2i position = p->position + *it;
-		if(onMap(position))
-		{
-			if(p->playerOwned)
-				b->alterPlayerCover(position,difference);
-			else
-				b->alterEnemyCover(position,difference);
-		}
-	}
-	for(auto it = moveAttackOffsets.begin(); it != moveAttackOffsets.end(); ++it)
-	{
-		sf::Vector2i position = p->position + *it;
-		if(onMap(position))
-		{
-			if(p->playerOwned)
-				b->alterPlayerCover(position,difference);
-			else
-				b->alterEnemyCover(position,difference);
-		}
-	}
-}
 
-void PieceType::randomMove(Piece* p, Board* b)
-{
-	alterCover(p,b,-1);
-	std::vector<sf::Vector2i> movePossibilities;
-	for(auto it = moveAttackOffsets.begin(); it != moveAttackOffsets.end(); ++it)
-	{
-		sf::Vector2i position = p->position + *it;
-		if(onMap(position))
-			movePossibilities.push_back(position);
-	}
-	for(auto it = moveOffsets.begin(); it != moveOffsets.end(); ++it)
-	{
-		sf::Vector2i position = p->position + *it;
-		if(onMap(position))
-			movePossibilities.push_back(position);
-	}
-	p->position = vectorRandomChoice(movePossibilities,p->position);
-	alterCover(p,b,1);
-}
 
 sf::IntRect PieceType::spriteLocation(int magnificationCode, bool black)
 {
