@@ -1,3 +1,4 @@
 Survive
-enemy_cover -999
+enemy_cover -500
 enemy_value 1
+friend_cover 5

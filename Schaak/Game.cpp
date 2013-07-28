@@ -141,9 +141,11 @@ void Game::simulate()
 		p.position.x = rand() % BOARD_SIZE_X;
 		p.position.y = rand() % BOARD_SIZE_Y;
 		int c=0;
-		while(!nullPiece(board->occupants[p.position.x][p.position.y]) && c < 10)
+		while(!nullPiece(board->occupants[p.position.x][p.position.y]))
 		{
 			c++;
+			if(c >= 10)
+				break;
 			p.position.x = rand() % BOARD_SIZE_X;
 			p.position.y = rand() % BOARD_SIZE_Y;
 		}
@@ -152,8 +154,8 @@ void Game::simulate()
 			p.myType = chessSet->pieceTypes[rand()%6];
 			p.isBlack = (rand()%2)==0;
 			p.alterCover(board,1);
-			pieces->addPiece(&p);
 			p.dead = false;
+			pieces->addPiece(&p);
 		}
 	}
 
