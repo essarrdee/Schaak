@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Piece.h"
 #include "Behaviour.h"
+#include <tuple>
 class Piece;
 class PieceManager
 {
@@ -24,5 +25,6 @@ private:
 	UniquePieceID nextUniqueID;
 	static const int initialSlots = 4000;
 	sf::Texture piecesTexture;
+	std::vector<std::tuple<int,int,sf::Vector2i> > movePossibilities;
 };
 

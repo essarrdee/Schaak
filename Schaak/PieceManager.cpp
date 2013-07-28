@@ -36,7 +36,7 @@ PieceID PieceManager::addPiece(Piece* p)
 	}
 	pieces[slot].id = slot;
 	pieces[slot].uniqueID = nextUniqueID;
-	pieces[slot].energy = rand()%pieces[slot].myType->energyPerTurn;
+	pieces[slot].energy = rand()%(ENERGY_THRESHOLD/2);
 	nextUniqueID++;
 	return slot;
 }
@@ -112,7 +112,8 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 {
 	pieces[p].displace(b);
-	std::vector<std::pair<int,sf::Vector2i> > movePossibilities;
+	movePossibilities.clear();
+	//std::vector<std::tuple<int,int,sf::Vector2i> > movePossibilities;
 	for(auto it = pieces[p].myType->moveAttackOffsets.begin(); it != pieces[p].myType->moveAttackOffsets.end(); ++it)
 	{
 		sf::Vector2i newPosition = pieces[p].position + *it;
@@ -123,7 +124,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 				if(pieces[pp].playerOwned == pieces[p].playerOwned)
 					continue;
 			int value = valuePosition(newPosition,p,b,bh,!nullPiece(pp));
-			movePossibilities.push_back(std::make_pair(value,newPosition));
+			movePossibilities.push_back(std::make_tuple(value,rand(),newPosition));
 		}
 
 	}
@@ -136,7 +137,7 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 			{
 				int value = valuePosition(newPosition,p,b,bh,false);
 
-				movePossibilities.push_back(std::make_pair(value,newPosition));
+				movePossibilities.push_back(std::make_tuple(value,rand(),newPosition));
 			}
 		}
 	}
@@ -151,24 +152,24 @@ void PieceManager::AIMove(PieceID p, Board* b, Behaviour* bh)
 				if(pieces[pp].playerOwned != pieces[p].playerOwned)
 				{
 					int value = valuePosition(newPosition,p,b,bh,true);
-					movePossibilities.push_back(std::make_pair(value,newPosition));
+					movePossibilities.push_back(std::make_tuple(value,rand(),newPosition));
 				}
 			}
 		}
 	}
 	std::sort(movePossibilities.begin(),movePossibilities.end(),
 		[]
-	(const std::pair<int,sf::Vector2i>& left, const std::pair<int,sf::Vector2i>& right) -> bool
+	(const std::tuple<int,int,sf::Vector2i>& left, const std::tuple<int,int,sf::Vector2i>& right) -> bool
 	{
-		if(left.first != right.first)
-			return left.first < right.first;
-		return left.second < right.second;
+		if(std::get<0>(left) != std::get<0>(right))
+			return std::get<0>(left) < std::get<0>(right);
+		return std::get<1>(left) < std::get<1>(right);
 	}
 		);
 	sf::Vector2i chosenPosition = pieces[p].position;
 	if(movePossibilities.size() > 0)
 	{
-		chosenPosition = movePossibilities.back().second;
+		chosenPosition = std::get<2>(movePossibilities.back());
 		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	}
 	pieces[p].place(b,chosenPosition);
