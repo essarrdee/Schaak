@@ -23,7 +23,6 @@ public:
 	void alterCover(Board* b, int difference);
 	void displace(Board* b);
 	void place(Board* b, sf::Vector2i xy);
-	void randomMove(Board* b);
 
 	int energy;
 	PieceType* myType;

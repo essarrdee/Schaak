@@ -1,4 +1,5 @@
 #include "PieceManager.h"
+#include "utilities.h"
 
 
 PieceManager::PieceManager(void)
@@ -46,8 +47,32 @@ void PieceManager::freeSlot(PieceID slot)
 
 void PieceManager::killPiece(PieceID p,Board* b)
 {
+	if(nullPiece(p))
+		return;
 	Piece* pp = &pieces[p];
+	pp->dead = true;
 	pp->alterCover(b,-1);
 	b->occupants[pp->position.x][pp->position.y] = NULL_PIECE;
 	freeSlots.push_back(p);
+}
+
+void PieceManager::randomMove(PieceID p, Board* b)
+{
+	pieces[p].displace(b);
+	std::vector<sf::Vector2i> movePossibilities;
+	for(auto it = pieces[p].myType->moveAttackOffsets.begin(); it != pieces[p].myType->moveAttackOffsets.end(); ++it)
+	{
+		sf::Vector2i newPosition = pieces[p].position + *it;
+		if(onMap(newPosition))
+			movePossibilities.push_back(newPosition);
+	}
+	for(auto it = pieces[p].myType->moveOffsets.begin(); it != pieces[p].myType->moveOffsets.end(); ++it)
+	{
+		sf::Vector2i newPosition = pieces[p].position + *it;
+		if(onMap(newPosition))
+			movePossibilities.push_back(newPosition);
+	}
+	sf::Vector2i chosenPosition = vectorRandomChoice(movePossibilities,pieces[p].position);
+	killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
+	pieces[p].place(b,chosenPosition);
 }

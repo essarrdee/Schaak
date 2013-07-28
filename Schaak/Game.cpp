@@ -154,7 +154,7 @@ void Game::simulate()
 			if(p->energy > ENERGY_THRESHOLD)
 			{
 				p->energy -= ENERGY_THRESHOLD;
-				p->randomMove(board);
+				pieces->randomMove(p->id,board);
 			}
 		}
 	}

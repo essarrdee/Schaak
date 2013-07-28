@@ -15,6 +15,7 @@ public:
 	void killPiece(PieceID p,Board* b);
 	void freeSlot(PieceID slot);
 	sf::Sprite piecesSprite;
+	void randomMove(PieceID p, Board* b);
 private:
 	UniquePieceID nextUniqueID;
 	static const int initialSlots = 4000;

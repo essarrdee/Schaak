@@ -22,7 +22,6 @@ void Piece::cooldown()
 }
 void Piece::alterCover(Board* b, int difference)
 {
-	// C++0x required
 	for(auto it = myType->attackOffsets.begin(); it != myType->attackOffsets.end(); ++it)
 	{
 		sf::Vector2i newPosition = position + *it;
@@ -46,27 +45,6 @@ void Piece::alterCover(Board* b, int difference)
 		}
 	}
 }
-
-void Piece::randomMove(Board* b)
-{
-	displace(b);
-	std::vector<sf::Vector2i> movePossibilities;
-	for(auto it = myType->moveAttackOffsets.begin(); it != myType->moveAttackOffsets.end(); ++it)
-	{
-		sf::Vector2i newPosition = position + *it;
-		if(onMap(newPosition))
-			movePossibilities.push_back(newPosition);
-	}
-	for(auto it = myType->moveOffsets.begin(); it != myType->moveOffsets.end(); ++it)
-	{
-		sf::Vector2i newPosition = position + *it;
-		if(onMap(newPosition))
-			movePossibilities.push_back(newPosition);
-	}
-	place(b,vectorRandomChoice(movePossibilities,position));
-}
-
-
 
 void Piece::displace(Board* b)
 {
