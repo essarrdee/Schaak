@@ -80,6 +80,14 @@ void Interface::run()
 			case sf::Event::MouseMoved:
 				menu->processEvent(e);
 				break;
+			case sf::Event::MouseLeft:
+				LINFO("Mouse left");
+				menu->processEvent(e);
+				break;
+			case sf::Event::MouseEntered:
+				LINFO("Mouse entered");
+				menu->processEvent(e);
+				break;
 			}
 		}
 		menu->simulate();
