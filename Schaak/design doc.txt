@@ -233,3 +233,46 @@ deque of dead slots.
 On dying, dead slot freed for assignment. add index to deque.
 On spawning, choose first dead slot from deque.
 Assign new unique long int id to avoid mistaken identity.
+
+=====================
+
+behaviour implementation
+1. survive - don't go to squares under attack. capture free pieces.
+	read enemy cover values in potential move squares - -score for squares that are under attack
+	read enemy locations - +score for squares with a piece to capture.
+	negative score for cover must always outweigh +score for capturing.
+	S = -A*enemycover + enemyvalue
+	A = kingvalue - 1
+2. evade - don't go to squares under attack except to capture a piece as an exchange.
+	read enemy cover values in potential move squares - -score for squares that are under attack.
+	read enemy locations - +score for squares with a piece to capture.
+	capturing higher-value pieces must be preferred.
+	capturing free pieces must be preferred.
+	which is more important?
+	S = -B*enemycover + C*enemyvalue - D*ownvalue
+	B,C,D = ?,?,?
+3. advance - don't go to squares under attack except to capture a piece, or if protected.
+	read enemy and friendly cover values in potential move squares.
+	-score for squares covered by enemy.
+	+score for squares covered by friends.
+	+score for capturing a piece.
+	S = -E*enemycover + F*friendcover + G*enemyvalue - H*ownvalue
+	E,F,G,H = ?,?,?,?
+4. kamikaze - ignore cover considerations when moving.
+	read enemy locations.
+	+score for capturing pieces.
+	S = enemyvalue
+5. protect - don't go to unprotected squares under attack. don't go to squares under attack except to capture a piece. Prefer squares that cover squares guarded by enemy
+	read enemy and friendly cover values, enemy locations, and enemy cover in second-order locations
+	-score for squares covered by enemy.
+	+score for capturing.
+	+score for adding cover to an enemy-covered square.
+	S = -I*enemycover + J*enemyvalue - K*ownvalue + L*sum(S').
+	S' = M*enemycover - N*friendcover.
+
+Specify behaviours in .bhv files.
+.bhv file contains only these coefficients, with text indicating which coefficients they are.
+parse into list of (value code, coefficient) pairs.
+AI iterates through list, finding values only if requested and multiplying by the given coefficient.
+list of possible moves is sorted by value.
+best one is chosen.
