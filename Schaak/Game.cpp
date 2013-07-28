@@ -134,14 +134,14 @@ void Game::simulate()
 	}
 	ticks++;
 
-	if(ticks % 60 == 0)
+	if(ticks % 10 == 0)
 	{
 		Piece p;
 		p.dead = false;
-		p.myType = chessSet->pieceTypes[(ticks/60)%6];
-		p.playerOwned = ((ticks/60)%2)==0;
-		p.position.x = ((ticks/60) * 1033) % BOARD_SIZE_X;
-		p.position.y = ((ticks/60) * 43) % BOARD_SIZE_Y;
+		p.myType = chessSet->pieceTypes[rand()%6];
+		p.playerOwned = (rand()%2)==0;
+		p.position.x = rand() % BOARD_SIZE_X;
+		p.position.y = rand() % BOARD_SIZE_Y;
 		p.alterCover(board,1);
 		pieces->addPiece(&p);
 	}
