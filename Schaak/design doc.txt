@@ -273,6 +273,6 @@ behaviour implementation
 Specify behaviours in .bhv files.
 .bhv file contains only these coefficients, with text indicating which coefficients they are.
 parse into list of (value code, coefficient) pairs.
-AI iterates through list, finding values only if requested and multiplying by the given coefficient.
+for each legal move, AI iterates through list, finding values only if requested and multiplying by the given coefficient.
 list of possible moves is sorted by value.
 best one is chosen.
