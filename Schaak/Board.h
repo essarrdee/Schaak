@@ -23,9 +23,10 @@ public:
 	sf::Sprite boardSprite; // TODO make just a function to get board position public
 	void scroll(sf::Vector2f offset);
 	PieceID occupants[BOARD_SIZE_X][BOARD_SIZE_Y]; // TODO wrap alterations to this?
+	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y]; // TODO make public gets for this
+	unsigned int enemyCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y]; // TODO make public gets for this
 private:
-	unsigned int playerCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
-	unsigned int enemyCoverCount[BOARD_SIZE_X][BOARD_SIZE_Y];
+
 	unsigned int coverDifference[BOARD_SIZE_X][BOARD_SIZE_Y];
 	void updateCoverDifference(sf::Vector2i xy);  // call this after altering player or enemy cover counts
 	sf::Uint8 boardColours[4*BOARD_SIZE_X*BOARD_SIZE_Y]; // RGBA pixels describing board image

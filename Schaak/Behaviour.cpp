@@ -3,10 +3,7 @@
 #include <fstream>
 #include "Logger.h"
 
-const int Behaviour::ENEMY_COVER = 0;
-const int Behaviour::ENEMY_VALUE = 1;
-const int Behaviour::FRIEND_COVER = 2;
-const int Behaviour::OWN_VALUE = 3;
+
 
 Behaviour::Behaviour(std::string filename)
 {

@@ -16,6 +16,14 @@ inline sf::Vector2<T> operator /(const sf::Vector2<T>& left, const sf::Vector2<T
 };
 
 template <typename T>
+inline bool operator <(const sf::Vector2<T>& left, const sf::Vector2<T>& right)
+{
+    if(left.x != right.x)
+		return left.x < right.x;
+	return left.y < right.y;
+};
+
+template <typename T>
 inline T bound(T x, T minimum, T maximum)
 {
 	return std::max(std::min(x,maximum),minimum);
