@@ -2,7 +2,7 @@
 # Adapted for Schaak by Michał Walczak (http://michalwalczak.eu)
 # usage: make | make info | make clean | make run
 # - ------------------------------------------------------------------------ - #
-TARGET_FILE     :=  schaak
+TARGET_FILE     :=  schaakgame
 ARGS            :=  
 # - ------------------------------------------------------------------------ - #
  
@@ -23,6 +23,7 @@ SRC_FILES       :=	main.cpp \
 					Piece.cpp \
 					PieceManager.cpp \
 					PieceType.cpp \
+					Behaviour.cpp
 # - ------------------------------------------------------------------------ - #
 # Folders to search for source files ### e.g. zlib zlib/extras squirrel
 SRC_FOLDERS     :=  
