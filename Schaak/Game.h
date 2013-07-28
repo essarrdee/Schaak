@@ -6,6 +6,7 @@
 #include "PieceType.h"
 #include "Piece.h"
 #include "PieceManager.h"
+#include "BehaviourManager.h"
 
 class Game : public sf::Drawable
 {
@@ -21,6 +22,7 @@ private:
 	Board* board;
 	ChessSet* chessSet;
 	PieceManager* pieces;
+	BehaviourManager* behaviours;
 	long int ticks;
 	bool paused;
 	bool pauseStateChanged;

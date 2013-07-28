@@ -8,6 +8,7 @@
 Game::Game(void)
 {
 	chessSet = new ChessSet();
+	behaviours = new BehaviourManager();
 	board = new Board();
 	pieces = new PieceManager();
 	ticks = 0;

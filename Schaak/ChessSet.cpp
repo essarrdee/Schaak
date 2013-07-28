@@ -8,7 +8,7 @@
 ChessSet::ChessSet(void)
 {
 	LINFO("Loading chess set");
-	std::ifstream f(CHESS_SET_PATH+"pieces");
+	std::ifstream f(CHESS_SET_PIECES_PATH);
 	std::string piece_filename;
 	while(f.good())
 	{

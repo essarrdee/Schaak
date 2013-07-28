@@ -30,8 +30,11 @@ static const sf::IntRect VIEWPORT = sf::IntRect(0,0,2*BOARD_SIZE_X,2*BOARD_SIZE_
 
 static const std::string RESOURCE_PATH = "Resources/";
 static const std::string IMAGE_PATH = RESOURCE_PATH + "Images/";
-static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
 static const std::string PIECE_SPRITE_PATH = IMAGE_PATH + "piece_sprites.png";
+static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
+static const std::string CHESS_SET_PIECES_PATH = CHESS_SET_PATH + "pieces";
+static const std::string AI_PATH = RESOURCE_PATH + "AI/";
+static const std::string AI_BEHAVIOURS_PATH = AI_PATH + "behaviours";
 
 static const int ENERGY_THRESHOLD = 1000;
 
