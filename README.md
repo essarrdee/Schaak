@@ -3,7 +3,7 @@ Schaak
 
 Public repository: https://github.com/essarrdee/Schaak
 
-Chess-based 7 Day RTS game.
+Chess-based 7 Day RTS game with local multiplayer.
 Written in 168 hours.
 Start time: 21:00, Monday 22/07/2013
 End time: 21:00, Monday 29/07/2013
@@ -14,6 +14,7 @@ Mouse to window edge to scroll.
 Scroll to zoom.
 Space to pause.
 Tab to switch control between black and white.
+Be nice and share the mouse/keyboard (or plug in two!).
 Current control has green cover squares, enemy has magenta.
 Left-click drag to select pieces.
 Right-click drag to set destination area.
@@ -27,7 +28,18 @@ Each upgrade costs 10*level*level money, and increase that stat's level by 1. Th
 AI:
 Click the AI buttons to switch between different AI modes for your units.
 
+None of AI, Speed, and Block have feedback, so here are the spoilers:
+AI 1 (default) is survive (prioritise survival)
+AI 2 is evade (don't walk into enemy cover, but take exchanges)
+AI 3 is advance (walk into enemy cover if there is friendly cover or a piece to capture)
+AI 4 is kamikaze (ignore enemy threats, go to destination and take any opportunity to capture a piece)
+AI 5 loops back to AI 1 (survive).
+Block starts at 0% for all pieces and goes up 1% each time.
+Speed starts at 30,40,50, or 60 and goes up by 1 each time.
+You'll have to keep track of them yourself, or get an updated non-7dRTS version that displays these values on screen :)
+
 ========== Capture the enemy King! ==========
+============ Protect your King! =============
 
 Windows users:
 Download from
