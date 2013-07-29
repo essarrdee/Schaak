@@ -24,6 +24,7 @@ private:
 	PieceManager* pieces;
 	BehaviourManager* behaviours;
 	long int ticks;
+	long int realTicks;
 	bool paused;
 	bool pauseStateChanged;
 	sf::Vector2i lastMousePosition;

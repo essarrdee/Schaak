@@ -12,6 +12,7 @@ Game::Game(void)
 	board = new Board();
 	pieces = new PieceManager();
 	ticks = 0;
+	realTicks = 0;
 	paused = false;
 	pauseStateChanged = true;
 	mouseInWindow = true;
@@ -54,7 +55,7 @@ void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 					{
 						if(p->selected && p->isBlack == blackControlling)
 						{
-							if(ticks%40 < 15)
+							if(realTicks%48 < 12)
 								continue;
 						}
 						sf::FloatRect r((sf::Vector2f)p->position,(sf::Vector2f)sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
@@ -89,6 +90,15 @@ void Game::processEvent(sf::Event e)
 		case sf::Keyboard::Tab:
 			blackControlling = !blackControlling;
 			board->blackControlling = blackControlling;
+			for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+			{
+				if(!(*it).dead)
+				{
+					(*it).alterCover(board,-1);
+					(*it).alterCover(board,1);
+				}
+			}
+			board->updateBoardImage();
 			break;
 		}
 		break;
@@ -156,6 +166,7 @@ int Game::gameState()
 
 void Game::simulate()
 {
+	realTicks++;
 	if(selectingWithLeftButton || selectingWithRightButton)
 	{
 		sf::Vector2f SelectionBoxStartScreenCoords = selectionBoxStart*(float)board->magnificationLevel()+board->boardSprite.getPosition();
