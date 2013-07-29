@@ -24,6 +24,7 @@ public:
 	void alterCover(Board* b, int difference);
 	void displace(Board* b);
 	void place(Board* b, sf::Vector2i xy);
+	int distanceToDestination(sf::Vector2i xy);
 
 	int energy;
 	PieceType* myType;
@@ -33,5 +34,7 @@ public:
 	PieceID id;
 	bool dead;
 	Behaviour* behaviour;
+	bool selected;
+	sf::IntRect destination;
 };
 

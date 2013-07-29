@@ -32,6 +32,10 @@ Behaviour::Behaviour(std::string filename)
 		{
 			valuePair.first = OWN_VALUE;
 		}
+		else if(evalType == "destination_distance")
+		{
+			valuePair.first = DESTINATION_DISTANCE;
+		}
 		f >> valuePair.second;
 		values.push_back(valuePair);
 	}

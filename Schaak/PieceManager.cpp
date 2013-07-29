@@ -104,6 +104,9 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 			if(capture)
 				value += coefficient * pieces[b->occupants[xy.x][xy.y]].myType->value;
 			break;
+		case DESTINATION_DISTANCE:
+			value += coefficient * pieces[p].distanceToDestination(xy);
+			break;
 		}
 	}
 	return value;
@@ -174,4 +177,28 @@ void PieceManager::AIMove(PieceID p, Board* b)
 		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	}
 	pieces[p].place(b,chosenPosition);
+}
+
+
+void PieceManager::drawBox(sf::Vector2f start, sf::Vector2f end, bool black, bool rightClick)
+{
+	if(rightClick)
+	{
+		sf::Vector2i startSquare, endSquare;
+		startSquare.x = (int)std::min(start.x,end.x);
+		startSquare.y = (int)std::min(start.y,end.y);
+		endSquare.x = (int)std::max(start.x,end.x)+1;
+		endSquare.y = (int)std::max(start.y,end.y)+1;
+		sf::Vector2i size = endSquare - startSquare;
+		sf::IntRect destination(startSquare,size);
+		for(auto it = pieces.begin(); it != pieces.end(); ++it)
+			{
+				(*it).destination = destination;
+			}
+	}
+	else
+		for(auto it = pieces.begin(); it != pieces.end(); ++it)
+		{
+			(*it).selected = (!(*it).dead && black == (*it).isBlack);
+		}
 }

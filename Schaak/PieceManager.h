@@ -21,6 +21,7 @@ public:
 	void randomMove(PieceID p, Board* b);
 	void AIMove(PieceID p, Board* b);
 	int valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour* bh, bool capture);
+	void drawBox(sf::Vector2f start, sf::Vector2f end, bool black, bool rightClick);
 private:
 	UniquePieceID nextUniqueID;
 	static const int initialSlots = 4000;

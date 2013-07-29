@@ -6,6 +6,7 @@ const int ENEMY_COVER = 0;
 const int ENEMY_VALUE = 1;
 const int FRIEND_COVER = 2;
 const int OWN_VALUE = 3;
+const int DESTINATION_DISTANCE = 4;
 
 class Behaviour
 {

@@ -66,26 +66,25 @@ void Interface::run()
 					break;
 				}
 			case sf::Event::KeyPressed:
-				LINFO("Presssed key");
+				LINFO("Pressed key");
 				menu->processEvent(e);
 				break;
-			case sf::Event::MouseButtonPressed:
-				LINFO("Clicked window");
-				//menu->processEvent(e);
-				break;
 			case sf::Event::MouseWheelMoved:
-				LINFO("Moved mouse wheel");
 				menu->processEvent(e);
 				break;
 			case sf::Event::MouseMoved:
 				menu->processEvent(e);
 				break;
 			case sf::Event::MouseLeft:
-				LINFO("Mouse left");
 				menu->processEvent(e);
 				break;
 			case sf::Event::MouseEntered:
-				LINFO("Mouse entered");
+				menu->processEvent(e);
+				break;
+			case sf::Event::MouseButtonPressed:
+				menu->processEvent(e);
+				break;
+			case sf::Event::MouseButtonReleased:
 				menu->processEvent(e);
 				break;
 			}

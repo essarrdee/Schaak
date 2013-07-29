@@ -9,6 +9,8 @@ Piece::Piece(void)
 	isBlack = true;
 	position = sf::Vector2i(0,0);
 	dead = true;
+	selected = false;
+	destination = sf::IntRect(0,0,BOARD_SIZE_X,BOARD_SIZE_Y);
 }
 
 
@@ -58,4 +60,21 @@ void Piece::place(Board* b, sf::Vector2i xy)
 	
 	b->occupants[xy.x][xy.y] = id;
 	alterCover(b,1);
+}
+
+
+int Piece::distanceToDestination(sf::Vector2i xy)
+{
+	if(destination.contains(xy))
+		return 0;
+	return std::min( // Hack!
+		std::min(
+		abs(xy.x - destination.left),
+		abs(xy.x - destination.left - destination.width)
+		),
+		std::min(
+		abs(xy.y - destination.top),
+		abs(xy.y - destination.top - destination.height)
+		)
+		);
 }

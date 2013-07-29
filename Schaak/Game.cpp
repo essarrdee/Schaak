@@ -16,6 +16,12 @@ Game::Game(void)
 	pauseStateChanged = true;
 	mouseInWindow = true;
 	lastMousePosition = sf::Vector2i(400,400); // TODO magic number, get it from some sensible variable
+	whiteControlling = false;
+	blackControlling = false;
+	selectingWithLeftButton = false;
+	selectingWithRightButton = false;
+	selectionBoxShape.setFillColor(sf::Color::Transparent);
+	selectionBoxShape.setOutlineThickness(2.0);
 }
 
 
@@ -27,6 +33,8 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(*board);
 	drawPieces(target,states);
+	if(selectingWithLeftButton || selectingWithRightButton)
+		target.draw(selectionBoxShape);
 }
 void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -73,6 +81,14 @@ void Game::processEvent(sf::Event e)
 			paused = !paused;
 			pauseStateChanged = true;
 			break;
+		case sf::Keyboard::F1:
+			whiteControlling = true;
+			blackControlling = false;
+			break;
+		case sf::Keyboard::F2:
+			blackControlling = true;
+			whiteControlling = false;
+			break;
 		}
 		break;
 	case sf::Event::MouseMoved:
@@ -85,6 +101,50 @@ void Game::processEvent(sf::Event e)
 	case sf::Event::MouseEntered:
 		mouseInWindow = true;
 		break;
+	case sf::Event::MouseButtonPressed:
+		if(e.mouseButton.button == sf::Mouse::Left)
+		{
+			selectingWithLeftButton = true;
+			selectingWithRightButton = false;
+		}
+		else if(e.mouseButton.button == sf::Mouse::Right)
+		{
+			selectingWithRightButton = true;
+			selectingWithLeftButton = false;
+		}
+		if(selectingWithLeftButton || selectingWithRightButton)
+		{
+			sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
+			selectionBoxStart = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+		}
+		break;
+	case sf::Event::MouseButtonReleased:
+		if((e.mouseButton.button == sf::Mouse::Left && selectingWithLeftButton) ||
+			(e.mouseButton.button == sf::Mouse::Right && selectingWithRightButton))
+		{
+			sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
+			sf::Vector2f selectionBoxEnd = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+			pieces->drawBox(selectionBoxStart,selectionBoxEnd,blackControlling,e.mouseButton.button == sf::Mouse::Right);
+		}
+		if(e.mouseButton.button == sf::Mouse::Left)
+			selectingWithLeftButton = false;
+		if(e.mouseButton.button == sf::Mouse::Right)
+			selectingWithRightButton = false;
+		break;
+
+	//	{
+	//		selectingWithLeftButton = false;
+	//	}
+	//	else if(e.mouseButton.button == sf::Mouse::Right)
+	//	{
+	//		selectingWithRightButton = false;
+	//	}
+	//	if(selectingWithLeftButton || selectingWithRightButton)
+	//	{
+	//		sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
+	//		selectionBoxStart = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+	//	}
+	//	break;
 	}
 }
 int Game::gameState()
@@ -95,6 +155,14 @@ int Game::gameState()
 
 void Game::simulate()
 {
+	sf::Vector2f SelectionBoxStartScreenCoords = selectionBoxStart*(float)board->magnificationLevel()+board->boardSprite.getPosition();
+	selectionBoxShape.setPosition(SelectionBoxStartScreenCoords);
+	selectionBoxShape.setSize((sf::Vector2f)sf::Mouse::getPosition()-SelectionBoxStartScreenCoords);
+	if(selectingWithLeftButton)
+		selectionBoxShape.setOutlineColor(sf::Color::Cyan);
+	else if(selectingWithRightButton)
+		selectionBoxShape.setOutlineColor(sf::Color::Red);
+
 	// TODO Magic numbers, put them in common.h
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		board->scroll(sf::Vector2f(0.f,1.8f));
