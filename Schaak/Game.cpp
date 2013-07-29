@@ -16,7 +16,6 @@ Game::Game(void)
 	pauseStateChanged = true;
 	mouseInWindow = true;
 	lastMousePosition = sf::Vector2i(400,400); // TODO magic number, get it from some sensible variable
-	whiteControlling = false;
 	blackControlling = false;
 	selectingWithLeftButton = false;
 	selectingWithRightButton = false;
@@ -87,13 +86,9 @@ void Game::processEvent(sf::Event e)
 			paused = !paused;
 			pauseStateChanged = true;
 			break;
-		case sf::Keyboard::F1:
-			whiteControlling = true;
-			blackControlling = false;
-			break;
-		case sf::Keyboard::F2:
-			blackControlling = true;
-			whiteControlling = false;
+		case sf::Keyboard::Tab:
+			blackControlling = !blackControlling;
+			board->blackControlling = blackControlling;
 			break;
 		}
 		break;

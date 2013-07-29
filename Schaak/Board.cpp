@@ -11,8 +11,8 @@ Board::Board(void)
 	{
 		int x = (*it).x;
 		int y = (*it).y;
-		playerCoverCount[x][y] = 0;
-		enemyCoverCount[x][y] = 0;
+		blackCoverCount[x][y] = 0;
+		whiteCoverCount[x][y] = 0;
 		occupants[x][y] = NULL_PIECE;
 		updateCoverDifference(*it);
 
@@ -20,6 +20,7 @@ Board::Board(void)
 	magnificationCode = 0;
 	updateBoardImage();
 	boardSprite.setTexture(boardTexture);
+	blackControlling = false;
 }
 
 
@@ -34,20 +35,20 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(boardSprite);
 }
 
-void Board::alterPlayerCover(sf::Vector2i xy, int difference)
+void Board::alterBlackCover(sf::Vector2i xy, int difference)
 {
-	playerCoverCount[xy.x][xy.y] += difference;
+	blackCoverCount[xy.x][xy.y] += difference;
 	updateCoverDifference(xy);
 }
-void Board::alterEnemyCover(sf::Vector2i xy, int difference)
+void Board::alterWhiteCover(sf::Vector2i xy, int difference)
 {
-	enemyCoverCount[xy.x][xy.y] += difference;
+	whiteCoverCount[xy.x][xy.y] += difference;
 	updateCoverDifference(xy);
 }
 
 void Board::updateCoverDifference(sf::Vector2i xy)
 {
-	coverDifference[xy.x][xy.y] = playerCoverCount[xy.x][xy.y] - enemyCoverCount[xy.x][xy.y];
+	coverDifference[xy.x][xy.y] = blackCoverCount[xy.x][xy.y] - whiteCoverCount[xy.x][xy.y];
 	updateBoardColour(xy);
 }
 
@@ -71,14 +72,25 @@ void Board::updateBoardColour(sf::Vector2i xy)
 		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = BLACK_SQUARE_COLOR.b;
 		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 3] = BLACK_SQUARE_COLOR.a;
 	}
-	if(playerCoverCount[xy.x][xy.y] && !enemyCoverCount[xy.x][xy.y])
+	if(blackCoverCount[xy.x][xy.y] && !whiteCoverCount[xy.x][xy.y])
 	{
-		boardColours[4 *(BOARD_SIZE_X*xy.y + xy.x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
+		if(blackControlling)
+			boardColours[4 *(BOARD_SIZE_X*xy.y + xy.x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
+		else
+		{
+			boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] + 255)/2;
+			boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] + 255)/2;
+		}
 	}
-	else if(!playerCoverCount[xy.x][xy.y] && enemyCoverCount[xy.x][xy.y])
+	else if(!blackCoverCount[xy.x][xy.y] && whiteCoverCount[xy.x][xy.y])
 	{
-		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] + 255)/2;
-		boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] + 255)/2;
+		if(blackControlling)
+		{
+			boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x)] + 255)/2;
+			boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 2] + 255)/2;
+		}
+		else
+			boardColours[4 *(BOARD_SIZE_X*xy.y + xy.x) + 1] = ((int)boardColours[4 * (BOARD_SIZE_X*xy.y + xy.x) + 1] + 255)/2;
 	}
 }
 

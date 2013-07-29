@@ -28,7 +28,6 @@ private:
 	bool pauseStateChanged;
 	sf::Vector2i lastMousePosition;
 	bool mouseInWindow;
-	bool whiteControlling;
 	bool blackControlling;
 	sf::Vector2f selectionBoxStart;
 	sf::RectangleShape selectionBoxShape;

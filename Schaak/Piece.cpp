@@ -30,9 +30,9 @@ void Piece::alterCover(Board* b, int difference)
 		if(onMap(newPosition))
 		{
 			if(isBlack)
-				b->alterPlayerCover(newPosition,difference);
+				b->alterBlackCover(newPosition,difference);
 			else
-				b->alterEnemyCover(newPosition,difference);
+				b->alterWhiteCover(newPosition,difference);
 		}
 	}
 	for(auto it = myType->moveAttackOffsets.begin(); it != myType->moveAttackOffsets.end(); ++it)
@@ -41,9 +41,9 @@ void Piece::alterCover(Board* b, int difference)
 		if(onMap(newPosition))
 		{
 			if(isBlack)
-				b->alterPlayerCover(newPosition,difference);
+				b->alterBlackCover(newPosition,difference);
 			else
-				b->alterEnemyCover(newPosition,difference);
+				b->alterWhiteCover(newPosition,difference);
 		}
 	}
 }

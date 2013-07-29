@@ -89,13 +89,13 @@ int PieceManager::valuePosition(sf::Vector2i xy, PieceID p, Board* b, Behaviour*
 		{
 		case ENEMY_COVER:
 			value += coefficient * (pieces[p].isBlack ? 
-				b->enemyCoverCount[xy.x][xy.y] :
-			    b->playerCoverCount[xy.x][xy.y]);
+				b->whiteCoverCount[xy.x][xy.y] :
+			    b->blackCoverCount[xy.x][xy.y]);
 			break;
 		case FRIEND_COVER:
 			value += coefficient * (pieces[p].isBlack ? 
-				b->playerCoverCount[xy.x][xy.y] :
-			    b->enemyCoverCount[xy.x][xy.y]);
+				b->blackCoverCount[xy.x][xy.y] :
+			    b->whiteCoverCount[xy.x][xy.y]);
 			break;
 		case OWN_VALUE:
 			value += coefficient * pieces[p].myType->value;
