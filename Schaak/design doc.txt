@@ -280,3 +280,34 @@ enemy_cover : number of enemy pieces covering the square.
 friend_cover : number of friendly pieces covering the square. Does not include the piece making the decision.
 enemy_value : material value of enemy piece occupying the square, or 0. (standard chess piece values, 1 3 3 5 9 1000).
 own_value : mterial value of the piece making the decision.
+
+=====================
+
+Priority: add strategic depth and win condition
+
+Win condition: capture king
+Make a king for each player on game init.
+Check king life signs each tick
+If king dead, pause game and declare win/lose/draw (simultaneous deaths)
+
+Economic game:
+Divide production into 64 regions.
+Test regions for dominance.
+Activate pawn production and piece promotion for dominant player.
+Determine pawn production and piece promotion rates by presence of king and queens in area.
+
+upgrades:
+Single special square which consumes pawns that enter it, increasing money counter.
+Upgrades purchasable - using what kind of interface?
+
+piece AI:
+Piece type behaviours settable by player.
+Cycling through behaviour types when pressing a button.
+Mouse click on UI button, or keyboard press?
+"Protect" behaviour
+Requires second-degree tile checking
+
+Control:
+Keys to select all units, all pieces of a given type.
+Selection routine, takes a function and iterates over pieces testing for truth.
+Parameter for set union or intersection from shift/control.
