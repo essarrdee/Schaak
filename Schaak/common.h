@@ -35,6 +35,8 @@ static const std::string CHESS_SET_PATH = RESOURCE_PATH + "Pieces/";
 static const std::string CHESS_SET_PIECES_PATH = CHESS_SET_PATH + "pieces";
 static const std::string AI_PATH = RESOURCE_PATH + "AI/";
 static const std::string AI_BEHAVIOURS_PATH = AI_PATH + "behaviours";
+static const std::string FONT_PATH = RESOURCE_PATH + "Fonts/";
+static const std::string DEFAULT_FONT_PATH = FONT_PATH + "trabajo/Trabajo.otf";
 
 static const int ENERGY_THRESHOLD = 1000;
 

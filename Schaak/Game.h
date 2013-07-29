@@ -34,4 +34,7 @@ private:
 	sf::RectangleShape selectionBoxShape;
 	bool selectingWithLeftButton;
 	bool selectingWithRightButton;
+	sf::Text blackCount;
+	sf::Text whiteCount;
+	sf::Font defaultFont;
 };

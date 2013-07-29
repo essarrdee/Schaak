@@ -2,6 +2,7 @@
 #include "utilities.h"
 #include <random>
 #include "Interface.h"
+#include "Logger.h"
 
 
 
@@ -22,6 +23,19 @@ Game::Game(void)
 	selectingWithRightButton = false;
 	selectionBoxShape.setFillColor(sf::Color::Transparent);
 	selectionBoxShape.setOutlineThickness(2.0);
+	if(!defaultFont.loadFromFile(DEFAULT_FONT_PATH))
+	{
+		LERR("Could not load font ");
+		LAPPEND(DEFAULT_FONT_PATH);
+	}
+	whiteCount.setPosition(0.f,0.f);
+	blackCount.setPosition(0.f,40.f);
+	whiteCount.setColor(sf::Color::White);
+	blackCount.setColor(sf::Color::Black);
+	whiteCount.setFont(defaultFont);
+	blackCount.setFont(defaultFont);
+	whiteCount.setCharacterSize(18);
+	blackCount.setCharacterSize(18);
 }
 
 
@@ -35,6 +49,8 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	drawPieces(target,states);
 	if(selectingWithLeftButton || selectingWithRightButton)
 		target.draw(selectionBoxShape);
+	target.draw(blackCount);
+	target.draw(whiteCount);
 }
 void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -242,11 +258,17 @@ void Game::simulate()
 		}
 	}
 
+	int pieceCountBlack = 0;
+	int pieceCountWhite = 0;
 	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
 	{
 		Piece* p = &*it;
 		if(!p->dead)
 		{
+			if(p->isBlack)
+				pieceCountBlack++;
+			else
+				pieceCountWhite++;
 			p->cooldown();
 			if(p->energy > ENERGY_THRESHOLD)
 			{
@@ -255,6 +277,10 @@ void Game::simulate()
 			}
 		}
 	}
+	whiteCount.setString("White pieces: " + std::to_string((long long)pieceCountWhite));
+	blackCount.setString("Black pieces: " + std::to_string((long long)pieceCountBlack));
+
+
 	if(ticks%5 == 0)
 	{
 		board->updateBoardImage();
