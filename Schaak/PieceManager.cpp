@@ -182,23 +182,25 @@ void PieceManager::AIMove(PieceID p, Board* b)
 
 void PieceManager::drawBox(sf::Vector2f start, sf::Vector2f end, bool black, bool rightClick)
 {
+	sf::Vector2i startSquare, endSquare;
+	startSquare.x = (int)std::min(start.x,end.x);
+	startSquare.y = (int)std::min(start.y,end.y);
+	endSquare.x = (int)std::max(start.x,end.x)+1;
+	endSquare.y = (int)std::max(start.y,end.y)+1;
+	sf::Vector2i size = endSquare - startSquare;
+	sf::IntRect drawnRect(startSquare,size);
 	if(rightClick)
 	{
-		sf::Vector2i startSquare, endSquare;
-		startSquare.x = (int)std::min(start.x,end.x);
-		startSquare.y = (int)std::min(start.y,end.y);
-		endSquare.x = (int)std::max(start.x,end.x)+1;
-		endSquare.y = (int)std::max(start.y,end.y)+1;
-		sf::Vector2i size = endSquare - startSquare;
-		sf::IntRect destination(startSquare,size);
+
 		for(auto it = pieces.begin(); it != pieces.end(); ++it)
 			{
-				(*it).destination = destination;
+				if((*it).selected && !(*it).dead && black == (*it).isBlack)
+					(*it).destination = drawnRect;
 			}
 	}
 	else
 		for(auto it = pieces.begin(); it != pieces.end(); ++it)
 		{
-			(*it).selected = (!(*it).dead && black == (*it).isBlack);
+			(*it).selected = (!(*it).dead && black == (*it).isBlack && drawnRect.contains((*it).position));
 		}
 }

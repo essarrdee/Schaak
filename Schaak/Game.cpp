@@ -53,9 +53,15 @@ void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 				{
 					if(p->myType == pt && p->isBlack == blackPieces)
 					{
+						if(p->selected && p->isBlack == blackControlling)
+						{
+							if(ticks%40 < 15)
+								continue;
+						}
 						sf::FloatRect r((sf::Vector2f)p->position,(sf::Vector2f)sf::Vector2i(board->magnificationLevel(),board->magnificationLevel()));
 						if(r.intersects(viewRect)) // does r intersect the visible rect of the board?
 						{
+
 							pieces->piecesSprite.setPosition((sf::Vector2f)(p->position*sf::Vector2i(board->magnificationLevel(),board->magnificationLevel())) + board->boardSprite.getPosition());
 							target.draw(pieces->piecesSprite);
 						}
@@ -115,7 +121,7 @@ void Game::processEvent(sf::Event e)
 		if(selectingWithLeftButton || selectingWithRightButton)
 		{
 			sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
-			selectionBoxStart = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+			selectionBoxStart = ((sf::Vector2f)screenPosition - board->boardSprite.getPosition())/(float)board->magnificationLevel();
 		}
 		break;
 	case sf::Event::MouseButtonReleased:
@@ -123,7 +129,7 @@ void Game::processEvent(sf::Event e)
 			(e.mouseButton.button == sf::Mouse::Right && selectingWithRightButton))
 		{
 			sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
-			sf::Vector2f selectionBoxEnd = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+			sf::Vector2f selectionBoxEnd = ((sf::Vector2f)screenPosition - board->boardSprite.getPosition())/(float)board->magnificationLevel();
 			pieces->drawBox(selectionBoxStart,selectionBoxEnd,blackControlling,e.mouseButton.button == sf::Mouse::Right);
 		}
 		if(e.mouseButton.button == sf::Mouse::Left)
@@ -155,9 +161,12 @@ int Game::gameState()
 
 void Game::simulate()
 {
-	sf::Vector2f SelectionBoxStartScreenCoords = selectionBoxStart*(float)board->magnificationLevel()+board->boardSprite.getPosition();
-	selectionBoxShape.setPosition(SelectionBoxStartScreenCoords);
-	selectionBoxShape.setSize((sf::Vector2f)sf::Mouse::getPosition()-SelectionBoxStartScreenCoords);
+	if(selectingWithLeftButton || selectingWithRightButton)
+	{
+		sf::Vector2f SelectionBoxStartScreenCoords = selectionBoxStart*(float)board->magnificationLevel()+board->boardSprite.getPosition();
+		selectionBoxShape.setPosition(SelectionBoxStartScreenCoords);
+		selectionBoxShape.setSize((sf::Vector2f)lastMousePosition - SelectionBoxStartScreenCoords);
+	}
 	if(selectingWithLeftButton)
 		selectionBoxShape.setOutlineColor(sf::Color::Cyan);
 	else if(selectingWithRightButton)

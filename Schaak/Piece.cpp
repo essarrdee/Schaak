@@ -65,16 +65,11 @@ void Piece::place(Board* b, sf::Vector2i xy)
 
 int Piece::distanceToDestination(sf::Vector2i xy)
 {
-	if(destination.contains(xy))
-		return 0;
-	return std::min( // Hack!
-		std::min(
-		abs(xy.x - destination.left),
-		abs(xy.x - destination.left - destination.width)
-		),
-		std::min(
-		abs(xy.y - destination.top),
-		abs(xy.y - destination.top - destination.height)
-		)
-		);
+	int xdist = std::max(0, std::max(
+		destination.left - xy.x,
+		xy.x -destination.left - destination.width));
+	int ydist = std::max(0, std::max(
+		destination.top - xy.y,
+		xy.y -destination.top - destination.height));
+	return std::max(xdist,ydist);
 }
