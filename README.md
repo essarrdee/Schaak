@@ -2,6 +2,9 @@ Schaak
 ======
 
 Chess-based 7 Day RTS game.
+Written in 168 hours.
+Start time: 21:00, Monday 22/07/2013
+End time: 21:00, Monday 29/07/2013
 
 Controls:
 Space to pause.
