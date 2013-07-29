@@ -17,3 +17,4 @@ schaakgame
 *.suo
 *.idb
 *.unsuccessfulbuild
+Distribute/

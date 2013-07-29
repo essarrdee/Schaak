@@ -9,6 +9,9 @@ Start time: 21:00, Monday 22/07/2013
 End time: 21:00, Monday 29/07/2013
 
 Controls:
+Arrow keys to scroll.
+Mouse to window edge to scroll.
+Scroll to zoom.
 Space to pause.
 Tab to switch control between black and white.
 Current control has green cover squares, enemy has magenta.
