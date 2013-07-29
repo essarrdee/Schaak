@@ -8,6 +8,12 @@ Written in 168 hours.
 Start time: 21:00, Monday 22/07/2013
 End time: 21:00, Monday 29/07/2013
 
+Design: SRD. Contributions from Chris Heyes, Derrick Creamer, Michal Walczak.
+Code: SRD. Contribution from Michal Walczak.
+Art: SRD.
+Makefile: Michal Walczak.
+SFML: Laurent Gomila.
+
 Controls:
 ** Arrow keys ** to scroll.
 ** Mouse to window edge ** to scroll.
@@ -52,6 +58,6 @@ https://dl.dropboxusercontent.com/u/6433222/Schaak.zip (potential updates)
 
 Linux/OSX users:
 Clone github repository https://github.com/essarrdee/Schaak
-make | make info | make clean | make run
+make && make info && make clean && make run
 requires SFML 2.0 and c++11-compatible compiler (preferably g++)
 http://sfml-dev.org/download/sfml/2.0/
