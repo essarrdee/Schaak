@@ -1,0 +1,36 @@
+800 0 224 70 select_all
+
+801 71 59 79 select_king
+801 151 59 79 select_queen
+801 231 59 79 select_rook
+801 311 59 79 select_knight
+801 391 59 79 select_bishop
+801 471 59 79 select_pawn
+
+861 71 162 25 ai_king
+861 97 162 25 speed_king
+861 123 162 27 block_king
+
+861 151 162 25 ai_queen
+861 177 162 25 speed_queen
+861 203 162 27 block_queen
+
+861 231 162 25 ai_rook
+861 257 162 25 speed_rook
+861 283 162 27 block_rook
+
+861 311 162 25 ai_knight
+861 337 162 25 speed_knight
+861 363 162 27 block_knight
+
+861 391 162 25 ai_bishop
+861 417 162 25 speed_bishop
+861 443 162 27 block_bishop
+
+861 471 162 25 ai_pawn
+861 497 162 25 speed_pawn
+861 523 162 27 block_pawn
+
+400 560 400 208 switch_control
+
+812 564 200 200 mini_board

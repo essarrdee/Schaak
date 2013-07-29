@@ -311,3 +311,16 @@ Control:
 Keys to select all units, all pieces of a given type.
 Selection routine, takes a function and iterates over pieces testing for truth.
 Parameter for set union or intersection from shift/control.
+
+============
+
+interface:
+upgrade buttons - cooldown, block
+behaviour buttons
+
+region commands - corner
+selection buttons
+
+piece counts
+money counts
+controller

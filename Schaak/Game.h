@@ -34,7 +34,16 @@ private:
 	sf::RectangleShape selectionBoxShape;
 	bool selectingWithLeftButton;
 	bool selectingWithRightButton;
+	void Game::switchControl();
 	sf::Text blackCount;
 	sf::Text whiteCount;
+	sf::Text moneyText;
 	sf::Font defaultFont;
+	sf::Texture interfaceTexture;
+	sf::Sprite interfaceSprite;
+	int whiteMoney;
+	int blackMoney;
+	std::vector<sf::IntRect> buttonLocations;
+	std::vector<sf::RectangleShape> buttons;
+	std::vector<std::string> buttonNames;
 };

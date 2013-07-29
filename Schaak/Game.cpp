@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "utilities.h"
 #include <random>
+#include <iostream>
+#include <fstream>
 #include "Interface.h"
 #include "Logger.h"
 
@@ -28,14 +30,41 @@ Game::Game(void)
 		LERR("Could not load font ");
 		LAPPEND(DEFAULT_FONT_PATH);
 	}
-	whiteCount.setPosition(0.f,0.f);
-	blackCount.setPosition(0.f,40.f);
-	whiteCount.setColor(sf::Color::White);
+	whiteCount.setPosition(0.f,560.f);
+	blackCount.setPosition(0.f,600.f);
+	moneyText.setPosition(0.f,640.f);
+	whiteCount.setColor(sf::Color::Black);
 	blackCount.setColor(sf::Color::Black);
+	moneyText.setColor(sf::Color::Black);
 	whiteCount.setFont(defaultFont);
 	blackCount.setFont(defaultFont);
+	moneyText.setFont(defaultFont);
 	whiteCount.setCharacterSize(18);
 	blackCount.setCharacterSize(18);
+	moneyText.setCharacterSize(18);
+	
+	interfaceTexture.loadFromFile(IMAGE_PATH+"Interface.png");
+	interfaceSprite.setTexture(interfaceTexture);
+	interfaceSprite.setPosition(0.f,0.f);
+
+	blackMoney = 0;
+	whiteMoney = 0;
+
+	std::ifstream f(RESOURCE_PATH+"buttons");
+	while(f.good())
+	{
+		sf::IntRect r;
+		f >> r.left >> r.top >> r.width >> r.height;
+		buttonLocations.push_back(r);
+		sf::RectangleShape rs;
+		rs.setPosition((sf::Vector2f)sf::Vector2i(r.left,r.top));
+		rs.setSize((sf::Vector2f)sf::Vector2i(r.width,r.height));
+		rs.setFillColor(sf::Color::Transparent);
+		buttons.push_back(rs);
+		std::string name;
+		f >> name;
+		buttonNames.push_back(name);
+	}
 }
 
 
@@ -49,8 +78,14 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	drawPieces(target,states);
 	if(selectingWithLeftButton || selectingWithRightButton)
 		target.draw(selectionBoxShape);
+	target.draw(interfaceSprite);
 	target.draw(blackCount);
 	target.draw(whiteCount);
+	target.draw(moneyText);
+	for(auto it = buttons.begin(); it != buttons.end(); ++it)
+	{
+		target.draw(*it);
+	}
 }
 void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -87,7 +122,30 @@ void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 			}
 		}
 	}
+
 }
+
+void Game::switchControl()
+{
+	blackControlling = !blackControlling;
+	blackCount.setColor(blackCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+	whiteCount.setColor(whiteCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+	moneyText.setColor(moneyText.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+			
+	interfaceSprite.setTextureRect(sf::IntRect(sf::Vector2i(blackControlling?WINDOW_MIN_WIDTH : 0,0),sf::Vector2i(WINDOW_MIN_WIDTH,WINDOW_MIN_WIDTH)));
+	board->blackControlling = blackControlling;
+	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+	{
+		if(!(*it).dead)
+		{
+			(*it).alterCover(board,-1);
+			(*it).alterCover(board,1);
+		}
+	}
+	board->updateBoardImage();
+}
+
+
 
 void Game::processEvent(sf::Event e)
 {
@@ -104,23 +162,34 @@ void Game::processEvent(sf::Event e)
 			pauseStateChanged = true;
 			break;
 		case sf::Keyboard::Tab:
-			blackControlling = !blackControlling;
-			board->blackControlling = blackControlling;
-			for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+			switchControl();
+			break;
+		case sf::Keyboard::Delete:
 			{
-				if(!(*it).dead)
+				for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
 				{
-					(*it).alterCover(board,-1);
-					(*it).alterCover(board,1);
+					if((*it).selected && !(*it).dead && (*it).isBlack == blackControlling)
+					{
+						if((*it).myType->name == "Pawn")
+						{
+							blackControlling ? blackMoney++ : whiteMoney++;
+							pieces->killPiece((*it).id,board);
+						}
+					}
 				}
 			}
-			board->updateBoardImage();
-			break;
 		}
 		break;
 	case sf::Event::MouseMoved:
 		lastMousePosition.x = e.mouseMove.x;
 		lastMousePosition.y = e.mouseMove.y;
+		for(unsigned int i=0; i < buttonLocations.size(); i++)
+		{
+			if(buttonLocations[i].contains(lastMousePosition))
+				buttons[i].setFillColor(sf::Color(0,128,128,128));
+			else
+				buttons[i].setFillColor(sf::Color::Transparent);
+		}
 		break;
 	case sf::Event::MouseLeft:
 		mouseInWindow = false;
@@ -131,8 +200,32 @@ void Game::processEvent(sf::Event e)
 	case sf::Event::MouseButtonPressed:
 		if(e.mouseButton.button == sf::Mouse::Left)
 		{
-			selectingWithLeftButton = true;
-			selectingWithRightButton = false;
+			bool clickedButton = false;
+			for(unsigned int i=0; i<buttons.size(); i++)
+			{
+				if(buttons[i].getFillColor() != sf::Color::Transparent)
+				{
+					clickedButton = true;
+					std::string bName = buttonNames[i];
+					if(bName == "select_all")
+					{
+						pieces->drawBox(sf::Vector2f(0.f,0.f),sf::Vector2f(BOARD_SIZE),blackControlling,false);
+					}
+					else if(bName == "switch_control")
+					{
+						switchControl();
+					}
+					else if(bName == "select_king")
+					{
+
+					}
+				}
+			}
+			if(!clickedButton)
+			{
+				selectingWithLeftButton = true;
+				selectingWithRightButton = false;
+			}
 		}
 		else if(e.mouseButton.button == sf::Mouse::Right)
 		{
@@ -183,6 +276,8 @@ int Game::gameState()
 void Game::simulate()
 {
 	realTicks++;
+	moneyText.setString(std::string(blackControlling ? "Black " : "White ") +"money: " + std::to_string((long long)(blackControlling ? blackMoney : whiteMoney)));
+
 	if(selectingWithLeftButton || selectingWithRightButton)
 	{
 		sf::Vector2f SelectionBoxStartScreenCoords = selectionBoxStart*(float)board->magnificationLevel()+board->boardSprite.getPosition();
@@ -279,7 +374,6 @@ void Game::simulate()
 	}
 	whiteCount.setString("White pieces: " + std::to_string((long long)pieceCountWhite));
 	blackCount.setString("Black pieces: " + std::to_string((long long)pieceCountBlack));
-
 
 	if(ticks%5 == 0)
 	{
