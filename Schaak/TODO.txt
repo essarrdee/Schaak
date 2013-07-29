@@ -13,18 +13,20 @@
   * Display region's piece promotion type when zoomed out far enough?
   # Scroll on arrow keys and presence of mouse in window edge
   * Do something to make scrolling less painful to the eye
-* Commands
-  * Select/deselect pieces
+# Commands
+  # Select/deselect pieces
     * Group pieces
-  * Issue commands
+  # Issue commands
 * Piece behaviour
   # Cooldowns to move
   # Track unit positions in Board::occupants[][] array
   #  Capturing
   # Track cover counts on the board
-  * Make decisions based on cover counts
+  # Make decisions based on cover counts
   * Options to select between 5 behaviours
-  * Steering according to orders
+  * 5 behaviours implemented
+  * Second-degree cover checking for protector pieces
+  # Steering according to orders
   * Checkmate
 * Economy
   * Regular pawn production
