@@ -20,7 +20,8 @@ Piece::~Piece(void)
 
 void Piece::cooldown()
 {
-	energy += myType->energyPerTurn;
+	
+	energy += isBlack ? myType->energyPerTurnBlack : myType->energyPerTurnWhite;
 }
 void Piece::alterCover(Board* b, int difference)
 {

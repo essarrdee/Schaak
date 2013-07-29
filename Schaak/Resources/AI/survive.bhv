@@ -1,5 +1,5 @@
 Survive
 enemy_cover -500
 enemy_value 1
-friend_cover 5
+friend_cover 1
 destination_distance -5

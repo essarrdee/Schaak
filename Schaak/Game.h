@@ -34,7 +34,8 @@ private:
 	sf::RectangleShape selectionBoxShape;
 	bool selectingWithLeftButton;
 	bool selectingWithRightButton;
-	void Game::switchControl();
+	void switchControl();
+	int upgradeCost(int level);
 	sf::Text blackCount;
 	sf::Text whiteCount;
 	sf::Text moneyText;
@@ -46,4 +47,8 @@ private:
 	std::vector<sf::IntRect> buttonLocations;
 	std::vector<sf::RectangleShape> buttons;
 	std::vector<std::string> buttonNames;
+	sf::Text victoryText;
+	PieceID whiteKing;
+	PieceID blackKing;
+	bool gameOver;
 };

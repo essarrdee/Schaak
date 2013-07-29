@@ -46,15 +46,18 @@ void PieceManager::freeSlot(PieceID slot)
 	freeSlots.push_back(slot);
 }
 
-void PieceManager::killPiece(PieceID p,Board* b)
+bool PieceManager::killPiece(PieceID p,Board* b)
 {
 	if(nullPiece(p))
-		return;
+		return true;
 	Piece* pp = &pieces[p];
+	if(rand()%100 < (pp->isBlack ? pp->myType->blockBlack : pp->myType->blockWhite))
+		return false;
 	pp->dead = true;
 	pp->alterCover(b,-1);
 	b->occupants[pp->position.x][pp->position.y] = NULL_PIECE;
 	freeSlots.push_back(p);
+	return true;
 }
 
 void PieceManager::randomMove(PieceID p, Board* b)
@@ -171,12 +174,16 @@ void PieceManager::AIMove(PieceID p, Board* b)
 	}
 		);
 	sf::Vector2i chosenPosition = pieces[p].position;
+	bool successfulKill;
 	if(movePossibilities.size() > 0)
 	{
 		chosenPosition = std::get<2>(movePossibilities.back());
-		killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
+		successfulKill = killPiece(b->occupants[chosenPosition.x][chosenPosition.y],b);
 	}
-	pieces[p].place(b,chosenPosition);
+	if(successfulKill)
+		pieces[p].place(b,chosenPosition);
+	else
+		pieces[p].place(b,pieces[p].position);
 }
 
 

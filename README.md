@@ -17,11 +17,17 @@ Tab to switch control between black and white.
 Current control has green cover squares, enemy has magenta.
 Left-click drag to select pieces.
 Right-click drag to set destination area.
-
 Click piece symbols to select all pieces of that type.
 Control-click piece symbols to restrict the current selection to pieces of that type.
+Money:
+Select pawns and sacrifice them (with the delete key) to get money.
+Upgrades:
+Spend money on upgrades by clicking the "Speed" and "Block" buttons.
+Each upgrade costs 10*level*level money, and increase that stat's level by 1. That means the cumulative cost of upgrading a stat is cubic.
+AI:
+Click the AI buttons to switch between different AI modes for yuor units.
 
-Do whatever you want.
+========== Capture the enemy King! ==========
 
 Windows users:
 Download from

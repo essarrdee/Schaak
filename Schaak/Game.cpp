@@ -25,6 +25,7 @@ Game::Game(void)
 	selectingWithRightButton = false;
 	selectionBoxShape.setFillColor(sf::Color::Transparent);
 	selectionBoxShape.setOutlineThickness(2.0);
+	gameOver = false;
 	if(!defaultFont.loadFromFile(DEFAULT_FONT_PATH))
 	{
 		LERR("Could not load font ");
@@ -42,7 +43,7 @@ Game::Game(void)
 	whiteCount.setCharacterSize(18);
 	blackCount.setCharacterSize(18);
 	moneyText.setCharacterSize(18);
-	
+
 	interfaceTexture.loadFromFile(IMAGE_PATH+"Interface.png");
 	interfaceSprite.setTexture(interfaceTexture);
 	interfaceSprite.setPosition(0.f,0.f);
@@ -65,6 +66,23 @@ Game::Game(void)
 		f >> name;
 		buttonNames.push_back(name);
 	}
+	Piece p;
+	p.myType = chessSet->pieceTypes[5];
+	p.position = sf::Vector2i(0,0);
+	p.isBlack = true;
+	p.alterCover(board,1);
+	p.dead = false;
+	blackKing = pieces->addPiece(&p);
+	blackKing;
+
+	Piece q;
+	q.myType = chessSet->pieceTypes[5];
+	q.position = sf::Vector2i(BOARD_SIZE_X-1 ,BOARD_SIZE_Y-1);
+	q.isBlack = false;
+	q.alterCover(board,1);
+	q.dead = false;
+	whiteKing = pieces->addPiece(&q);
+
 }
 
 
@@ -86,6 +104,8 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(*it);
 	}
+	if(gameOver)
+		target.draw(victoryText);
 }
 void Game::drawPieces(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -131,7 +151,7 @@ void Game::switchControl()
 	blackCount.setColor(blackCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
 	whiteCount.setColor(whiteCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
 	moneyText.setColor(moneyText.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
-			
+
 	interfaceSprite.setTextureRect(sf::IntRect(sf::Vector2i(blackControlling?WINDOW_MIN_WIDTH : 0,0),sf::Vector2i(WINDOW_MIN_WIDTH,WINDOW_MIN_WIDTH)));
 	board->blackControlling = blackControlling;
 	for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
@@ -145,6 +165,10 @@ void Game::switchControl()
 	board->updateBoardImage();
 }
 
+int Game::upgradeCost(int level)
+{
+	return 10*level*level;
+}
 
 
 void Game::processEvent(sf::Event e)
@@ -207,6 +231,7 @@ void Game::processEvent(sf::Event e)
 				{
 					clickedButton = true;
 					std::string bName = buttonNames[i];
+#pragma region selections
 					if(bName == "select_all")
 					{
 						pieces->drawBox(sf::Vector2f(0.f,0.f),sf::Vector2f(BOARD_SIZE),blackControlling,false);
@@ -305,6 +330,435 @@ void Game::processEvent(sf::Event e)
 									(*it).selected = false;
 							}
 					}
+#pragma endregion
+#pragma region behaviours
+					else if(bName == "ai_king")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "King")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+					}
+					else if(bName == "ai_queen")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Queen")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+					}
+					else if(bName == "ai_rook")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Rook")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+					}
+					else if(bName == "ai_knight")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Knight")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+
+					}
+					else if(bName == "ai_bishop")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Bishop")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+
+					}
+					else if(bName == "ai_pawn")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Pawn")
+							{
+								bool foundBehaviour = false;
+								for(unsigned int j = 0; j < behaviours->behaviours.size() && !foundBehaviour; j++)
+								{
+									if(behaviours->behaviours[j] == (blackControlling ? (*it)->behaviourBlack : (*it)->behaviourWhite ))
+									{
+										foundBehaviour = true;
+										if(blackControlling)
+										{
+											(*it)->behaviourBlack = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+										}
+										else
+											(*it)->behaviourWhite = behaviours->behaviours[(j + 1) % behaviours->behaviours.size()];
+									}
+								}
+								if(!foundBehaviour)
+								{
+									if(blackControlling)
+									{
+										(*it)->behaviourBlack = behaviours->behaviours[0];
+									}
+									else
+									{
+										(*it)->behaviourWhite = behaviours->behaviours[0];
+									}
+								}
+							}
+						}
+					}
+#pragma endregion
+#pragma region speed
+					else if(bName == "speed_king")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "King")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "speed_queen")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Queen")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "speed_rook")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Rook")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "speed_knight")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Knight")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "speed_bishop")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Bishop")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "speed_pawn")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Pawn")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+#pragma endregion
+#pragma region block
+					else if(bName == "block_king")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "King")
+							{
+								int cost = 10 + upgradeCost((blackControlling ? (*it)->energyPerTurnBlack : (*it)->energyPerTurnWhite) - (*it)->energyPerTurnBase);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->energyPerTurnBlack++ : (*it)->energyPerTurnWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "block_queen")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Queen")
+							{
+								int cost = 10 + upgradeCost(blackControlling ? (*it)->blockBlack : (*it)->blockWhite);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->blockBlack++ : (*it)->blockWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "block_rook")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Rook")
+							{
+								int cost = 10 + upgradeCost(blackControlling ? (*it)->blockBlack : (*it)->blockWhite);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->blockBlack++ : (*it)->blockWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "block_knight")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Knight")
+							{
+								int cost = 10 + upgradeCost(blackControlling ? (*it)->blockBlack : (*it)->blockWhite);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->blockBlack++ : (*it)->blockWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "block_bishop")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Bishop")
+							{
+								int cost = 10 + upgradeCost(blackControlling ? (*it)->blockBlack : (*it)->blockWhite);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->blockBlack++ : (*it)->blockWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+					else if(bName == "block_pawn")
+					{
+						for(auto it = chessSet->pieceTypes.begin(); it != chessSet->pieceTypes.end(); ++it)
+						{
+							if((*it)->name == "Pawn")
+							{
+								int cost = 10 + upgradeCost(blackControlling ? (*it)->blockBlack : (*it)->blockWhite);
+								if(cost < (blackControlling ? blackMoney : whiteMoney))
+								{
+									blackControlling ? (*it)->blockBlack++ : (*it)->blockWhite++;
+									if(blackControlling)
+										blackMoney -= cost;
+									else
+										whiteMoney -= cost;
+								}
+							}
+						}
+					}
+#pragma endregion
 				}
 			}
 			if(!clickedButton)
@@ -338,25 +792,25 @@ void Game::processEvent(sf::Event e)
 			selectingWithRightButton = false;
 		break;
 
-	//	{
-	//		selectingWithLeftButton = false;
-	//	}
-	//	else if(e.mouseButton.button == sf::Mouse::Right)
-	//	{
-	//		selectingWithRightButton = false;
-	//	}
-	//	if(selectingWithLeftButton || selectingWithRightButton)
-	//	{
-	//		sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
-	//		selectionBoxStart = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
-	//	}
-	//	break;
+		//	{
+		//		selectingWithLeftButton = false;
+		//	}
+		//	else if(e.mouseButton.button == sf::Mouse::Right)
+		//	{
+		//		selectingWithRightButton = false;
+		//	}
+		//	if(selectingWithLeftButton || selectingWithRightButton)
+		//	{
+		//		sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
+		//		selectionBoxStart = ((sf::Vector2f)screenPosition-board->boardSprite.getPosition())/(float)board->magnificationLevel();
+		//	}
+		//	break;
 	}
 }
 int Game::gameState()
 
 {
-    return 0;
+	return 0;
 }
 
 void Game::simulate()
@@ -403,7 +857,7 @@ void Game::simulate()
 			board->scroll(sf::Vector2f(0.f,-1.8f));
 		}
 	}
-	if(paused)
+	if(paused || gameOver)
 	{
 		if(pauseStateChanged)
 		{
@@ -431,7 +885,7 @@ void Game::simulate()
 		}
 		if(c < 10)
 		{
-			p.myType = chessSet->pieceTypes[rand()%6];
+			p.myType = chessSet->pieceTypes[(rand()%5)];
 			p.isBlack = (rand()%2)==0;
 			p.alterCover(board,1);
 			p.dead = false;
@@ -461,8 +915,32 @@ void Game::simulate()
 	whiteCount.setString("White pieces: " + std::to_string((long long)pieceCountWhite));
 	blackCount.setString("Black pieces: " + std::to_string((long long)pieceCountBlack));
 
+	bool whiteKingDead = pieces->pieces[whiteKing].dead;
+	bool blackKingDead = pieces->pieces[blackKing].dead;
+	if(whiteKingDead || blackKingDead)
+	{
+		gameOver = true;
+		if(whiteKingDead && blackKingDead)
+		{
+			victoryText.setString("DRAW!");
+		}
+		else if(whiteKingDead)
+		{
+			victoryText.setString("BLACK WINS!");
+		}
+		else if(blackKingDead)
+		{
+			victoryText.setString("WHITE WINS!");
+		}
+		victoryText.setPosition((float)BOARD_SIZE_X,(float)BOARD_SIZE_Y);
+		victoryText.setCharacterSize(80);
+		victoryText.setFont(defaultFont);
+		victoryText.setColor(sf::Color::Red);
+		victoryText.setOrigin(victoryText.getGlobalBounds().width/2,victoryText.getGlobalBounds().height/2);
+	}
+
 	if(ticks%5 == 0)
 	{
-		board->updateBoardImage();
+		board->updateBoardImage(); 
 	}
 }

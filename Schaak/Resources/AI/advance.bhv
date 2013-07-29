@@ -1,3 +1,5 @@
 Advance
-enemy_cover -999
-enemy_value 1
+enemy_cover -500
+friend_cover -250
+enemy_value 3
+destination_distance -1

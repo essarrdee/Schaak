@@ -15,7 +15,7 @@ public:
 	std::vector<Piece> pieces;
 	std::deque<unsigned int> freeSlots;
 	PieceID addPiece(Piece* p);
-	void killPiece(PieceID p,Board* b);
+	bool killPiece(PieceID p,Board* b);
 	void freeSlot(PieceID slot);
 	sf::Sprite piecesSprite;
 	void randomMove(PieceID p, Board* b);

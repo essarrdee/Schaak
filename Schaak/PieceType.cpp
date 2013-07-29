@@ -9,8 +9,10 @@ PieceType::PieceType(std::string filename)
 	std::ifstream f(CHESS_SET_PATH + filename);
 	f >> name;
 	LINFO("Piece name: "); LAPPEND(name);
-	f >> energyPerTurn;
-	LINFO("Energy per turn: "); LAPPEND(energyPerTurn);
+	f >> energyPerTurnBase;
+	energyPerTurnWhite = energyPerTurnBase;
+	energyPerTurnBlack = energyPerTurnBase;
+	LINFO("Energy per turn: "); LAPPEND(energyPerTurnBase);
 	f >> value;
 	LINFO("Material value: "); LAPPEND(value);
 	f >> spritePosition;
@@ -30,6 +32,8 @@ PieceType::PieceType(std::string filename)
 			attackOffsets.push_back(offset);
 	}
 	LINFO("Offset count: "); LAPPEND(offsetCount);
+	blockBlack = 0;
+	blockWhite = 0;
 }
 
 
