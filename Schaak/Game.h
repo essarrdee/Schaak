@@ -51,4 +51,24 @@ private:
 	PieceID whiteKing;
 	PieceID blackKing;
 	bool gameOver;
+	sf::Text KingAI;
+	sf::Text QueenAI;
+	sf::Text RookAI;
+	sf::Text KnightAI;
+	sf::Text BishopAI;
+	sf::Text PawnAI;
+
+	sf::Text KingSpeed;
+	sf::Text QueenSpeed;
+	sf::Text RookSpeed;
+	sf::Text KnightSpeed;
+	sf::Text BishopSpeed;
+	sf::Text PawnSpeed;
+
+	sf::Text KingBlock;
+	sf::Text QueenBlock;
+	sf::Text RookBlock;
+	sf::Text KnightBlock;
+	sf::Text BishopBlock;
+	sf::Text PawnBlock;
 };

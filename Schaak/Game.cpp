@@ -83,6 +83,27 @@ Game::Game(void)
 	q.dead = false;
 	whiteKing = pieces->addPiece(&q);
 
+
+	//KingAI;
+	//QueenAI;
+	//RookAI;
+	//KnightAI;
+	//BishopAI;
+	//PawnAI;
+
+	//KingSpeed;
+	//QueenSpeed;
+	//RookSpeed;
+	//KnightSpeed;
+	//BishopSpeed;
+	//PawnSpeed;
+
+	//KingBlock;
+	//QueenBlock;
+	//RookBlock;
+	//KnightBlock;
+	//BishopBlock;
+	//PawnBlock;
 }
 
 
