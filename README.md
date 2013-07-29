@@ -25,7 +25,7 @@ Upgrades:
 Spend money on upgrades by clicking the "Speed" and "Block" buttons.
 Each upgrade costs 10*level*level money, and increase that stat's level by 1. That means the cumulative cost of upgrading a stat is cubic.
 AI:
-Click the AI buttons to switch between different AI modes for yuor units.
+Click the AI buttons to switch between different AI modes for your units.
 
 ========== Capture the enemy King! ==========
 
