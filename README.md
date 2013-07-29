@@ -18,6 +18,9 @@ Current control has green cover squares, enemy has magenta.
 Left-click drag to select pieces.
 Right-click drag to set destination area.
 
+Click piece symbols to select all pieces of that type.
+Control-click piece symbols to restrict the current selection to pieces of that type.
+
 Do whatever you want.
 
 Windows users:

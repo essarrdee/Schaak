@@ -217,7 +217,93 @@ void Game::processEvent(sf::Event e)
 					}
 					else if(bName == "select_king")
 					{
-
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "King")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
+					}
+					else if(bName == "select_queen")
+					{
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "Queen")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
+					}
+					else if(bName == "select_rook")
+					{
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "Rook")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
+					}
+					else if(bName == "select_knight")
+					{
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "Knight")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
+					}
+					else if(bName == "select_bishop")
+					{
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "Bishop")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
+					}
+					else if(bName == "select_pawn")
+					{
+						for(auto it = pieces->pieces.begin(); it != pieces->pieces.end(); ++it)
+							if(!(*it).dead && (*it).isBlack == blackControlling)
+							{
+								if((*it).myType->name == "Pawn")
+								{
+									if((sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) && !(*it).selected)
+										continue;
+									(*it).selected = true;
+								}
+								else
+									(*it).selected = false;
+							}
 					}
 				}
 			}
