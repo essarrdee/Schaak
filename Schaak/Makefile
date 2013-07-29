@@ -35,7 +35,7 @@ SRC_FOLDERS     :=
  
 # - ------------------------------------------------------------------------ - #
 # Base directories to search for include files ### e.g. zlib squirrel/include
-INCLUDE_DIRS    :=  ./
+INCLUDE_DIRS    :=  .
 # - ------------------------------------------------------------------------ - #
 # Base directories to search for library files ### e.g. /usr/local/lib mylibs
 LIBRARY_DIRS    :=  
@@ -46,7 +46,7 @@ LIBRARY_FILES   :=  -lsfml-graphics -lsfml-system -lsfml-window
  
 # - ------------------------------------------------------------------------ - #
 # Compiler Flags ### e.g. --std=gnu++0x -fno-rtti -fno-strict-aliasing
-FLAGS           :=	-std=c++11 -I. -Wall
+FLAGS           :=	-std=c++11 -Wall
 C_FLAGS         :=  $(FLAGS)
 CPP_FLAGS       :=  $(FLAGS)
 # - ------------------------------------------------------------------------ - #
