@@ -1,6 +1,8 @@
 Schaak
 ======
 
+Public repository: http://github.com/essarrdee/Schaak
+
 Chess-based 7 Day RTS game.
 Written in 168 hours.
 Start time: 21:00, Monday 22/07/2013
