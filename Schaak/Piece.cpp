@@ -71,5 +71,5 @@ int Piece::distanceToDestination(sf::Vector2i xy)
 	int ydist = std::max(0, std::max(
 		destination.top - xy.y,
 		xy.y -destination.top - destination.height));
-	return std::max(xdist,ydist);
+	return xdist+ydist;
 }
