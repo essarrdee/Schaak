@@ -87,28 +87,161 @@ Game::Game(void)
 	q.dead = false;
 	whiteKing = pieces->addPiece(&q);
 
+	KingAI.setFont(defaultFont);
+	QueenAI.setFont(defaultFont);
+	RookAI.setFont(defaultFont);
+	KnightAI.setFont(defaultFont);
+	BishopAI.setFont(defaultFont);
+	PawnAI.setFont(defaultFont);
 
-	//KingAI;
-	//QueenAI;
-	//RookAI;
-	//KnightAI;
-	//BishopAI;
-	//PawnAI;
+	KingSpeed.setFont(defaultFont);
+	QueenSpeed.setFont(defaultFont);
+	RookSpeed.setFont(defaultFont);
+	KnightSpeed.setFont(defaultFont);
+	BishopSpeed.setFont(defaultFont);
+	PawnSpeed.setFont(defaultFont);
 
-	//KingSpeed;
-	//QueenSpeed;
-	//RookSpeed;
-	//KnightSpeed;
-	//BishopSpeed;
-	//PawnSpeed;
+	KingBlock.setFont(defaultFont);
+	QueenBlock.setFont(defaultFont);
+	RookBlock.setFont(defaultFont);
+	KnightBlock.setFont(defaultFont);
+	BishopBlock.setFont(defaultFont);
+	PawnBlock.setFont(defaultFont);
 
-	//KingBlock;
-	//QueenBlock;
-	//RookBlock;
-	//KnightBlock;
-	//BishopBlock;
-	//PawnBlock;
+	KingAI.setCharacterSize(18);
+	QueenAI.setCharacterSize(18);
+	RookAI.setCharacterSize(18);
+	KnightAI.setCharacterSize(18);
+	BishopAI.setCharacterSize(18);
+	PawnAI.setCharacterSize(18);
+
+	KingSpeed.setCharacterSize(18);
+	QueenSpeed.setCharacterSize(18);
+	RookSpeed.setCharacterSize(18);
+	KnightSpeed.setCharacterSize(18);
+	BishopSpeed.setCharacterSize(18);
+	PawnSpeed.setCharacterSize(18);
+
+	KingBlock.setCharacterSize(18);
+	QueenBlock.setCharacterSize(18);
+	RookBlock.setCharacterSize(18);
+	KnightBlock.setCharacterSize(18);
+	BishopBlock.setCharacterSize(18);
+	PawnBlock.setCharacterSize(18);
+
+	KingAI.setPosition(940.f,72.f);
+	QueenAI.setPosition(940.f,152.f);
+	RookAI.setPosition(940.f,232.f);
+	KnightAI.setPosition(940.f,312.f);
+	BishopAI.setPosition(940.f,392.f);
+	PawnAI.setPosition(940.f,472.f);
+
+	KingSpeed.setPosition(940.f,98.f);
+	QueenSpeed.setPosition(940.f,178.f);
+	RookSpeed.setPosition(940.f,258.f);
+	KnightSpeed.setPosition(940.f,338.f);
+	BishopSpeed.setPosition(940.f,418.f);
+	PawnSpeed.setPosition(940.f,498.f);
+
+	KingBlock.setPosition(940.f,124.f);
+	QueenBlock.setPosition(940.f,204.f);
+	RookBlock.setPosition(940.f,284.f);
+	KnightBlock.setPosition(940.f,364.f);
+	BishopBlock.setPosition(940.f,444.f);
+	PawnBlock.setPosition(940.f,524.f);
+
+	KingAI.setColor(textColour());
+	QueenAI.setColor(textColour());
+	RookAI.setColor(textColour());
+	KnightAI.setColor(textColour());
+	BishopAI.setColor(textColour());
+	PawnAI.setColor(textColour());
+
+	KingSpeed.setColor(textColour());
+	QueenSpeed.setColor(textColour());
+	RookSpeed.setColor(textColour());
+	KnightSpeed.setColor(textColour());
+	BishopSpeed.setColor(textColour());
+	PawnSpeed.setColor(textColour());
+
+	KingBlock.setColor(textColour());
+	QueenBlock.setColor(textColour());
+	RookBlock.setColor(textColour());
+	KnightBlock.setColor(textColour());
+	BishopBlock.setColor(textColour());
+	PawnBlock.setColor(textColour());
+
+	setPieceStatTexts();
+
 }
+
+sf::Color Game::textColour()
+{
+	return blackControlling ? sf::Color::White : sf::Color::Black;
+}
+
+void Game::setPieceStatTexts()
+{
+	KingAI.setString(blackControlling ?
+		chessSet->pieceTypes[5]->behaviourBlack->name :
+		chessSet->pieceTypes[5]->behaviourWhite->name);
+	QueenAI.setString(blackControlling ?
+		chessSet->pieceTypes[4]->behaviourBlack->name :
+		chessSet->pieceTypes[4]->behaviourWhite->name);
+	RookAI.setString(blackControlling ?
+		chessSet->pieceTypes[3]->behaviourBlack->name :
+		chessSet->pieceTypes[3]->behaviourWhite->name);
+	KnightAI.setString(blackControlling ?
+		chessSet->pieceTypes[2]->behaviourBlack->name :
+		chessSet->pieceTypes[2]->behaviourWhite->name);
+	BishopAI.setString(blackControlling ?
+		chessSet->pieceTypes[1]->behaviourBlack->name :
+		chessSet->pieceTypes[1]->behaviourWhite->name);
+	PawnAI.setString(blackControlling ?
+		chessSet->pieceTypes[0]->behaviourBlack->name :
+		chessSet->pieceTypes[0]->behaviourWhite->name);
+
+	KingSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[5]->energyPerTurnBlack :
+		chessSet->pieceTypes[5]->energyPerTurnWhite)));
+	QueenSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[4]->energyPerTurnBlack :
+		chessSet->pieceTypes[4]->energyPerTurnWhite)));
+	RookSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[3]->energyPerTurnBlack :
+		chessSet->pieceTypes[3]->energyPerTurnWhite)));
+	KnightSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[2]->energyPerTurnBlack :
+		chessSet->pieceTypes[2]->energyPerTurnWhite)));
+	BishopSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[1]->energyPerTurnBlack :
+		chessSet->pieceTypes[1]->energyPerTurnWhite)));
+	PawnSpeed.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[0]->energyPerTurnBlack :
+		chessSet->pieceTypes[0]->energyPerTurnWhite)));
+
+	KingBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[5]->blockBlack :
+		chessSet->pieceTypes[5]->blockWhite)));
+	QueenBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[4]->blockBlack :
+		chessSet->pieceTypes[4]->blockWhite)));
+	RookBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[3]->blockBlack :
+		chessSet->pieceTypes[3]->blockWhite)));
+	KnightBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[2]->blockBlack :
+		chessSet->pieceTypes[2]->blockWhite)));
+	BishopBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[1]->blockBlack :
+		chessSet->pieceTypes[1]->blockWhite)));
+	PawnBlock.setString(std::to_string((long long)(blackControlling ?
+		chessSet->pieceTypes[0]->blockBlack :
+		chessSet->pieceTypes[0]->blockWhite)));
+
+}
+
+
 
 
 Game::~Game(void)
@@ -126,6 +259,27 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(whiteCount);
 	target.draw(moneyText);
 	target.draw(timerText);
+
+	target.draw(KingAI);
+	target.draw(QueenAI);
+	target.draw(RookAI);
+	target.draw(KnightAI);
+	target.draw(BishopAI);
+	target.draw(PawnAI);
+
+	target.draw(KingSpeed);
+	target.draw(QueenSpeed);
+	target.draw(RookSpeed);
+	target.draw(KnightSpeed);
+	target.draw(BishopSpeed);
+	target.draw(PawnSpeed);
+
+	target.draw(KingBlock);
+	target.draw(QueenBlock);
+	target.draw(RookBlock);
+	target.draw(KnightBlock);
+	target.draw(BishopBlock);
+	target.draw(PawnBlock);
 	for(auto it = buttons.begin(); it != buttons.end(); ++it)
 	{
 		target.draw(*it);
@@ -177,6 +331,27 @@ void Game::switchControl()
 	blackCount.setColor(blackCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
 	whiteCount.setColor(whiteCount.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
 	moneyText.setColor(moneyText.getColor() == sf::Color::Black ? sf::Color::White : sf::Color::Black);
+	timerText.setColor(textColour());
+	KingAI.setColor(textColour());
+	QueenAI.setColor(textColour());
+	RookAI.setColor(textColour());
+	KnightAI.setColor(textColour());
+	BishopAI.setColor(textColour());
+	PawnAI.setColor(textColour());
+
+	KingSpeed.setColor(textColour());
+	QueenSpeed.setColor(textColour());
+	RookSpeed.setColor(textColour());
+	KnightSpeed.setColor(textColour());
+	BishopSpeed.setColor(textColour());
+	PawnSpeed.setColor(textColour());
+
+	KingBlock.setColor(textColour());
+	QueenBlock.setColor(textColour());
+	RookBlock.setColor(textColour());
+	KnightBlock.setColor(textColour());
+	BishopBlock.setColor(textColour());
+	PawnBlock.setColor(textColour());
 
 	interfaceSprite.setTextureRect(sf::IntRect(sf::Vector2i(blackControlling?WINDOW_MIN_WIDTH : 0,0),sf::Vector2i(WINDOW_MIN_WIDTH,WINDOW_MIN_WIDTH)));
 	board->blackControlling = blackControlling;
@@ -811,6 +986,7 @@ void Game::processEvent(sf::Event e)
 			sf::Vector2i screenPosition(e.mouseButton.x,e.mouseButton.y);
 			selectionBoxStart = ((sf::Vector2f)screenPosition - board->boardSprite.getPosition())/(float)board->magnificationLevel();
 		}
+		setPieceStatTexts();
 		break;
 	case sf::Event::MouseButtonReleased:
 		if((e.mouseButton.button == sf::Mouse::Left && selectingWithLeftButton) ||

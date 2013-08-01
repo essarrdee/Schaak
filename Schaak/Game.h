@@ -55,6 +55,9 @@ private:
 	sfuser::PauseableClock timer;
 	sf::Text timerText;
 
+	
+	sf::Color textColour();
+	void setPieceStatTexts();
 	sf::Text KingAI;
 	sf::Text QueenAI;
 	sf::Text RookAI;
