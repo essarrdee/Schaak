@@ -351,7 +351,8 @@ void Game::switchControl()
 	RookBlock.setColor(textColour());
 	KnightBlock.setColor(textColour());
 	BishopBlock.setColor(textColour());
-	PawnBlock.setColor(textColour());
+	PawnBlock.setColor(textColour()); 
+	setPieceStatTexts();
 
 	interfaceSprite.setTextureRect(sf::IntRect(sf::Vector2i(blackControlling?WINDOW_MIN_WIDTH : 0,0),sf::Vector2i(WINDOW_MIN_WIDTH,WINDOW_MIN_WIDTH)));
 	board->blackControlling = blackControlling;
