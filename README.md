@@ -14,6 +14,10 @@ Art: SRD.
 Makefile: Michal Walczak.
 SFML: Laurent Gomila.
 
+
+========== Capture the enemy King! ==========
+============ Protect your King! =============
+
 Controls:
 ** Arrow keys ** to scroll.
 ** Mouse to window edge ** to scroll.
@@ -29,26 +33,17 @@ Current control has green cover squares, enemy has magenta.
 ** Delete ** sacrifices any selected pawns for money.
 Upgrades:
 ** Click the "Speed" and "Block" buttons ** to spend money on upgrades
-Each upgrade costs 10*level*level money, and increase that stat's level by 1. That means the cumulative cost of upgrading a stat is cubic.
+Each upgrade costs 10*(level*level+1) money, and increases that stat's level by 1. That means the cumulative cost of upgrading a stat is cubic.
 AI:
 ** Click the AI buttons ** to switch between different AI modes for your units.
 
-======= The Block/Speed/AI buttons provide no visual feedback, but =======
-==== rest assured they are *NOT* inert! They are also key to winning! ====
-
-
-None of AI, Speed, and Block have feedback, so here are the spoilers:
-AI 1 (default) is survive (prioritise survival)
-AI 2 is evade (don't walk into enemy cover, but take exchanges)
-AI 3 is advance (walk into enemy cover if there is friendly cover or a piece to capture)
-AI 4 is kamikaze (ignore enemy threats, go to destination and take any opportunity to capture a piece)
-AI 5 loops back to AI 1 (survive).
+AI 1 (default) is *survive* (prioritise survival)
+AI 2 is *evade* (don't walk into enemy cover, but take exchanges)
+AI 3 is *advance* (walk into enemy cover if there is friendly cover or a piece to capture)
+AI 4 is *kamikaze* (ignore enemy threats, go to destination and take any opportunity to capture a piece)
 Block starts at 0% for all pieces and goes up 1% each time.
 Speed starts at 30,40,50, or 60 and goes up by 1 each time.
-You'll have to keep track of them yourself, or get an updated non-7dRTS version that displays these values on screen :)
-
-========== Capture the enemy King! ==========
-============ Protect your King! =============
+This is an updated non-7dRTS version that displays these values on screen :)
 
 Windows users:
 Download from

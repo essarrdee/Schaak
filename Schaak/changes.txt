@@ -4,3 +4,5 @@ Version 0.1:
 * Added timer/Kframe counter.
 * Added text to upgrade/AI buttons.
 * Pieces spawn on their King's side of the board, decreasing risk of unintentional win.
+* Movement speed cut by 50%.
+* Spawn rate cut by 33%.
