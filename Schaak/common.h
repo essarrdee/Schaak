@@ -38,7 +38,7 @@ static const std::string AI_BEHAVIOURS_PATH = AI_PATH + "behaviours";
 static const std::string FONT_PATH = RESOURCE_PATH + "Fonts/";
 static const std::string DEFAULT_FONT_PATH = FONT_PATH + "trabajo/Trabajo.otf";
 
-static const int ENERGY_THRESHOLD = 1000;
+static const int ENERGY_THRESHOLD = 2000;
 
 
 typedef long int UniquePieceID;

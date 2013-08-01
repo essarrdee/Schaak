@@ -909,7 +909,7 @@ void Game::simulate()
 	}
 	ticks++;
 
-	if(ticks % 10 == 0)
+	if(ticks % 15 == 0)
 	{
 		Piece p;
 		bool makeBlack = (rand()%100)<50;
