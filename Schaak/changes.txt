@@ -1,0 +1,326 @@
+7DRTS:
+
+aim for innovation
+
+innovative RTSs:
+
+TA: scale, freedom/scalability of command
+supcom: seamless tactical/strategic view transition
+starcraft: balance of disparate factions and special abilities
+liquid war: restriction of command
+total war: segregating production and combat, importance of flanking
+warcraft 3: rpg elements
+
+other innovative strategy games:
+
+age of wonders: interactions between abilities guaranteeing certain outcomes
+
+idea:
+
+chessRTS
+grid. pieces available in arbitrary numbers through economic subgame.
+pieces move with upgradeable cooldowns, always towards enemy, or towards objective location. pieces have 1 HP, capturing functions as normal
+objective to protect king.
+
+two map levels: region map and combat maps
+all combat maps simulated at once?
+regions produce pawns at constant rate.
+each region promotes pawns to pieces at rate determined by royal pieces present. each region only promotes pawns to specific piece
+pawn regions duplicate pawns rather than promoting them
+on region map, can set unit flows (randomised to allow flexibility in production ratios)
+8x8 region map. 32 start location generate default piece, others generated randomly and less effective (centre more effective?)
+combat maps 100x75, making 800x600 combat map and allowing display in 1024x768 window with hud. (smaller?)
+zoomable combat map - why not zoomable everything map?
+production slows as army grows to avert CPU/memory overload
+
+cooldown types:
+pre-move. make a decision and stick with it while the cooldown happens. Gives the AI more things to worry about than it should.
+post-move. after a certain amount of time, any move can be made instantly. Gives a big advantage to defenders.
+both: wait for post-move cooldown, then make a decision and stick with it while pre-move cooldown happens. Gives AI more things to worry about... if a move can be cancelled. No cancel, short pre-move cooldown? 9:1 ratio?
+
+unit AI:
+with a certain objective, follow trajectory with closest tangent to desired trajectory
+or randomise between most optimal ones
+
+behaviours:
+1. survive - don't go to squares under attack. capture free pieces.
+2. evade - don't go to squares under attack except to capture a piece as an exchange.
+3. advance - don't go to squares under attack except to capture a piece, or if protected.
+4. kamikaze - ignore cover considerations when moving.
+5. protect - don't go to unprotected squares under attack. don't go to squares under attack except to capture a piece. Prefer squares that cover squares guarded by enemy
+
+survive - avoid capture no matter what (but capture free pieces)
+evade - survive, but accept fair exchanges
+advance - evade, but go to a square under attack if it's protected
+kamikaze - screw everything, just attack
+and protect - evade, but try to cover squares that are guarded by an enemy
+
+if no escape is possible, prefer guarded squares or capture squares (depending on behaviour)
+
+pawn movement - need to be able to change direction.
+not very faithful to original role if they can change direction arbitrarily.
+time limits on turning?
+one turn per region entered?
+
+==================
+
+game system:
+
+800x600 grid divided into 8x8 regions of 100x75 squares each.
+two players, each with a king.
+each region produces pawns at a certain variable rate (subject to 
+each region promotes present pawns to pieces at a variable rate, or duplicates pawns.
+pawns produced and pieces promoted in a region can be sent automatically to any destination, TA order style.
+each piece type can be assigned a tactic from survive, evade, advance, kamikaze, protect. all pieces of a given type follow the same tactic.
+pieces can have orders to move to a point, move to an area, attack a unit, or attack an area. groups automatically translate point moves to area moves. (formation option?)
+objective to mate enemy king. king is always in survive mode.
+
+optional:
+upgrades to cooldown times, "armour" giving small chance to negate capture, z-levels affecting cooldown lengths, spending pawns to buy one-use spells. All done by positioning/sacrificing units, not by building things.
+
+=====================
+
+interface:
+
+supcom style zoomable map. Lowest resolution 2 px per unit - size of map is size of map viewport.
+map scales up to 32x32 tiles, via 2,3,4,6,8,12,16,24 square.
+pieces displayed as pixels at 1px, dots of varying sizes (corresponding to piece majority) up to 4x4 or 6x6, pieces at 8x8 and above.
+cooldowns represented per piece at 16x16 and above?
+
+left-click: select/deselect piece.
+left-click drag. select pieces in area/deselect.
+right-click: move to location/area or attack piece.
+right-click drag: move to area.
+control-left click: remove piece from selection.
+control-left click drag: remove pieces in area from selection.
+control-right-click: right click.
+control-right-click drag: attack enemies in area (feasible?)
+shift-left-click: add piece to selection.
+shift-left-click drag: add pieces to selection.
+shift-right-click: add attack/move to command queue.
+shift-right-click drag: add move area to command queue.
+control-number: assign group.
+number: select group.
+shift: view commands
+double-click: select all of clicked type on screen.
+hotkeys PRNBQK: restrict selection to piece type.
+hotkeys control-PRNBQK: remove piece type from selection.
+
+HUD:
+selection descriptor (counts of piece types, bounding box, action, winning/losing)
+buttons to set tactics for piece types
+region map/combat map toggle.
+
+on region map, select and command regions.
+left-click-drag: direct pawns from region to region.
+right-click drag: direct pieces from region to region.
+
+===========================
+
+system implementation:
+
+vector or list of pieces.
+array of map tiles.
+given a piece, need to know its location, orders, behaviour, cooldown timer, and any modifications from bonuses.
+...
+
+=========================
+
+drawing the map:
+chessboard pattern at one of 10 scales from 1x1 squares to 32x32 squares, centred at an arbitrary location.
+coloured according to cover calculations
+overlaid with piece sprites from the corresponding sprite set. Different pieces are identical at different scales.
+pieces at large scales (16,24,32) animated to show cooldown times.
+selected pieces highlighted.
+command queue shown when holding shift.
+
+map arrays:
+occupants - point to occupant objects
+occupant - piece type, owner, cooldown remaining, point to command
+cover counters - one per player. one per player per piece type should not be necessary
+
+
+=============================
+
+drawing cooldown on a piece:
+draw tile (texture or uniform colour).
+overlay piece sprite (with 100% alpha background).
+multiply cooldown representation (with 100% alpha background) by white mask of sprite (with alpha background).
+multiply by alpha fraction and overlay.
+
+============================
+
+drawing the map:
+
+routines that alter cover array alter map pixel array.
+scale up map pixel array and draw at correct offset.
+for each piece in view, draw sprite.
+for each piece in view, if selected indicate.
+if scale is large enough, for each piece in view draw cooldown anim.
+
+==========================
+
+zoomable board:
+scale is an integer in (2,3,4,6,8,12,16,24,32); store these in an array.
+position is an integer pair.
+position, scale may not be such that map viewport contains off-board locations.
+(alternatively: at least a quarter of viewport must be board).
+when scrolling, move position in the correct direction subject to above restriction.
+when zooming, change scale and position such that mouse is over the same square in both cases.
+preferably, at the same float position relative to board origin.
+scaled board sprite (32*400,32*280) may be gigantic.
+if SFML doesn't automagically do so, crop to area we actually care about.
+
+  known: mouse window position    mwx,mwy
+  known: top left of map viewport vx,vy
+unknown: mouse viewport position  mvx,mvy = mwx,mwy - vx,vy
+  known: board top left position  bx,by
+  known: board zoom level         z
+unknown: mouse board position     mbx,mby = (mvx,mvy - bx,by)/z
+  known: new board zoom level     zz
+unknown: new board position       bxx,byy
+         such that                mbxx,mbyy = mbx,mby
+		                (mvx,mvy - bx,by)/z = (mvx,mvy - bxx,byy)/zz
+					 (mvx,mvy - bx,by)*zz/z = mvx,mvy - bxx,byy
+					                bxx,byy = mvx,mvy - (mvx,mvy - bx,by)*zz/z
+
+restricting board position such that no off-board locations are in viewport:
+get viewport top, left, bottom, right. get board top, left, bottom, right.
+ 
+if btop > vtop:
+  shift to make them equal
+  error if bbottom < vbottom
+else if bbottom < vbottom:
+  shift to make them equal
+  error if btop > vtop
+
+if bleft > vleft:
+  shift to make them equal
+  error if bright < vright
+else if bright < vright:
+  shift to make them equal
+  error if bleft > vleft
+
+restricting board position such that at least a quarter of viewport is board:
+get viewport vmid,hmid. get board top, left, bottom, right.
+
+if btop > vmid:
+  shift to btop = vmid
+else if bbottom < vmid:
+  shift to bbottom = vmid
+
+if bleft > vmid:
+  shift to bleft = vmid
+else if bright < vmid:
+  shift to bright = vmid
+
+======================
+
+piece data:
+one file listing piece filenames and roles (king, queen affect production/promotion rates, pawns produced in regions)
+in each piece filename:
+piece name
+data describing sprite (filename or offset in spritesheet)
+base cooldown for the piece
+movement/attack offsets, one per line until end of file
+
+========================
+
+piece containment:
+
+Pieces contained in one vector.
+deque of dead slots.
+On dying, dead slot freed for assignment. add index to deque.
+On spawning, choose first dead slot from deque.
+Assign new unique long int id to avoid mistaken identity.
+
+=====================
+
+behaviour implementation
+1. survive - don't go to squares under attack. capture free pieces.
+	read enemy cover values in potential move squares - -score for squares that are under attack
+	read enemy locations - +score for squares with a piece to capture.
+	negative score for cover must always outweigh +score for capturing.
+	S = -A*enemycover + enemyvalue
+	A = kingvalue - 1
+2. evade - don't go to squares under attack except to capture a piece as an exchange.
+	read enemy cover values in potential move squares - -score for squares that are under attack.
+	read enemy locations - +score for squares with a piece to capture.
+	capturing higher-value pieces must be preferred.
+	capturing free pieces must be preferred.
+	which is more important?
+	S = -B*enemycover + C*enemyvalue - D*ownvalue
+	B,C,D = ?,?,?
+3. advance - don't go to squares under attack except to capture a piece, or if protected.
+	read enemy and friendly cover values in potential move squares.
+	-score for squares covered by enemy.
+	+score for squares covered by friends.
+	+score for capturing a piece.
+	S = -E*enemycover + F*friendcover + G*enemyvalue - H*ownvalue
+	E,F,G,H = ?,?,?,?
+4. kamikaze - ignore cover considerations when moving.
+	read enemy locations.
+	+score for capturing pieces.
+	S = enemyvalue
+5. protect - don't go to unprotected squares under attack. don't go to squares under attack except to capture a piece. Prefer squares that cover squares guarded by enemy
+	read enemy and friendly cover values, enemy locations, and enemy cover in second-order locations
+	-score for squares covered by enemy.
+	+score for capturing.
+	+score for adding cover to an enemy-covered square.
+	S = -I*enemycover + J*enemyvalue - K*ownvalue + L*sum(S').
+	S' = M*enemycover - N*friendcover.
+
+Specify behaviours in .bhv files.
+.bhv file contains only these coefficients, with text indicating which coefficients they are.
+parse into list of (value code, coefficient) pairs.
+for each legal move, AI iterates through list, finding values only if requested and multiplying by the given coefficient.
+list of possible moves is sorted by value.
+best one is chosen.
+enemy_cover : number of enemy pieces covering the square.
+friend_cover : number of friendly pieces covering the square. Does not include the piece making the decision.
+enemy_value : material value of enemy piece occupying the square, or 0. (standard chess piece values, 1 3 3 5 9 1000).
+own_value : mterial value of the piece making the decision.
+
+=====================
+
+Priority: add strategic depth and win condition
+
+Win condition: capture king
+Make a king for each player on game init.
+Check king life signs each tick
+If king dead, pause game and declare win/lose/draw (simultaneous deaths)
+
+Economic game:
+Divide production into 64 regions.
+Test regions for dominance.
+Activate pawn production and piece promotion for dominant player.
+Determine pawn production and piece promotion rates by presence of king and queens in area.
+
+upgrades:
+Single special square which consumes pawns that enter it, increasing money counter.
+Upgrades purchasable - using what kind of interface?
+
+piece AI:
+Piece type behaviours settable by player.
+Cycling through behaviour types when pressing a button.
+Mouse click on UI button, or keyboard press?
+"Protect" behaviour
+Requires second-degree tile checking
+
+Control:
+Keys to select all units, all pieces of a given type.
+Selection routine, takes a function and iterates over pieces testing for truth.
+Parameter for set union or intersection from shift/control.
+
+============
+
+interface:
+upgrade buttons - cooldown, block
+behaviour buttons
+
+region commands - corner
+selection buttons
+
+piece counts
+money counts
+controller
