@@ -47,6 +47,10 @@ Game::Game(void)
 	interfaceTexture.loadFromFile(IMAGE_PATH+"Interface.png");
 	interfaceSprite.setTexture(interfaceTexture);
 	interfaceSprite.setPosition(0.f,0.f);
+	timer.start();
+	timerText.setPosition(0,680.f);
+	timerText.setFont(defaultFont);
+	timerText.setCharacterSize(18);
 
 	blackMoney = 0;
 	whiteMoney = 0;
@@ -121,6 +125,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(blackCount);
 	target.draw(whiteCount);
 	target.draw(moneyText);
+	target.draw(timerText);
 	for(auto it = buttons.begin(); it != buttons.end(); ++it)
 	{
 		target.draw(*it);
@@ -204,6 +209,14 @@ void Game::processEvent(sf::Event e)
 		{
 		case sf::Keyboard::Space:
 			paused = !paused;
+			if(paused)
+			{
+				timer.pause();
+			}
+			else
+			{
+				timer.start();
+			}
 			pauseStateChanged = true;
 			break;
 		case sf::Keyboard::Tab:
@@ -837,6 +850,10 @@ int Game::gameState()
 void Game::simulate()
 {
 	realTicks++;
+
+	timerText.setColor(blackControlling ? sf::Color::White : sf::Color::Black);
+	int seconds = (int)timer.getElapsedTime().asSeconds();
+	timerText.setString(std::to_string((long long)(seconds / 3600)) + ":" + std::to_string((long long)((seconds / 60) % 60)) + ":" + std::to_string((long long)(seconds%60)));
 	moneyText.setString(std::string(blackControlling ? "Black " : "White ") +"money: " + std::to_string((long long)(blackControlling ? blackMoney : whiteMoney)));
 
 	if(selectingWithLeftButton || selectingWithRightButton)

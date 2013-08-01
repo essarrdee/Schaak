@@ -7,6 +7,7 @@
 #include "Piece.h"
 #include "PieceManager.h"
 #include "BehaviourManager.h"
+#include "PauseableClock.hpp"
 
 class Game : public sf::Drawable
 {
@@ -51,6 +52,9 @@ private:
 	PieceID whiteKing;
 	PieceID blackKing;
 	bool gameOver;
+	sfuser::PauseableClock timer;
+	sf::Text timerText;
+
 	sf::Text KingAI;
 	sf::Text QueenAI;
 	sf::Text RookAI;
