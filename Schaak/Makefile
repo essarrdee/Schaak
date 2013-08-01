@@ -25,6 +25,7 @@ SRC_FILES       :=	main.cpp \
 					PieceType.cpp \
 					Behaviour.cpp \
 					BehaviourManager.cpp \
+					PauseableClock.cpp \
 # - ------------------------------------------------------------------------ - #
 # Folders to search for source files ### e.g. zlib zlib/extras squirrel
 SRC_FOLDERS     :=  
