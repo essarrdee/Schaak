@@ -853,7 +853,10 @@ void Game::simulate()
 
 	timerText.setColor(blackControlling ? sf::Color::White : sf::Color::Black);
 	int seconds = (int)timer.getElapsedTime().asSeconds();
-	timerText.setString(std::to_string((long long)(seconds / 3600)) + ":" + std::to_string((long long)((seconds / 60) % 60)) + ":" + std::to_string((long long)(seconds%60)));
+	timerText.setString(std::to_string((long long)(seconds / 3600)) + ":" + 
+		std::to_string((long long)((seconds / 60) % 60)) + ":" + 
+		std::to_string((long long)(seconds%60)) + " / " + 
+		std::to_string((long long)(ticks/1000)) + "K frames");
 	moneyText.setString(std::string(blackControlling ? "Black " : "White ") +"money: " + std::to_string((long long)(blackControlling ? blackMoney : whiteMoney)));
 
 	if(selectingWithLeftButton || selectingWithRightButton)
