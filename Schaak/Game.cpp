@@ -892,8 +892,9 @@ void Game::simulate()
 	if(ticks % 10 == 0)
 	{
 		Piece p;
+		bool makeBlack = (rand()%100)<50;
 
-		p.position.x = rand() % BOARD_SIZE_X;
+		p.position.x = (rand() % (BOARD_SIZE_X/2)) + (makeBlack ? 0 : (BOARD_SIZE_X/2));
 		p.position.y = rand() % BOARD_SIZE_Y;
 		int c=0;
 		while(!nullPiece(board->occupants[p.position.x][p.position.y]))
@@ -901,13 +902,13 @@ void Game::simulate()
 			c++;
 			if(c >= 10)
 				break;
-			p.position.x = rand() % BOARD_SIZE_X;
+			p.position.x = (rand() % (BOARD_SIZE_X/2)) + (makeBlack ? 0 : (BOARD_SIZE_X/2));
 			p.position.y = rand() % BOARD_SIZE_Y;
 		}
 		if(c < 10)
 		{
 			p.myType = chessSet->pieceTypes[(rand()%5)];
-			p.isBlack = (rand()%2)==0;
+			p.isBlack = makeBlack;
 			p.alterCover(board,1);
 			p.dead = false;
 			pieces->addPiece(&p);
