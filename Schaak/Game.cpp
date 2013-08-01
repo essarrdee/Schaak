@@ -52,6 +52,12 @@ Game::Game(void)
 	timerText.setFont(defaultFont);
 	timerText.setCharacterSize(18);
 
+	helpTexture.loadFromFile(IMAGE_PATH+"Help.png");
+	helpSprite.setTexture(helpTexture);
+	helpSprite.setPosition(0.f,0.f);
+	helping = true;
+
+
 	blackMoney = 0;
 	whiteMoney = 0;
 
@@ -284,6 +290,10 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(*it);
 	}
+	if(helping)
+	{
+		target.draw(helpSprite);
+	}
 	if(gameOver)
 		target.draw(victoryText);
 }
@@ -395,6 +405,9 @@ void Game::processEvent(sf::Event e)
 			}
 			pauseStateChanged = true;
 			break;
+		case sf::Keyboard::Slash:
+			help();
+			break;
 		case sf::Keyboard::Tab:
 			switchControl();
 			break;
@@ -449,6 +462,10 @@ void Game::processEvent(sf::Event e)
 					else if(bName == "switch_control")
 					{
 						switchControl();
+					}
+					else if(bName == "help")
+					{
+						help();
 					}
 					else if(bName == "select_king")
 					{
@@ -1019,9 +1036,17 @@ void Game::processEvent(sf::Event e)
 	}
 }
 int Game::gameState()
-
 {
 	return 0;
+}
+
+void Game::help()
+{
+	helping = !helping;
+}
+void Game::unhelp()
+{
+	helping = false;
 }
 
 void Game::simulate()
@@ -1048,13 +1073,13 @@ void Game::simulate()
 		selectionBoxShape.setOutlineColor(sf::Color::Red);
 
 	// TODO Magic numbers, put them in common.h
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		board->scroll(sf::Vector2f(0.f,1.8f));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		board->scroll(sf::Vector2f(0.f,-1.8f));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		board->scroll(sf::Vector2f(1.8f,0.f));
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		board->scroll(sf::Vector2f(-1.8f,0.f));
 	if(mouseInWindow)
 	{

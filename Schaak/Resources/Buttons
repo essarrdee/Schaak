@@ -33,4 +33,7 @@
 
 400 560 400 208 switch_control
 
+
 812 564 200 200 mini_board
+
+200 560 200 208 help

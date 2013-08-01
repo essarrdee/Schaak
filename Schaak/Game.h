@@ -54,6 +54,11 @@ private:
 	bool gameOver;
 	sfuser::PauseableClock timer;
 	sf::Text timerText;
+	void help();
+	void unhelp();
+	bool helping;
+	sf::Texture helpTexture;
+	sf::Sprite helpSprite;
 
 	
 	sf::Color textColour();

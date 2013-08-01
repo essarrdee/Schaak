@@ -19,7 +19,7 @@ SFML: Laurent Gomila.
 ============ Protect your King! =============
 
 Controls:
-** Arrow keys ** to scroll.
+** Arrow keys/WASD ** to scroll.
 ** Mouse to window edge ** to scroll.
 ** Scroll ** to zoom.
 ** Space ** to pause.

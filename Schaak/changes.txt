@@ -6,3 +6,6 @@ Version 0.1:
 * Pieces spawn on their King's side of the board, decreasing risk of unintentional win.
 * Movement speed cut by 50%.
 * Spawn rate cut by 33%.
+
+Version 0.2:
+* Added help screen.
